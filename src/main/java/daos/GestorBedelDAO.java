@@ -2,12 +2,16 @@
 package daos;
 import model.Bedel;
 import dtos.BedelDTO;
-import excepciones.YaExisteUsuarioException;
+import dtos.BedelGeneralDTO;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface GestorBedelDAO {
-    public boolean registrarBedel(Bedel bedel) throws YaExisteUsuarioException;
+    public boolean registrarBedel(Bedel bedel);
     public void modificarBedel(Bedel bedel);
-    public List<BedelDTO> buscarBedeles(BedelDTO bedelDTO);
+    public List<Bedel> buscarBedeles(BedelGeneralDTO bedelDTO);
+    public List<Bedel> buscarBedelesApellido(String apellido);
+    public List<Bedel> buscarBedelesTurno(ArrayList<String> turnos);
     public Bedel obtenerBedel(BedelDTO bedelDTO);
+    
 }

@@ -2,6 +2,7 @@
 package controladores;
 
 import daos.Conexion;
+import interfaces.InterfazBuscarBedel;
 import interfaces.InterfazMainAdministrador;
 import interfaces.InterfazRegistrarBedel;
 import java.awt.event.ActionEvent;
@@ -37,7 +38,8 @@ public class ControladorMainAdministrador implements ActionListener {
             ima.dispose();
         }
         else if(comando.equals("Buscar bedel")) {
-            ima.generarPopUpNoDisponible();
+            new InterfazBuscarBedel();
+            ima.dispose();
         }
         else if(comando.equals("Cancelar")) {
                 Conexion.closeEntityManagerFactory();

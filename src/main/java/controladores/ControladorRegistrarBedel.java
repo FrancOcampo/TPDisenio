@@ -4,6 +4,7 @@ package controladores;
 import daos.Conexion;
 import dtos.BedelDTO;
 import excepciones.DatosInvalidosException;
+import excepciones.OperacionException;
 import excepciones.PoliticasContraseniaException;
 import excepciones.YaExisteUsuarioException;
 import gestores.GestorBedel;
@@ -12,19 +13,16 @@ import interfaces.InterfazRegistrarBedel;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 
-public class ControladorRegistrarBedel implements ActionListener, KeyListener, MouseListener {
+public class ControladorRegistrarBedel implements ActionListener {
 
     private InterfazRegistrarBedel irb;
     
@@ -47,90 +45,63 @@ public class ControladorRegistrarBedel implements ActionListener, KeyListener, M
         
         if(comando.equals("Guardar")) {
             
-            irb.desmarcarCampos();
-            
             try {
+                
+                irb.desmarcarCampos();
                 
                 if(!validarCampos()) throw new DatosInvalidosException();
               
-                
-                BedelDTO bedelDTO = new BedelDTO();
-                bedelDTO.setNombreUsuario(irb.getCampoID().getText());
-                bedelDTO.setNombre(irb.getCampoNombre().getText());
-                bedelDTO.setApellido(irb.getCampoApellido().getText());
-                bedelDTO.setTurno(irb.getTurno());
-                bedelDTO.setContrasenia(irb.getCampoContrasenia().getText());
+                int confirmacion = irb.confirmarGuardar();
+                if(confirmacion == JOptionPane.OK_OPTION) {
+                    
+                    BedelDTO bedelDTO = new BedelDTO();
+                    bedelDTO.setNombreUsuario(irb.getCampoID().getText().toLowerCase());
+                    String nombre = irb.getCampoNombre().getText().substring(0, 1).toUpperCase() + irb.getCampoNombre().getText().substring(1).toLowerCase();
+                    bedelDTO.setNombre(nombre);
+                    String apellido = irb.getCampoApellido().getText().substring(0, 1).toUpperCase() + irb.getCampoApellido().getText().substring(1).toLowerCase();
+                    bedelDTO.setApellido(apellido);
+                    bedelDTO.setTurno(irb.getTurno());
+                    bedelDTO.setContrasenia(irb.getCampoContrasenia().getText());
             
-                GestorBedel gb = GestorBedel.obtenerInstancia();
+                    GestorBedel gb = GestorBedel.obtenerInstancia();
                 
-                boolean exito = gb.registrarBedel(bedelDTO);
+                    gb.registrarBedel(bedelDTO);
                 
-                if(exito) {
                     irb.crearPopUpExito();
                     irb.setearCamposEnBlanco();
                 }
-                else irb.crearPopUpFracaso();
-            
             }
             catch(DatosInvalidosException e1) {
-                System.out.println(e1.getMessage());
                 marcarCampos();
             }
-            catch(PoliticasContraseniaException e2) {
-                marcarCampos(e2.getMensajes());
-            }
-            catch(YaExisteUsuarioException e3) {
+            catch(YaExisteUsuarioException e2) {
                 Border redBorder = new LineBorder(Color.RED, 2);
                 irb.setCampoID(redBorder, true);
                 irb.setJLabelError10Visible(true);
                 irb.crearPopUpAdvertencia();
             }
+            catch(PoliticasContraseniaException e3) {
+                marcarCampos(e3.getMensajes());
+            }
+            catch(OperacionException e4) {
+                irb.crearPopUpFracaso();
+            }
             
         }
         else if(comando.equals("Cancelar")) {
-            new InterfazMainAdministrador();
-            irb.dispose();
+            // Verificar que el usuario haya completado algún campo para preguntarle si desea cancelar
+            if(camposNoVacios()) {
+                int confirmacion = irb.confirmarContinuacion();
+                if(confirmacion == JOptionPane.OK_OPTION) {
+                    new InterfazMainAdministrador();
+                    irb.dispose();
+                }
+            }
+            else {
+                new InterfazMainAdministrador();
+                irb.dispose();
+            }
         }
-    }
-
-    
-    public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    
-    public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    
-    public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-   
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-   
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
     private boolean validarCampos() {
@@ -143,9 +114,23 @@ public class ControladorRegistrarBedel implements ActionListener, KeyListener, M
         !irb.getCampoConfirmarContrasenia().getText().trim().isEmpty() && 
         irb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") && 
         irb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") && 
+        irb.getCampoContrasenia().getText().matches("^[\\p{L}0-9]+$") &&
         irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText());
                 
         return datosValidos;        
+    }
+    
+    private boolean camposNoVacios() {
+        boolean noVacio =
+        !irb.getCampoNombre().getText().trim().isEmpty() || 
+        !irb.getCampoApellido().getText().trim().isEmpty() || 
+        !irb.getTurno().equals("Tarde") ||
+        !irb.getCampoID().getText().trim().isEmpty() ||
+        !irb.getCampoContrasenia().getText().trim().isEmpty() || 
+        !irb.getCampoConfirmarContrasenia().getText().trim().isEmpty() || 
+        !irb.getCampoContrasenia().getText().trim().isEmpty();
+        
+        return noVacio;
     }
     
     private void marcarCampos() {
@@ -173,12 +158,18 @@ public class ControladorRegistrarBedel implements ActionListener, KeyListener, M
         irb.setCampoID(redBorder, visibilidad);
         advertencia = true;
       }
+      if(!irb.getCampoContrasenia().getText().matches("^[\\p{L}0-9]+$")){
+        irb.setCampoContrasenia(redBorder, visibilidad);
+        irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
+        irb.setJLabelError8Mensaje("<html>La contraseña sólo puede contener<br>letras y números.</html>");
+        irb.setJLabelError8Visible(true);
+      }
       if(!irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText())){
         advertencia = true;
         irb.setCampoContrasenia(redBorder, visibilidad);
         irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
         irb.setJLabelError9Visible(visibilidad);
-    }
+      }
       if(irb.getTurno().equals("")){
          advertencia = true;
          irb.setCampoTurno(redBorder, visibilidad);

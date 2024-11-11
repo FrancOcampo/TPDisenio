@@ -2,6 +2,7 @@
 package ds.sistemagestionreservas;
 
 import daos.BedelPostgreSQLDAO;
+import daos.Conexion;
 import gestores.GestorBedel;
 import gestores.GestorServiciosExternos;
 import interfaces.InterfazMainAdministrador;
@@ -14,6 +15,7 @@ public class SistemaGestionReservas {
         GestorBedel.obtenerInstancia();
         BedelPostgreSQLDAO.obtenerInstancia();
         GestorServiciosExternos.obtenerInstancia();
+        Conexion.getEntityManager();
         
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
