@@ -136,12 +136,6 @@ public class InterfazRegistrarBedel extends javax.swing.JFrame {
         jLabelError8.setText(mensajesHtml.toString()); 
         
     }
-     
-    public void setJLabelError8Mensaje(String mensaje) {
-
-        jLabelError8.setText(mensaje); 
-        
-    }
     
     public void setJLabelError9Visible(boolean visibilidad) {
         jLabelError9.setVisible(visibilidad);

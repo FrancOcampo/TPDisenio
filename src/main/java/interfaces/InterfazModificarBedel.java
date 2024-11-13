@@ -138,12 +138,6 @@ public class InterfazModificarBedel extends javax.swing.JFrame {
         
     }
     
-    public void setJLabelError8Mensaje(String mensaje) {
-
-        jLabelError8.setText(mensaje); 
-        
-    }
-    
     public void setJLabelError9Visible(boolean visibilidad) {
         jLabelError9.setVisible(visibilidad);
     }

@@ -113,8 +113,7 @@ public class ControladorRegistrarBedel implements ActionListener {
         !irb.getCampoContrasenia().getText().trim().isEmpty() && 
         !irb.getCampoConfirmarContrasenia().getText().trim().isEmpty() && 
         irb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") && 
-        irb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") && 
-        irb.getCampoContrasenia().getText().matches("^[\\p{L}0-9]+$") &&
+        irb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") &&
         irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText());
                 
         return datosValidos;        
@@ -157,12 +156,6 @@ public class ControladorRegistrarBedel implements ActionListener {
       if(irb.getCampoID().getText().trim().isEmpty()){
         irb.setCampoID(redBorder, visibilidad);
         advertencia = true;
-      }
-      if(!irb.getCampoContrasenia().getText().matches("^[\\p{L}0-9]+$")){
-        irb.setCampoContrasenia(redBorder, visibilidad);
-        irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        irb.setJLabelError8Mensaje("<html>La contraseña sólo puede contener<br>letras y números.</html>");
-        irb.setJLabelError8Visible(true);
       }
       if(!irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText())){
         advertencia = true;

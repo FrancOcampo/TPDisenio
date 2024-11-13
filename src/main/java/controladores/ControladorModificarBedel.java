@@ -147,7 +147,6 @@ public class ControladorModificarBedel implements ActionListener {
         !imb.getCampoConfirmarContrasenia().getText().trim().isEmpty() && 
          imb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") && 
          imb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") &&
-         imb.getCampoContrasenia().getText().matches("^[\\p{L}0-9]+$") &&
          imb.getCampoContrasenia().getText().equals(imb.getCampoConfirmarContrasenia().getText());
                 
         return datosValidos;        
@@ -173,12 +172,6 @@ public class ControladorModificarBedel implements ActionListener {
       if(imb.getCampoConfirmarContrasenia().getText().trim().isEmpty()){
             imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
             advertencia = true;
-      }
-      if(!imb.getCampoContrasenia().getText().matches("^[\\p{L}0-9]+$")){
-        imb.setCampoContrasenia(redBorder, visibilidad);
-        imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        imb.setJLabelError8Mensaje("<html>La contraseña sólo puede contener<br>letras y números.</html>");
-        imb.setJLabelError8Visible(true);
       }
       if(!imb.getCampoContrasenia().getText().equals(imb.getCampoConfirmarContrasenia().getText())){
             advertencia = true;
