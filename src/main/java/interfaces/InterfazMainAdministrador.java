@@ -17,8 +17,6 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
         botonRegistrarBedel.addActionListener(controlador);
         botonBuscarBedel.addActionListener(controlador);
         botonCancelar.addActionListener(controlador);
-        botonBuscarBedel.setFocusPainted(false); 
-        botonRegistrarBedel.setFocusPainted(false);
         jPanel1.setLayout(null);
         setLocationRelativeTo(null);
         setTitle("Main Administrador");
