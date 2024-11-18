@@ -1,13 +1,27 @@
 
 package interfaces;
 
+import controladores.ControladorMainBedel;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 public class InterfazMainBedel extends javax.swing.JFrame {
 
     public InterfazMainBedel() {
         initComponents();
+        ControladorMainBedel controlador = new ControladorMainBedel(this);
+        botonListarReservasDia.setActionCommand("Reservas dia");
+        botonListarReservasCurso.setActionCommand("Reservas curso");
+        botonRegistrarReserva.addActionListener(controlador);
+        botonBuscarAula.addActionListener(controlador);
+        botonListarReservasDia.addActionListener(controlador);
+        botonListarReservasCurso.addActionListener(controlador);
+        botonCancelar.addActionListener(controlador);
         botonListarReservasDia.setText("<html>Listar reservas<br>&nbsp;&nbsp;para un día<html>");
         botonListarReservasCurso.setText("<html>Listar reservas<br>&nbsp;para un curso<html>");
         jPanel1.setLayout(null);
@@ -18,6 +32,16 @@ public class InterfazMainBedel extends javax.swing.JFrame {
         // Establece un ícono transparente para evitar que se muestre el ícono de Java
         BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         setIconImage(transparentImage);
+    }
+    
+    public void generarPopUpNoDisponible() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Esta acción no se encuentra disponible.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
 
     @SuppressWarnings("unchecked")

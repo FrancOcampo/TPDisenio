@@ -1,6 +1,7 @@
 
 package interfaces;
 
+import controladores.ControladorEsporadica;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -10,22 +11,32 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 public class InterfazReservaEsporadica extends javax.swing.JFrame {
 
+    ControladorEsporadica controlador;
+    
     public InterfazReservaEsporadica() {
         initComponents();
+        controlador = new ControladorEsporadica(this);
+        botonConfirmarDia.addActionListener(controlador);
+        botonRegistrarReserva.addActionListener(controlador);
+        botonCancelar.addActionListener(controlador);
         setLocationRelativeTo(null);
         jLabelError1.setVisible(false);
         jLabelError2.setVisible(false);
         jLabelError3.setVisible(false);
-        jLabelError4.setVisible(false);
-        jLabelError5.setVisible(false);
         jTable1.setRowSelectionAllowed(false);
+        listaTiposAula.addItem("");
+        listaTiposAula.addItem("Informática");
+        listaTiposAula.addItem("Multimedios");
+        listaTiposAula.addItem("Sin recursos adicionales");
         llenarHoras(listaHoraInicio, 8, 0);
         listaHoraInicio.setSelectedItem("12:00");
         llenarHoras(listaHoraFin, 8, 30);
@@ -111,6 +122,119 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         }
     }
 
+    public ControladorEsporadica getControlador() {
+        return controlador;
+    }
+
+    public JTextField getCampoCantidadAlumnos() {
+        return campoCantidadAlumnos;
+    }
+
+    public void setCampoCantidadAlumnos(JTextField campoCantidadAlumnos) {
+        this.campoCantidadAlumnos = campoCantidadAlumnos;
+    }
+
+    public JLabel getjLabelError1() {
+        return jLabelError1;
+    }
+
+    public void setjLabelError1(JLabel jLabelError1) {
+        this.jLabelError1 = jLabelError1;
+    }
+
+    public JLabel getjLabelError2() {
+        return jLabelError2;
+    }
+
+    public void setjLabelError2(JLabel jLabelError2) {
+        this.jLabelError2 = jLabelError2;
+    }
+
+    public JLabel getjLabelError3() {
+        return jLabelError3;
+    }
+
+    public void setjLabelError3(JLabel jLabelError3) {
+        this.jLabelError3 = jLabelError3;
+    }
+
+    public JComboBox<String> getListaHoraFin() {
+        return listaHoraFin;
+    }
+
+    public void setListaHoraFin(JComboBox<String> listaHoraFin) {
+        this.listaHoraFin = listaHoraFin;
+    }
+
+    public JComboBox<String> getListaHoraInicio() {
+        return listaHoraInicio;
+    }
+
+    public void setListaHoraInicio(JComboBox<String> listaHoraInicio) {
+        this.listaHoraInicio = listaHoraInicio;
+    }
+
+    public JComboBox<String> getListaTiposAula() {
+        return listaTiposAula;
+    }
+
+    public void setListaTiposAula(JComboBox<String> listaTiposAula) {
+        this.listaTiposAula = listaTiposAula;
+    }
+    
+    public String getTipoAula() {
+        
+        String seleccion = (String) listaTiposAula.getSelectedItem();
+        return seleccion;
+    }
+    
+    public String getHoraInicio() {
+        
+        String seleccion = (String) listaHoraInicio.getSelectedItem();
+        return seleccion;
+    }
+    
+    public String getHoraFin() {
+        
+        String seleccion = (String) listaHoraFin.getSelectedItem();
+        return seleccion;
+    }
+    
+    public String getFecha() {
+        
+        Date seleccion = calendario.getDatoFecha();
+        if(seleccion == null) return "";
+        return seleccion.toString();
+    }
+    
+    public void setCampoCantidadAlumnos(Border borde, boolean visibilidad){
+         campoCantidadAlumnos.setBorder(borde);
+         jLabelError1.setVisible(visibilidad);
+    }
+    
+    public void setCampoAula(Border borde, boolean visibilidad){
+         listaTiposAula.setBorder(borde);
+         jLabelError2.setVisible(visibilidad);
+    }
+    
+    public void setCampoFecha(Border borde, boolean visibilidad){
+         calendario.setBorder(borde);
+         jLabelError3.setVisible(visibilidad);
+    }
+   
+    public void desmarcarCampos() {
+        
+      Border defaultBorder = new JTextField().getBorder();
+      boolean visibilidad = false;
+      
+      setCampoCantidadAlumnos(defaultBorder, visibilidad);
+      setCampoAula(defaultBorder, visibilidad);
+      setCampoFecha(defaultBorder, visibilidad);
+      jLabelError1.setVisible(visibilidad);
+      jLabelError2.setVisible(visibilidad);
+      jLabelError3.setVisible(visibilidad);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -133,8 +257,6 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         listaHoraFin = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabelError4 = new javax.swing.JLabel();
-        jLabelError5 = new javax.swing.JLabel();
         botonConfirmarDia = new javax.swing.JButton();
         botonRegistrarReserva = new javax.swing.JButton();
         calendario = new rojeru_san.rsdate.RSDateChooser();
@@ -247,14 +369,6 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Hora de fin");
 
-        jLabelError4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelError4.setForeground(new java.awt.Color(255, 0, 0));
-        jLabelError4.setText("!");
-
-        jLabelError5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelError5.setForeground(new java.awt.Color(255, 0, 0));
-        jLabelError5.setText("!");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -262,21 +376,15 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelError5))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelError4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel8))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel9)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,15 +392,11 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelError4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelError5))
+                .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -428,7 +532,7 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
     }//GEN-LAST:event_campoCantidadAlumnosActionPerformed
 
     private void campoCantidadAlumnosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoCantidadAlumnosKeyTyped
-        if (campoCantidadAlumnos.getText().length() >= 50) {
+        if (campoCantidadAlumnos.getText().length() >= 3) {
             evt.consume();  // Evita que se sigan ingresando caracteres
         }
     }//GEN-LAST:event_campoCantidadAlumnosKeyTyped
@@ -495,8 +599,6 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelError1;
     private javax.swing.JLabel jLabelError2;
     private javax.swing.JLabel jLabelError3;
-    private javax.swing.JLabel jLabelError4;
-    private javax.swing.JLabel jLabelError5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

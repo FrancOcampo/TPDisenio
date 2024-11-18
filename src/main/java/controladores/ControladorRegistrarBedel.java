@@ -29,6 +29,7 @@ public class ControladorRegistrarBedel implements ActionListener {
     public ControladorRegistrarBedel() {}
     
     public ControladorRegistrarBedel(InterfazRegistrarBedel irb) {
+        
         this.irb = irb;
         irb.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         irb.addWindowListener(new WindowAdapter() {
@@ -41,6 +42,7 @@ public class ControladorRegistrarBedel implements ActionListener {
     }
     
     public void actionPerformed(ActionEvent e) {
+        
         String comando = e.getActionCommand();
         
         if(comando.equals("Guardar")) {
@@ -105,6 +107,7 @@ public class ControladorRegistrarBedel implements ActionListener {
     }
     
     private boolean validarCampos() {
+        
         boolean datosValidos =
         !irb.getCampoNombre().getText().trim().isEmpty() && 
         !irb.getCampoApellido().getText().trim().isEmpty() && 
@@ -120,6 +123,7 @@ public class ControladorRegistrarBedel implements ActionListener {
     }
     
     private boolean camposNoVacios() {
+        
         boolean noVacio =
         !irb.getCampoNombre().getText().trim().isEmpty() || 
         !irb.getCampoApellido().getText().trim().isEmpty() || 
@@ -133,6 +137,7 @@ public class ControladorRegistrarBedel implements ActionListener {
     }
     
     private void marcarCampos() {
+        
         Border redBorder = new LineBorder(Color.RED, 2);
         boolean visibilidad = true;
         boolean advertencia = false;
