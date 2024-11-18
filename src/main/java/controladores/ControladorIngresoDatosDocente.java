@@ -84,6 +84,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 }
                 
             } catch(DatosInvalidosException e1) {
+                iidd.crearPopUpAdvertencia();
                 marcarCampos();
             }
             

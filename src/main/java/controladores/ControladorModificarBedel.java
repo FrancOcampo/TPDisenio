@@ -177,7 +177,7 @@ public class ControladorModificarBedel implements ActionListener {
             advertencia = true;
             imb.setCampoContrasenia(redBorder, visibilidad);
             imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-            imb.setJLabelError9Visible(visibilidad);
+            imb.getjLabelError9().setVisible(visibilidad);
       }
       if(imb.getTurno().equals("")){
             advertencia = true;
@@ -194,8 +194,8 @@ public class ControladorModificarBedel implements ActionListener {
         
         imb.setCampoContrasenia(redBorder, visibilidad);
         imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        imb.setJLabelError8Mensaje(mensajes);
-        imb.setJLabelError8Visible(visibilidad);
+        imb.setjLabelError8Mensaje(mensajes);
+        imb.getjLabelError8().setVisible(visibilidad);
         imb.crearPopUpAdvertencia();
         
     }

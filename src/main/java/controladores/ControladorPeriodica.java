@@ -49,6 +49,7 @@ public class ControladorPeriodica implements ActionListener {
                 if(!validarCampos()) throw new DatosInvalidosException();
                 
             } catch(DatosInvalidosException e1) {
+                irp.crearPopUpAdvertencia();
                 marcarCampos();
             }
     }

@@ -79,7 +79,7 @@ public class ControladorRegistrarBedel implements ActionListener {
             catch(YaExisteUsuarioException e2) {
                 Border redBorder = new LineBorder(Color.RED, 2);
                 irb.setCampoID(redBorder, true);
-                irb.setJLabelError10Visible(true);
+                irb.getjLabelError10().setVisible(true);
                 irb.crearPopUpAdvertencia();
             }
             catch(PoliticasContraseniaException e3) {
@@ -166,7 +166,7 @@ public class ControladorRegistrarBedel implements ActionListener {
         advertencia = true;
         irb.setCampoContrasenia(redBorder, visibilidad);
         irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        irb.setJLabelError9Visible(visibilidad);
+        irb.getjLabelError9().setVisible(visibilidad);
       }
       if(irb.getTurno().equals("")){
          advertencia = true;
@@ -183,8 +183,8 @@ public class ControladorRegistrarBedel implements ActionListener {
         
         irb.setCampoContrasenia(redBorder, visibilidad);
         irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        irb.setJLabelError8Mensaje(mensajes);
-        irb.setJLabelError8Visible(visibilidad);
+        irb.setjLabelError8Mensaje(mensajes);
+        irb.getjLabelError8().setVisible(visibilidad);
         irb.crearPopUpAdvertencia();
         
     }

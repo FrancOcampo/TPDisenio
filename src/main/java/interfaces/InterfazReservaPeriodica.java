@@ -4,12 +4,15 @@ package interfaces;
 import controladores.ControladorPeriodica;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -247,6 +250,16 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
       jLabelError1.setVisible(visibilidad);
       jLabelError2.setVisible(visibilidad);
       jLabelError3.setVisible(visibilidad);
+    }
+    
+    public void crearPopUpAdvertencia() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Hay campos inválidos o sin rellenar.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
     }
     
     @SuppressWarnings("unchecked")

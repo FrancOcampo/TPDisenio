@@ -46,6 +46,7 @@ public class ControladorBuscarBedel implements ActionListener {
               
         }
         else if(comando.equals("Restaurar valores por defecto")) {
+            ibb.desmarcarCampo();
             ibb.getCampoApellido().setText("");
             ibb.getjCheckBox1().setSelected(false);
             ibb.getjCheckBox2().setSelected(false);
@@ -124,6 +125,8 @@ public class ControladorBuscarBedel implements ActionListener {
     public void busqueda() {
         
         try {
+            
+            ibb.desmarcarCampo();
             
             if(!criteriosDeBusqueda() || !ibb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) throw new DatosInvalidosException();
             

@@ -2,7 +2,6 @@
 package interfaces;
 
 import controladores.ControladorModificarBedel;
-import dtos.BedelBusquedaDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
@@ -115,16 +114,16 @@ public class InterfazModificarBedel extends javax.swing.JFrame {
       setCampoTurno(defaultBorder, visibilidad);
       setCampoContrasenia(defaultBorder, visibilidad);
       setCampoConfirmarContrasenia(defaultBorder, visibilidad);
-      resetearJLabelError8();
-      setJLabelError9Visible(visibilidad);
+      jLabelError8.setText("");
+      jLabelError9.setVisible(visibilidad);
       
     }
-    
-    public void setJLabelError8Visible(boolean visibilidad) {
-        jLabelError8.setVisible(visibilidad);
+
+    public JLabel getjLabelError8() {
+        return jLabelError8;
     }
     
-    public void setJLabelError8Mensaje(List<String> mensajes) {
+    public void setjLabelError8Mensaje(List<String> mensajes) {
         
         StringBuilder mensajesHtml = new StringBuilder("<html>La contraseña no cumple con los siguientes requisitos:<br>"); 
 
@@ -138,14 +137,10 @@ public class InterfazModificarBedel extends javax.swing.JFrame {
         
     }
     
-    public void setJLabelError9Visible(boolean visibilidad) {
-        jLabelError9.setVisible(visibilidad);
+    public JLabel getjLabelError9() {
+        return jLabelError9;
     }
-    
-    public void resetearJLabelError8() {
-        jLabelError8.setText("");
-    }
- 
+     
     public void crearPopUpAdvertencia() {
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Hay campos inválidos o sin rellenar.");

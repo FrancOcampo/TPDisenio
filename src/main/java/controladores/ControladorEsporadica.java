@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -46,8 +48,10 @@ public class ControladorEsporadica implements ActionListener {
             try {
                 ire.desmarcarCampos();
                 if(!validarCampos()) throw new DatosInvalidosException();
+                convertirFecha(ire.getDate()); //esto va al DTO
                 
             } catch(DatosInvalidosException e1) {
+                ire.crearPopUpAdvertencia();
                 marcarCampos();
             }
     }
@@ -81,9 +85,17 @@ public class ControladorEsporadica implements ActionListener {
             ire.setCampoFecha(redBorder, visibilidad);
         }
     }
-    
-    
-    
-    
+
+    private String convertirFecha(Date date) {
+        
+        // Crear un formato compatible con la base de datos 
+        SimpleDateFormat formatoBD = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Convertir la fecha en el formato adecuado
+        return formatoBD.format(date);
+    }
+
+
 }
+
 

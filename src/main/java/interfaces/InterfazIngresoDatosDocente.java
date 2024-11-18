@@ -2,6 +2,8 @@
 package interfaces;
 
 import controladores.ControladorIngresoDatosDocente;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -164,6 +168,16 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
       jLabelError2.setVisible(visibilidad);
       jLabelError4.setVisible(visibilidad);
       setCampoPeriodo(defaultBorder, visibilidad);
+    }
+    
+    public void crearPopUpAdvertencia() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Hay campos inválidos o sin rellenar.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
     }
     
     @SuppressWarnings("unchecked")

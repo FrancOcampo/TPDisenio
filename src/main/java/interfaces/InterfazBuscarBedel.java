@@ -151,12 +151,18 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         panel.add(label);
         
         JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
-    }
+    } 
     
     public void marcarCampoApellido() {
         jLabelError1.setVisible(true);
         Border redBorder = new LineBorder(Color.RED, 2);
         campoApellido.setBorder(redBorder);
+    }
+    
+    public void desmarcarCampo() {
+      Border defaultBorder = new JTextField().getBorder();
+      campoApellido.setBorder(defaultBorder);
+      jLabelError1.setVisible(false);
     }
     
     public DefaultTableModel getModel() {
