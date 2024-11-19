@@ -15,11 +15,9 @@ public class ReservaDTO {
     private Date fecha_reserva;
     private String tipo_reserva;
     private ArrayList<ReservaParcialDTO> reservasParcialesDTO;
-    private int id_bedel;
     private String periodo;
+    private int id_bedel;
     
-    public ReservaDTO() {}
-
     public int getId_reserva() {
         return id_reserva;
     }

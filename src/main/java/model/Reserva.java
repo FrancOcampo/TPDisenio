@@ -16,9 +16,8 @@ public class Reserva {
     private String tipo_reserva;
     private ArrayList<ReservaParcial> reservasParciales;
     private Periodo periodo;
+    private Bedel bedel;
 
-    public Reserva() {}
-    
     public int getId_reserva() {
         return id_reserva;
     }
@@ -97,6 +96,14 @@ public class Reserva {
 
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
+    }
+
+    public Bedel getBedel() {
+        return bedel;
+    }
+
+    public void setBedel(Bedel bedel) {
+        this.bedel = bedel;
     }
     
 }

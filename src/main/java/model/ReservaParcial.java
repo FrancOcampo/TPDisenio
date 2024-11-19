@@ -6,14 +6,13 @@ import java.util.Date;
 
 public class ReservaParcial {
     
-    private int id_reserva_parcial;
+    private int id_reserva_parcial; //falta agregar id_reserva porque no conoce la reserva, agregar en el diagrama de clases
     private int duracion;
     private Time hora_inicio;
     private Time hora_fin;
     private Date fecha;
-    
-    public ReservaParcial() {}
-
+    private Aula aula;
+  
     public int getId_reserva_parcial() {
         return id_reserva_parcial;
     }
@@ -53,6 +52,13 @@ public class ReservaParcial {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
+
+    public Aula getAula() {
+        return aula;
+    }
+
+    public void setAula(Aula aula) {
+        this.aula = aula;
+    }
     
 }

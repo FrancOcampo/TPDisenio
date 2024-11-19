@@ -10,8 +10,6 @@ public class Periodo {
     private Date fecha_fin;
     private String tipo;
     private int anio_lectivo;
-
-    public Periodo() {}
     
     public int getId_periodo() {
         return id_periodo;
@@ -52,6 +50,5 @@ public class Periodo {
     public void setAnio_lectivo(int anio_lectivo) {
         this.anio_lectivo = anio_lectivo;
     }
-    
     
 }
