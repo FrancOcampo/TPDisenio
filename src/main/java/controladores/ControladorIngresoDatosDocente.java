@@ -7,6 +7,7 @@ import excepciones.DatosInvalidosException;
 import gestores.GestorServiciosExternos;
 import interfaces.InterfazIngresoDatosDocente;
 import interfaces.InterfazMainBedel;
+import interfaces.InterfazReservaEsporadica;
 import interfaces.InterfazReservaPeriodica;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import sistemasexternos.Docente;
@@ -81,6 +83,9 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                     
                     reservaDTO.setTipo_reserva("Esporádica");
                     reservaDTO.setPeriodo("Anual");
+                    
+                    new InterfazReservaEsporadica().getControlador().setDatos(reservaDTO);
+                    iidd.dispose();
                 }
                 
             } catch(DatosInvalidosException e1) {
@@ -90,10 +95,20 @@ public class ControladorIngresoDatosDocente implements ActionListener {
             
         }
         else if(comando.equals("Cancelar")) {
+            if(hayCambios()) {
+                int confirmacion = iidd.confirmarContinuacion();
+                if(confirmacion == JOptionPane.OK_OPTION) {
+                    new InterfazMainBedel();
+                    iidd.dispose();
+                }
+            }
+            else {
                 new InterfazMainBedel();
                 iidd.dispose();
+                }
+            }
         }
-    }
+
     
     public void completarDatos() {
         
@@ -148,6 +163,38 @@ public class ControladorIngresoDatosDocente implements ActionListener {
         if(iidd.getBotonPeriodica().isSelected() && iidd.getPeriodo().equals("")) {
             iidd.setCampoPeriodo(redBorder, visibilidad);
         }
+    }
+    
+    public void setearDatos(ReservaDTO reservaDTO) {
+        
+        completarDatos();
+        iidd.getListaDocentes().setSelectedItem(reservaDTO.getNombre_docente());
+        iidd.getListaCursos().setSelectedItem(reservaDTO.getNombre_catedra());
+        if(reservaDTO.getTipo_reserva().equals("Periódica")) {
+            iidd.getBotonPeriodica().setSelected(true);
+            iidd.getListaPeriodos().setSelectedItem(reservaDTO.getPeriodo());
+            iidd.getListaPeriodos().setVisible(true);
+        }
+        else iidd.getBotonEsporadica().setSelected(true);
+    }
+    
+    public boolean hayCambios() {
+        
+        if (!iidd.getDocente().equals("")) {
+            return true;
+        }
+
+        if (!iidd.getCatedra().equals("")) {
+            return true;
+        }
+        
+        if (iidd.getBotonPeriodica().isSelected() || iidd.getBotonEsporadica().isSelected()) {
+            return true;
+        }
+
+        // Si ninguno de los valores cambió
+        return false;
+        
     }
 
     

@@ -180,6 +180,23 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    public int confirmarContinuacion() {
+        String[] opciones = {"Aceptar", "Cancelar"};
+        // Mostrar el diálogo con las opciones personalizadas
+        int respuesta = JOptionPane.showOptionDialog(
+            null,                                // Componente padre (null para centrar)
+            "Hay cambios sin guardar. ¿Desea continuar?", // Mensaje
+            "ADVERTENCIA",                       // Título
+            JOptionPane.DEFAULT_OPTION,          // Tipo de opción (sin botones por defecto)
+            JOptionPane.INFORMATION_MESSAGE,     // Tipo de mensaje
+            null,                                // Ícono (null para usar el ícono por defecto)
+            opciones,                            // Los botones personalizados
+            opciones[0]                          // Botón por defecto (primera opción)
+        );
+        
+        return respuesta;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -28,7 +28,8 @@ public class AulaPostgreSQLDAO implements AulaDAO {
         
         try {
             String queryStr = "SELECT a FROM Aula a " +
-                              "WHERE a.id_aula NOT IN :listaIdAulasSolapadas " +  
+                              "WHERE a.id_aula NOT IN :listaIdAulasSolapadas " + 
+                              "AND a.habilitada = true " +
                               "AND (TYPE(a) = :tipoAula) " +                     
                               "AND a.capacidad >= :alumnos";                      
 

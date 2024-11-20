@@ -1,6 +1,7 @@
 
 package interfaces;
 
+import controladores.ControladorEsporadica;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -15,8 +16,9 @@ import javax.swing.table.DefaultTableModel;
 
 public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
-    private ControladorPeriodica controlador;
-    
+    private ControladorPeriodica controladorPeriodica;
+    private ControladorEsporadica controladorEsporadica;
+            
     public InterfazAulasSolapadas() {
         initComponents();
         setLocationRelativeTo(null);
@@ -58,7 +60,13 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
     }
 
     public void setControlador(ControladorPeriodica controlador) {
-        this.controlador = controlador;
+        controladorPeriodica = controlador;
+        botonContinuar.addActionListener(controladorPeriodica);
+    }
+    
+    public void setControlador(ControladorEsporadica controlador) {
+        controladorEsporadica = controlador;
+        botonContinuar.addActionListener(controladorEsporadica);
     }
    
     // Crear un renderizador personalizado para las celdas
@@ -220,7 +228,7 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonContinuarActionPerformed
-        dispose();
+
     }//GEN-LAST:event_botonContinuarActionPerformed
 
     public static void main(String args[]) {

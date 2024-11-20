@@ -10,6 +10,7 @@ import dtos.AulaSolapadaDTO;
 import dtos.BusquedaAulaDTO;
 import dtos.DatosBusquedaDTO;
 import dtos.PeriodoDTO;
+import excepciones.FechaException;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -41,7 +42,7 @@ public class GestorReserva {
         return instancia;
     }
     
-    public AulaCompuestaDTO disponerAulas(BusquedaAulaDTO busquedaAulaDTO) {
+    public AulaCompuestaDTO disponerAulas(BusquedaAulaDTO busquedaAulaDTO) throws FechaException {
         
         AulaCompuestaDTO aulaCompuestaDTO = new AulaCompuestaDTO();
         PeriodoDTO periodoDTO = new PeriodoDTO();
@@ -53,7 +54,14 @@ public class GestorReserva {
         Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
         
         List<Date> listaFechas = new ArrayList<>();
-        listaFechas.addAll(calcularFechas(busquedaAulaDTO.getDia(), periodo));
+        
+        if(busquedaAulaDTO.getTipo_reserva().equals("Periódica")) {
+            listaFechas.addAll(calcularFechas(busquedaAulaDTO.getDia(), periodo));
+        }
+        else if(validarFecha(busquedaAulaDTO.getFecha(), periodo)) {
+            listaFechas.add(busquedaAulaDTO.getFecha());
+        }
+        else throw new FechaException();
         
         DatosBusquedaDTO datosBusquedaDTO = new DatosBusquedaDTO();
         datosBusquedaDTO.setAlumnos(busquedaAulaDTO.getAlumnos());
@@ -186,6 +194,15 @@ public class GestorReserva {
         }
         
         return fechas;
+    }
+    
+    private boolean validarFecha(Date fecha, Periodo periodo) {
+        
+        Date fechaActual = new Date(); // Fecha actual
+
+        return (fecha.after(periodo.getFecha_inicio()) && 
+                fecha.before(periodo.getFecha_fin()) &&
+                fecha.after(fechaActual));
     }
     
     private AulaDisponibleDTO map_Aula_a_AulaDisponibleDTO(Aula aula) {

@@ -51,9 +51,9 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         listaTiposAula.addItem("Sin recursos adicionales");
         listaDias.setSelectedIndex(0);
         llenarHoras(listaHoraInicio, 8, 0);
-        listaHoraInicio.setSelectedItem("12:00");
+        listaHoraInicio.setSelectedItem("8:00");
         llenarHoras(listaHoraFin, 8, 30);
-        listaHoraFin.setSelectedItem("12:00");
+        listaHoraFin.setSelectedItem("8:30");
        
         setTitle("Nueva reserva");
         // Establece un ícono transparente para evitar que se muestre el ícono de Java
@@ -287,6 +287,23 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         panel.add(label);
         
         JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public int confirmarContinuacion() {
+        String[] opciones = {"Aceptar", "Cancelar"};
+        // Mostrar el diálogo con las opciones personalizadas
+        int respuesta = JOptionPane.showOptionDialog(
+            null,                                // Componente padre (null para centrar)
+            "Hay cambios sin guardar. ¿Desea continuar?", // Mensaje
+            "ADVERTENCIA",                       // Título
+            JOptionPane.DEFAULT_OPTION,          // Tipo de opción (sin botones por defecto)
+            JOptionPane.INFORMATION_MESSAGE,     // Tipo de mensaje
+            null,                                // Ícono (null para usar el ícono por defecto)
+            opciones,                            // Los botones personalizados
+            opciones[0]                          // Botón por defecto (primera opción)
+        );
+        
+        return respuesta;
     }
     
     @SuppressWarnings("unchecked")

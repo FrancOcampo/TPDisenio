@@ -9,9 +9,11 @@ import dtos.BusquedaAulaDTO;
 import dtos.ReservaDTO;
 import excepciones.DatosInvalidosException;
 import excepciones.DuracionException;
+import excepciones.FechaException;
 import gestores.GestorReserva;
 import interfaces.InterfazAulasDisponibles;
 import interfaces.InterfazAulasSolapadas;
+import interfaces.InterfazIngresoDatosDocente;
 import interfaces.InterfazReservaPeriodica;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -25,6 +27,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -33,8 +36,8 @@ public class ControladorPeriodica implements ActionListener {
     private InterfazReservaPeriodica irp;
     private InterfazAulasDisponibles iad;
     private InterfazAulasSolapadas ias;
-    BusquedaAulaDTO busquedaAulaDTO;
-    ReservaDTO reservaDTO;
+    private BusquedaAulaDTO busquedaAulaDTO;
+    private ReservaDTO reservaDTO;
     
     public ControladorPeriodica() {}
     
@@ -69,7 +72,7 @@ public class ControladorPeriodica implements ActionListener {
                 busquedaAulaDTO = new BusquedaAulaDTO();
                 busquedaAulaDTO.setAlumnos(Integer.parseInt(irp.getCampoCantidadAlumnos().getText()));
                 busquedaAulaDTO.setTipo_aula(irp.getTipoAula());
-                busquedaAulaDTO.setTipo_reserva("Periódica");
+                busquedaAulaDTO.setTipo_reserva(reservaDTO.getTipo_reserva());
                 busquedaAulaDTO.setPeriodo(reservaDTO.getPeriodo());
                 busquedaAulaDTO.setDia(irp.getDia());
                 busquedaAulaDTO.setHora_inicio(getHoraAsTime(irp.getHoraInicio()));
@@ -108,7 +111,8 @@ public class ControladorPeriodica implements ActionListener {
             } catch(DatosInvalidosException e1) {
                 irp.crearPopUpAdvertencia();
                 marcarCampos();
-            }
+                
+            } catch(FechaException e2) {}
             
         }
         
@@ -130,6 +134,26 @@ public class ControladorPeriodica implements ActionListener {
                 iad.crearPopUpFila();
             }
             
+        }
+        else if(comando.equals("Cancelar")) {
+            
+            if(hayCambios()) {
+                int confirmacion = irp.confirmarContinuacion();
+                if(confirmacion == JOptionPane.OK_OPTION) {
+                    new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
+                    irp.dispose();
+                }
+            }
+            else {
+                new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
+                irp.dispose();
+            }
+        }
+        else if(comando.equals("CancelarAD")) {
+            iad.dispose();
+        }
+        else if(comando.equals("Continuar")) {
+            ias.dispose();
         }
     
     }
@@ -229,6 +253,37 @@ public class ControladorPeriodica implements ActionListener {
         } 
         
         return valido;
+    }
+    
+    public boolean hayCambios() {
+        
+        
+        if (!irp.getCampoCantidadAlumnos().getText().equals("")) {
+            return true;
+        }
+
+        if (!irp.getTipoAula().equals("")) {
+            return true;
+        }
+        
+        if (!irp.getDia().equals("")) {
+            return true;
+        }
+
+        if (!irp.getHoraInicio().equals("8:00")) {
+            return true;
+        }
+
+        if (!irp.getHoraFin().equals("8:30")) {
+            return true;
+        }
+
+        if(irp.getModel().getRowCount() > 0) {
+            return true;
+        };
+
+        // Si ninguno de los valores cambió
+        return false;
     }
 }
 

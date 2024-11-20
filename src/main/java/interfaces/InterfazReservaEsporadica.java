@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class InterfazReservaEsporadica extends javax.swing.JFrame {
@@ -44,9 +45,9 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         listaTiposAula.addItem("Multimedios");
         listaTiposAula.addItem("Sin recursos adicionales");
         llenarHoras(listaHoraInicio, 8, 0);
-        listaHoraInicio.setSelectedItem("12:00");
+        listaHoraInicio.setSelectedItem("8:00");
         llenarHoras(listaHoraFin, 8, 30);
-        listaHoraFin.setSelectedItem("12:00");
+        listaHoraFin.setSelectedItem("8:00");
        
         setTitle("Nueva reserva");
         // Establece un ícono transparente para evitar que se muestre el ícono de Java
@@ -236,6 +237,11 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
          calendario.setBorder(borde);
          jLabelError3.setVisible(visibilidad);
     }
+    
+    public void setCamposHora(Border borde, boolean visibilidad){
+         listaHoraInicio.setBorder(borde);
+         listaHoraFin.setBorder(borde);
+    }
    
     public void desmarcarCampos() {
         
@@ -245,9 +251,14 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
       setCampoCantidadAlumnos(defaultBorder, visibilidad);
       setCampoAula(defaultBorder, visibilidad);
       setCampoFecha(defaultBorder, visibilidad);
+      setCamposHora(defaultBorder, visibilidad);
       jLabelError1.setVisible(visibilidad);
       jLabelError2.setVisible(visibilidad);
       jLabelError3.setVisible(visibilidad);
+    }
+    
+    public DefaultTableModel getModel() {
+        return (DefaultTableModel) jTable1.getModel();
     }
     
     public void crearPopUpAdvertencia() {
@@ -258,6 +269,33 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         panel.add(label);
         
         JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void crearPopUpAdvertencia(String mensaje) {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel(mensaje);
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public int confirmarContinuacion() {
+        String[] opciones = {"Aceptar", "Cancelar"};
+        // Mostrar el diálogo con las opciones personalizadas
+        int respuesta = JOptionPane.showOptionDialog(
+            null,                                // Componente padre (null para centrar)
+            "Hay cambios sin guardar. ¿Desea continuar?", // Mensaje
+            "ADVERTENCIA",                       // Título
+            JOptionPane.DEFAULT_OPTION,          // Tipo de opción (sin botones por defecto)
+            JOptionPane.INFORMATION_MESSAGE,     // Tipo de mensaje
+            null,                                // Ícono (null para usar el ícono por defecto)
+            opciones,                            // Los botones personalizados
+            opciones[0]                          // Botón por defecto (primera opción)
+        );
+        
+        return respuesta;
     }
     
     @SuppressWarnings("unchecked")

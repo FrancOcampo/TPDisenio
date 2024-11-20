@@ -133,6 +133,7 @@ interfaces\InterfazRegistrarBedel$9.class
 interfaces\InterfazBuscarBedel$4.class
 model\Multimedios.class
 interfaces\InterfazReservaPeriodica$2.class
+excepciones\FechaException.class
 excepciones\OperacionException.class
 interfaces\InterfazAulasDisponibles$6.class
 interfaces\InterfazRegistrarBedel$2.class

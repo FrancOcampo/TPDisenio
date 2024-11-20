@@ -1,6 +1,7 @@
 
 package interfaces;
 
+import controladores.ControladorEsporadica;
 import controladores.ControladorPeriodica;
 import java.awt.Color;
 import java.awt.Component;
@@ -18,7 +19,8 @@ import javax.swing.table.JTableHeader;
 
 public class InterfazAulasDisponibles extends javax.swing.JFrame {
 
-    ControladorPeriodica controlador;
+    ControladorPeriodica controladorPeriodica;
+    ControladorEsporadica controladorEsporadica;
     
     public InterfazAulasDisponibles() {
         initComponents();
@@ -64,8 +66,13 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
     }
     
     public void setControlador(ControladorPeriodica controlador) {
-        this.controlador = controlador;
-        botonConfirmar.addActionListener(controlador);
+        controladorPeriodica = controlador;
+        botonConfirmar.addActionListener(controladorPeriodica);
+    }
+    
+    public void setControlador(ControladorEsporadica controlador) {
+        controladorEsporadica = controlador;
+        botonConfirmar.addActionListener(controladorEsporadica);
     }
 
     // Crear un renderizador personalizado para las celdas
@@ -164,6 +171,7 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         botonCancelar.setBackground(new java.awt.Color(102, 0, 0));
         botonCancelar.setForeground(new java.awt.Color(255, 255, 255));
         botonCancelar.setText("Cancelar");
+        botonCancelar.setActionCommand("CancelarAD");
         botonCancelar.setNextFocusableComponent(botonConfirmar);
         botonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
