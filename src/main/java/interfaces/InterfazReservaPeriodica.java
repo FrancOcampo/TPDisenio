@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class InterfazReservaPeriodica extends javax.swing.JFrame {
@@ -31,6 +32,7 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         botonConfirmarDia.addActionListener(controlador);
         botonRegistrarReserva.addActionListener(controlador);
         botonCancelar.addActionListener(controlador);
+        setResizable(false);
         setLocationRelativeTo(null);
         jLabelError1.setVisible(false);
         jLabelError2.setVisible(false);
@@ -119,16 +121,21 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
     private static void llenarHoras(JComboBox<String> comboBox, int h, int m) {
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
         Calendar calendar = Calendar.getInstance();
-        
-        // Establecer la hora inicial en 00:00
+
+        // Establecer la hora y minuto iniciales
         calendar.set(Calendar.HOUR_OF_DAY, h);
         calendar.set(Calendar.MINUTE, m);
-        
-        // Agregar todas las horas del día con incrementos de 30 minutos
-        for (int i = 0; i < 34; i++) { 
+
+        // Establecer los límites para el día (00:00 a 23:59)
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.set(Calendar.HOUR_OF_DAY, 23);
+        endCalendar.set(Calendar.MINUTE, 59);
+
+        // Agregar las horas y minutos al JComboBox
+        while (calendar.before(endCalendar) || calendar.equals(endCalendar)) {
             Date hora = calendar.getTime();
             comboBox.addItem(formatoHora.format(hora));
-            calendar.add(Calendar.MINUTE, 30); // Incrementar 30 minutos
+            calendar.add(Calendar.MINUTE, 1); // Incrementar 1 minuto
         }
     }
 
@@ -238,7 +245,12 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
          listaDias.setBorder(borde);
          jLabelError3.setVisible(visibilidad);
     }
-   
+    
+    public void setCamposHora(Border borde, boolean visibilidad){
+         listaHoraInicio.setBorder(borde);
+         listaHoraFin.setBorder(borde);
+    }
+    
     public void desmarcarCampos() {
         
       Border defaultBorder = new JTextField().getBorder();
@@ -247,14 +259,29 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
       setCampoCantidadAlumnos(defaultBorder, visibilidad);
       setCampoAula(defaultBorder, visibilidad);
       setCampoDia(defaultBorder, visibilidad);
+      setCamposHora(defaultBorder, visibilidad);
       jLabelError1.setVisible(visibilidad);
       jLabelError2.setVisible(visibilidad);
       jLabelError3.setVisible(visibilidad);
     }
     
+    public DefaultTableModel getModel() {
+        return (DefaultTableModel) jTable1.getModel();
+    }
+    
     public void crearPopUpAdvertencia() {
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Hay campos inválidos o sin rellenar.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void crearPopUpAdvertencia(String mensaje) {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel(mensaje);
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);
@@ -426,7 +453,7 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel9)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -495,7 +522,8 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)))
                 .addGap(29, 29, 29))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

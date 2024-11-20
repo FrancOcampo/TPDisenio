@@ -30,6 +30,7 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         jButton3.addActionListener(controlador);
         jButton4.addActionListener(controlador);
         botonCancelar.addActionListener(controlador);
+        setResizable(false);
         jLabelError1.setVisible(false);
         setTitle("Buscar Bedel");
         // Establece un ícono transparente para evitar que se muestre el ícono de Java

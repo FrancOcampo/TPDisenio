@@ -48,7 +48,7 @@ public class ControladorEsporadica implements ActionListener {
             try {
                 ire.desmarcarCampos();
                 if(!validarCampos()) throw new DatosInvalidosException();
-                convertirFecha(ire.getDate()); //esto va al DTO
+                convertirFecha(ire.getCalendario().getDate()); //esto va al DTO
                 
             } catch(DatosInvalidosException e1) {
                 ire.crearPopUpAdvertencia();

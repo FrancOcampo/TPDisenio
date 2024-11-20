@@ -1,8 +1,14 @@
 
 package model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +18,7 @@ import java.util.Date;
 public class Reserva {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_reserva;
     
     private int id_docente;
@@ -21,8 +28,16 @@ public class Reserva {
     private String nombre_catedra;
     private Date fecha_reserva;
     private String tipo_reserva;
+    
+    @OneToMany(mappedBy = "id_reserva", cascade = CascadeType.ALL)
     private ArrayList<ReservaParcial> reservasParciales;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_periodo") // Columna que referencia al periodo
     private Periodo periodo;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_usuario") // Columna que referencia al bedel
     private Bedel bedel;
 
     public int getId_reserva() {

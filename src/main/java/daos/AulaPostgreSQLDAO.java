@@ -29,13 +29,13 @@ public class AulaPostgreSQLDAO implements AulaDAO {
         try {
             String queryStr = "SELECT a FROM Aula a " +
                               "WHERE a.id_aula NOT IN :listaIdAulasSolapadas " +  
-                              "AND a.tipoAula = :tipoAula " +                     
+                              "AND (TYPE(a) = :tipoAula) " +                     
                               "AND a.capacidad >= :alumnos";                      
 
             TypedQuery<Aula> query = em.createQuery(queryStr, Aula.class);
 
             query.setParameter("listaIdAulasSolapadas", listaIdAulasSolapadas);  
-            query.setParameter("tipoAula", datosBusquedaDTO.getTipo_aula());     
+            query.setParameter("tipoAula", datosBusquedaDTO.getTipoAula());     
             query.setParameter("alumnos", datosBusquedaDTO.getAlumnos());        
 
             otrasAulas = query.getResultList();

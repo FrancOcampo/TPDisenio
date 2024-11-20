@@ -74,6 +74,7 @@
                           <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -120,8 +121,8 @@
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="calendario" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="jLabelError3" min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="calendario" min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -354,7 +355,7 @@
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="67" max="32767" attributes="0"/>
+                      <EmptySpace pref="47" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -471,25 +472,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRegistrarReservaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="rojeru_san.rsdate.RSDateChooser" name="calendario">
-          <Properties>
-            <Property name="colorBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="66" green="66" red="66" type="rgb"/>
-            </Property>
-            <Property name="colorButtonHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="cc" type="rgb"/>
-            </Property>
-            <Property name="colorDiaActual" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="colorForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="33" red="33" type="rgb"/>
-            </Property>
-            <Property name="formatoFecha" type="java.lang.String" value="dd/MM/yyyy"/>
-            <Property name="placeholder" type="java.lang.String" value="Elegir fecha"/>
-            <Property name="textMayusculas" type="boolean" value="false"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabelError3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -500,6 +482,8 @@
             </Property>
             <Property name="text" type="java.lang.String" value="!"/>
           </Properties>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="calendario">
         </Component>
       </SubComponents>
     </Container>

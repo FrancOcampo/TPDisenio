@@ -1,6 +1,7 @@
 
 package interfaces;
 
+import com.toedter.calendar.JDateChooser;
 import controladores.ControladorEsporadica;
 import java.awt.Color;
 import java.awt.Component;
@@ -31,11 +32,13 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         botonConfirmarDia.addActionListener(controlador);
         botonRegistrarReserva.addActionListener(controlador);
         botonCancelar.addActionListener(controlador);
+        setResizable(false);
         setLocationRelativeTo(null);
         jLabelError1.setVisible(false);
         jLabelError2.setVisible(false);
         jLabelError3.setVisible(false);
         jTable1.setRowSelectionAllowed(false);
+        ((JTextField) calendario.getDateEditor().getUiComponent()).setEditable(false);
         listaTiposAula.addItem("");
         listaTiposAula.addItem("Informática");
         listaTiposAula.addItem("Multimedios");
@@ -112,16 +115,21 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
     private static void llenarHoras(JComboBox<String> comboBox, int h, int m) {
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
         Calendar calendar = Calendar.getInstance();
-        
-        // Establecer la hora inicial en 00:00
+
+        // Establecer la hora y minuto iniciales
         calendar.set(Calendar.HOUR_OF_DAY, h);
         calendar.set(Calendar.MINUTE, m);
-        
-        // Agregar todas las horas del día con incrementos de 30 minutos
-        for (int i = 0; i < 34; i++) { 
+
+        // Establecer los límites para el día (00:00 a 23:59)
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.set(Calendar.HOUR_OF_DAY, 23);
+        endCalendar.set(Calendar.MINUTE, 59);
+
+        // Agregar las horas y minutos al JComboBox
+        while (calendar.before(endCalendar) || calendar.equals(endCalendar)) {
             Date hora = calendar.getTime();
             comboBox.addItem(formatoHora.format(hora));
-            calendar.add(Calendar.MINUTE, 30); // Incrementar 30 minutos
+            calendar.add(Calendar.MINUTE, 1); // Incrementar 1 minuto
         }
     }
 
@@ -202,16 +210,16 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         String seleccion = (String) listaHoraFin.getSelectedItem();
         return seleccion;
     }
+
+    public JDateChooser getCalendario() {
+        return calendario;
+    }
     
     public String getFecha() {
         
-        Date seleccion = calendario.getDatoFecha();
+        Date seleccion = calendario.getDate();
         if(seleccion == null) return "";
         return seleccion.toString();
-    }
-    
-    public Date getDate() {
-        return calendario.getDatoFecha();
     }
     
     public void setCampoCantidadAlumnos(Border borde, boolean visibilidad){
@@ -276,8 +284,8 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         botonConfirmarDia = new javax.swing.JButton();
         botonRegistrarReserva = new javax.swing.JButton();
-        calendario = new rojeru_san.rsdate.RSDateChooser();
         jLabelError3 = new javax.swing.JLabel();
+        calendario = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -401,7 +409,7 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel9)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,14 +445,6 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
             }
         });
 
-        calendario.setColorBackground(new java.awt.Color(102, 102, 102));
-        calendario.setColorButtonHover(new java.awt.Color(204, 204, 204));
-        calendario.setColorDiaActual(new java.awt.Color(255, 255, 255));
-        calendario.setColorForeground(new java.awt.Color(51, 51, 51));
-        calendario.setFormatoFecha("dd/MM/yyyy");
-        calendario.setPlaceholder("Elegir fecha");
-        calendario.setTextMayusculas(false);
-
         jLabelError3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelError3.setForeground(new java.awt.Color(255, 0, 0));
         jLabelError3.setText("!");
@@ -479,7 +479,8 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)))
                 .addGap(29, 29, 29))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -516,8 +517,8 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelError3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabelError3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -605,7 +606,7 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonConfirmarDia;
     private javax.swing.JButton botonRegistrarReserva;
-    private rojeru_san.rsdate.RSDateChooser calendario;
+    private com.toedter.calendar.JDateChooser calendario;
     private javax.swing.JTextField campoCantidadAlumnos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

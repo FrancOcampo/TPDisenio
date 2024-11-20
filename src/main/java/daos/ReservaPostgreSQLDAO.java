@@ -29,17 +29,17 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
             
             EntityManager em = Conexion.getEntityManager();
 
-            String queryStr = "SELECT rp FROM ReservaParcial rp " +
-                              "JOIN rp.reserva r " + 
-                              "JOIN rp.aula a " +    
-                              "WHERE a.tipoAula = :tipoAula " + 
-                              "AND rp.fecha IN :fechas " + 
-                              "AND r.alumnos = :alumnos " + 
-                              "AND rp.horaInicio < :horaFin " + 
-                              "AND rp.horaFin > :horaInicio"; 
+            String queryStr =   "SELECT rp FROM ReservaParcial rp " +
+                                "JOIN rp.aula a " +  
+                                "JOIN Reserva r ON rp.id_reserva = r.id_reserva " +  
+                                "WHERE TYPE(a) = :tipoAula " +  // Usamos el parámetro tipoAula
+                                "AND a.capacidad >= :alumnos " +
+                                "AND rp.fecha IN :fechas " + 
+                                "AND rp.hora_inicio < :horaFin " + 
+                                "AND rp.hora_fin > :horaInicio"; 
 
             TypedQuery<ReservaParcial> query = em.createQuery(queryStr, ReservaParcial.class);
-            query.setParameter("tipoAula", datosBusquedaDTO.getTipo_aula());
+            query.setParameter("tipoAula", datosBusquedaDTO.getTipoAula());
             query.setParameter("fechas", datosBusquedaDTO.getListaFechas());
             query.setParameter("alumnos", datosBusquedaDTO.getAlumnos());
             query.setParameter("horaInicio", datosBusquedaDTO.getHora_inicio());

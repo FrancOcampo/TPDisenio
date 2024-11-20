@@ -2,8 +2,6 @@
 package model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -13,17 +11,17 @@ import jakarta.persistence.InheritanceType;
 public abstract class Aula {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id_aula;
-    protected int numero_aula;
+    
+    protected int nro_aula;
     protected String nombre;
     protected int capacidad;
     protected boolean habilitada;
     protected int piso;
     protected boolean canion;
-    protected String tipoPizarron;
+    protected String tipo_pizarron;
     protected boolean ventiladores;
-    protected boolean aireAcondicionado;
+    protected boolean aire_acondicionado;
 
     public int getId_aula() {
         return id_aula;
@@ -33,12 +31,12 @@ public abstract class Aula {
         this.id_aula = id_aula;
     }
 
-    public int getNumero_aula() {
-        return numero_aula;
+    public int getNumeroAula() {
+        return nro_aula;
     }
 
-    public void setNumero_aula(int numero_aula) {
-        this.numero_aula = numero_aula;
+    public void setNumeroAula(int numero_aula) {
+        this.nro_aula = numero_aula;
     }
 
     public String getNombre() {
@@ -82,11 +80,11 @@ public abstract class Aula {
     }
 
     public String getTipoPizarron() {
-        return tipoPizarron;
+        return tipo_pizarron;
     }
 
     public void setTipoPizarron(String tipoPizarron) {
-        this.tipoPizarron = tipoPizarron;
+        this.tipo_pizarron = tipoPizarron;
     }
 
     public boolean ventiladores() {
@@ -98,11 +96,11 @@ public abstract class Aula {
     }
 
     public boolean aireAcondicionado() {
-        return aireAcondicionado;
+        return aire_acondicionado;
     }
 
     public void setAireAcondicionado(boolean aireAcondicionado) {
-        this.aireAcondicionado = aireAcondicionado;
+        this.aire_acondicionado = aireAcondicionado;
     }
     
 }

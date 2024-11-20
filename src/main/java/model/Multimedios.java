@@ -4,7 +4,7 @@ package model;
 import jakarta.persistence.Entity;
 
 @Entity
-public class AulaMultimedios extends Aula {
+public class Multimedios extends Aula {
     
     private boolean televisor;
     private boolean computadora;

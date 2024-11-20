@@ -8,6 +8,7 @@ import dtos.AulaSolapadaDTO;
 import dtos.BusquedaAulaDTO;
 import dtos.ReservaDTO;
 import excepciones.DatosInvalidosException;
+import excepciones.DuracionException;
 import gestores.GestorReserva;
 import interfaces.InterfazAulasDisponibles;
 import interfaces.InterfazAulasSolapadas;
@@ -18,8 +19,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -27,6 +31,9 @@ import javax.swing.border.LineBorder;
 public class ControladorPeriodica implements ActionListener {
     
     private InterfazReservaPeriodica irp;
+    private InterfazAulasDisponibles iad;
+    private InterfazAulasSolapadas ias;
+    BusquedaAulaDTO busquedaAulaDTO;
     ReservaDTO reservaDTO;
     
     public ControladorPeriodica() {}
@@ -57,11 +64,13 @@ public class ControladorPeriodica implements ActionListener {
             try {
                 irp.desmarcarCampos();
                 if(!validarCampos()) throw new DatosInvalidosException();
+                if(verificarHora(irp.getHoraInicio(), irp.getHoraFin())) {
                 
-                BusquedaAulaDTO busquedaAulaDTO = new BusquedaAulaDTO();
+                busquedaAulaDTO = new BusquedaAulaDTO();
                 busquedaAulaDTO.setAlumnos(Integer.parseInt(irp.getCampoCantidadAlumnos().getText()));
                 busquedaAulaDTO.setTipo_aula(irp.getTipoAula());
                 busquedaAulaDTO.setTipo_reserva("Periódica");
+                busquedaAulaDTO.setPeriodo(reservaDTO.getPeriodo());
                 busquedaAulaDTO.setDia(irp.getDia());
                 busquedaAulaDTO.setHora_inicio(getHoraAsTime(irp.getHoraInicio()));
                 busquedaAulaDTO.setHora_fin(getHoraAsTime(irp.getHoraFin()));
@@ -71,8 +80,9 @@ public class ControladorPeriodica implements ActionListener {
                 
                 if(aulas.getAulasDisponiblesDTO() != null) {
                     
-                   InterfazAulasDisponibles iad = new InterfazAulasDisponibles();
+                   iad = new InterfazAulasDisponibles();
                    iad.setControlador(this);
+                   iad.getjLabel1().setText(reservaDTO.getNombre_catedra());
                    
                     for (AulaDisponibleDTO aula : aulas.getAulasDisponiblesDTO()) {
                        
@@ -83,7 +93,7 @@ public class ControladorPeriodica implements ActionListener {
                 }
                 else {
                     
-                    InterfazAulasSolapadas ias = new InterfazAulasSolapadas();
+                    ias = new InterfazAulasSolapadas();
                     ias.setControlador(this);
                     
                     for (AulaSolapadaDTO aula : aulas.getAulasSolapadasDTO()) {
@@ -93,6 +103,8 @@ public class ControladorPeriodica implements ActionListener {
                     }
                 }
                 
+            }
+                
             } catch(DatosInvalidosException e1) {
                 irp.crearPopUpAdvertencia();
                 marcarCampos();
@@ -101,6 +113,22 @@ public class ControladorPeriodica implements ActionListener {
         }
         
         else if (comando.equals("Confirmar")) {
+            
+            int row = iad.getjTable1().getSelectedRow();
+            
+            try {
+                if(row == -1) throw new DatosInvalidosException();
+                else {
+                    String aula = (String) iad.getModel().getValueAt(row, 0);
+                    Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
+                                           busquedaAulaDTO.getDia(), busquedaAulaDTO.getHora_inicio(), busquedaAulaDTO.getHora_fin() };
+                    irp.getModel().addRow(nuevaFila);
+                    iad.dispose();
+                }
+                
+            } catch(DatosInvalidosException e1) {
+                iad.crearPopUpFila();
+            }
             
         }
     
@@ -112,6 +140,7 @@ public class ControladorPeriodica implements ActionListener {
         
         if(irp.getCampoCantidadAlumnos().getText().equals("") ||
            !irp.getCampoCantidadAlumnos().getText().matches("\\d+") ||
+           Integer.parseInt(irp.getCampoCantidadAlumnos().getText()) <= 0 ||
            irp.getTipoAula().equals("") ||
            irp.getDia().equals("")) valido = false;
         
@@ -123,7 +152,7 @@ public class ControladorPeriodica implements ActionListener {
         Border redBorder = new LineBorder(Color.RED, 2);
         boolean visibilidad = true;
         
-        if(irp.getCampoCantidadAlumnos().getText().equals("") || !irp.getCampoCantidadAlumnos().getText().matches("\\d+")) {
+        if(irp.getCampoCantidadAlumnos().getText().equals("") || !irp.getCampoCantidadAlumnos().getText().matches("\\d+") || Integer.parseInt(irp.getCampoCantidadAlumnos().getText()) <= 0) {
             irp.setCampoCantidadAlumnos(redBorder, visibilidad);
         }
         if(irp.getTipoAula().equals("")) {
@@ -150,5 +179,57 @@ public class ControladorPeriodica implements ActionListener {
         }
     }
     
-    
+    private boolean verificarHora(String horaInicio, String horaFin) {
+        
+        boolean valido = false;
+        
+        try {
+            // Definir el formato de hora
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            
+            // Parsear el String de horaInicio a Date
+            Date date1 = sdf.parse(horaInicio);
+            
+            // Convertir Date a Time para horaInicio
+            Time hora_inicio = new Time(date1.getTime());
+            
+            // Parsear el String de horaFin a Date
+            Date date2 = sdf.parse(horaFin);
+            
+            // Convertir Date a Time para horaFin
+            Time hora_fin = new Time(date2.getTime());
+            
+            // Comparar horaFin con horaInicio
+            if (hora_fin.compareTo(hora_inicio) > 0) {
+                
+                LocalTime inicio = hora_inicio.toLocalTime();
+                LocalTime fin = hora_fin.toLocalTime();
+
+                Duration duracion = Duration.between(inicio, fin);
+                long minutos = duracion.toMinutes();  // Convertir la duración a minutos
+
+                if (minutos % 30 == 0) valido = true;
+                else throw new DuracionException();
+                
+            } else throw new DatosInvalidosException();
+            
+            
+        } catch (DatosInvalidosException e1) {
+          irp.crearPopUpAdvertencia();  
+          Border redBorder = new LineBorder(Color.RED, 2);
+          irp.setCamposHora(redBorder, true);
+          
+        } catch (DuracionException e2) {
+          irp.crearPopUpAdvertencia("La duración de la reserva no es múltiplo de 30 minutos.");
+          Border redBorder = new LineBorder(Color.RED, 2);
+          irp.setCamposHora(redBorder, true);
+          
+        } catch (Exception e) {
+          e.printStackTrace();
+        } 
+        
+        return valido;
+    }
 }
+
+

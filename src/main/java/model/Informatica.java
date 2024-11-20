@@ -4,16 +4,16 @@ package model;
 import jakarta.persistence.Entity;
 
 @Entity
-public class AulaInformatica extends Aula {
+public class Informatica extends Aula {
     
-    private int cantidadPC;
+    private int cantidad_pc;
 
     public int getCantidadPC() {
-        return cantidadPC;
+        return cantidad_pc;
     }
 
     public void setCantidadPC(int cantidadPC) {
-        this.cantidadPC = cantidadPC;
+        this.cantidad_pc = cantidadPC;
     }
     
 }

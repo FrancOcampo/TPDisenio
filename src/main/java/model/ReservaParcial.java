@@ -1,6 +1,7 @@
 
 package model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,11 +24,13 @@ public class ReservaParcial {
     private Time hora_inicio;
     private Time hora_fin;
     private Date fecha;
+    
+    @Column(name = "id_reserva")
     private int id_reserva;
     
     // Relación ManyToOne con la entidad Aula
     @ManyToOne
-    @JoinColumn(name = "id_aula", referencedColumnName = "id_aula")
+    @JoinColumn(name = "id_aula")
     private Aula aula;  // El objeto de la clase Aula que representará la relación
   
     public int getId_reserva_parcial() {

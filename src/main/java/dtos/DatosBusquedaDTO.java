@@ -9,6 +9,7 @@ public class DatosBusquedaDTO {
     
     private int alumnos;
     private String tipo_aula;
+    private Class<?> tipoAula;
     private List<Date> listaFechas; 
     private Time hora_inicio;
     private Time hora_fin;
@@ -51,6 +52,14 @@ public class DatosBusquedaDTO {
 
     public void setHora_fin(Time hora_fin) {
         this.hora_fin = hora_fin;
+    }
+
+    public Class<?> getTipoAula() {
+        return tipoAula;
+    }
+
+    public void setTipoAula(Class<?> tipoAula) {
+        this.tipoAula = tipoAula;
     }
     
     

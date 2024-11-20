@@ -4,8 +4,11 @@ package interfaces;
 import controladores.ControladorPeriodica;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -55,6 +58,10 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         setVisible(true);
 
     }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
     
     public void setControlador(ControladorPeriodica controlador) {
         this.controlador = controlador;
@@ -90,6 +97,20 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         return (DefaultTableModel) jTable1.getModel();
     }
 
+    public JTable getjTable1() {
+        return jTable1;
+    }
+    
+    public void crearPopUpFila() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Por favor, seleccione un aula.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -99,7 +120,7 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         botonCancelar = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         botonConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -150,10 +171,10 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Dubai", 0, 15)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("Curso");
+        jLabel1.setFont(new java.awt.Font("Dubai", 0, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Curso");
 
         botonConfirmar.setBackground(new java.awt.Color(102, 102, 102));
         botonConfirmar.setForeground(new java.awt.Color(0, 0, 0));
@@ -170,7 +191,7 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,7 +209,7 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel16)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
@@ -258,7 +279,7 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonConfirmar;
-    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

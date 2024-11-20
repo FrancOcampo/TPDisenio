@@ -19,13 +19,14 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import model.Aula;
-import model.AulaInformatica;
-import model.AulaMultimedios;
+import model.Informatica;
+import model.Multimedios;
 import model.Periodo;
 import model.ReservaParcial;
 import java.util.Map;
 import java.util.HashMap;
 import model.Reserva;
+import model.SinRecursosAdicionales;
 
 public class GestorReserva {
     
@@ -62,6 +63,23 @@ public class GestorReserva {
         datosBusquedaDTO.setHora_fin(busquedaAulaDTO.getHora_fin());
         
         ReservaPostgreSQLDAO reservaPostgreSQLDAO = ReservaPostgreSQLDAO.obtenerInstancia();
+        
+        Class<?> tipoAula = null;
+
+        switch (datosBusquedaDTO.getTipo_aula()) {
+            case "Multimedios":
+                tipoAula = Multimedios.class;
+                break;
+            case "Informática":
+                tipoAula = Informatica.class;
+                break;
+            case "Sin recursos adicionales":
+                tipoAula = SinRecursosAdicionales.class;
+                break;
+        }
+        
+        datosBusquedaDTO.setTipoAula(tipoAula);
+        
         List<ReservaParcial> reservasParcialesSolapadas = reservaPostgreSQLDAO.obtener_RP_solapadas(datosBusquedaDTO);
         List<Integer> idAulas = new ArrayList<>();
         
@@ -199,14 +217,14 @@ public class GestorReserva {
             caracteristicas.append("Con aire acondicionado, ");
         }
 
-        if (aula instanceof AulaInformatica) {
-            AulaInformatica aulaInformatica = (AulaInformatica) aula;
+        if (aula instanceof Informatica) {
+            Informatica aulaInformatica = (Informatica) aula;
             caracteristicas.append("Cantidad de PCs: ").append(aulaInformatica.getCantidadPC()).append(", ");
 
         }
 
-        if (aula instanceof AulaMultimedios) {
-            AulaMultimedios aulaMultimedios = (AulaMultimedios) aula;
+        if (aula instanceof Multimedios) {
+            Multimedios aulaMultimedios = (Multimedios) aula;
             if (aulaMultimedios.televisor()) {
                 caracteristicas.append("Con televisor, ");
             }
