@@ -1,12 +1,19 @@
 
 package model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Date;
 
+@Entity // Marca la clase como una entidad persistente
+@Table(name = "reserva") // Nombre de la tabla en la base de datos
 public class Reserva {
     
+    @Id
     private int id_reserva;
+    
     private int id_docente;
     private int id_catedra;
     private String nombre_docente;

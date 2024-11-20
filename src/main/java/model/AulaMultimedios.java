@@ -1,6 +1,9 @@
 
 package model;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class AulaMultimedios extends Aula {
     
     private boolean televisor;

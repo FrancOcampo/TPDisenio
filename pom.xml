@@ -63,6 +63,12 @@
             <artifactId>RojeruSan.full_9.6</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.tomitribe.jkta</groupId>
+            <artifactId>jkta</artifactId>
+            <version>0.12</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <properties>

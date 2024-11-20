@@ -1,6 +1,9 @@
 
 package model;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class AulaInformatica extends Aula {
     
     private int cantidadPC;

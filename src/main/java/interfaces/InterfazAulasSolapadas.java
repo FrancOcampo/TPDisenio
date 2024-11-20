@@ -10,9 +10,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import controladores.ControladorPeriodica;
+import javax.swing.table.DefaultTableModel;
 
 public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
+    private ControladorPeriodica controlador;
+    
     public InterfazAulasSolapadas() {
         initComponents();
         setLocationRelativeTo(null);
@@ -53,6 +57,10 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
     }
 
+    public void setControlador(ControladorPeriodica controlador) {
+        this.controlador = controlador;
+    }
+   
     // Crear un renderizador personalizado para las celdas
     DefaultTableCellRenderer customRenderer = new DefaultTableCellRenderer() {
             
@@ -77,6 +85,10 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
             return cellComponent;
         }
     };
+    
+    public DefaultTableModel getModel() {
+        return (DefaultTableModel) jTable1.getModel();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -208,12 +220,9 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonContinuarActionPerformed
-
+        dispose();
     }//GEN-LAST:event_botonContinuarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -1,6 +1,7 @@
 
 package interfaces;
 
+import controladores.ControladorPeriodica;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -9,10 +10,13 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class InterfazAulasDisponibles extends javax.swing.JFrame {
 
+    ControladorPeriodica controlador;
+    
     public InterfazAulasDisponibles() {
         initComponents();
         setLocationRelativeTo(null);
@@ -51,6 +55,11 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         setVisible(true);
 
     }
+    
+    public void setControlador(ControladorPeriodica controlador) {
+        this.controlador = controlador;
+        botonConfirmar.addActionListener(controlador);
+    }
 
     // Crear un renderizador personalizado para las celdas
     DefaultTableCellRenderer customRenderer = new DefaultTableCellRenderer() {
@@ -76,6 +85,10 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
             return cellComponent;
         }
     };
+    
+    public DefaultTableModel getModel() {
+        return (DefaultTableModel) jTable1.getModel();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

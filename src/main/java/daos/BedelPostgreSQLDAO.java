@@ -16,7 +16,6 @@ public class BedelPostgreSQLDAO implements BedelDAO {
 
     private static BedelPostgreSQLDAO instancia;
     
-    
     private BedelPostgreSQLDAO(){}
     
     public static BedelPostgreSQLDAO obtenerInstancia() {
