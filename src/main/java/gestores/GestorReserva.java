@@ -10,6 +10,7 @@ import dtos.AulaSolapadaDTO;
 import dtos.BusquedaAulaDTO;
 import dtos.DatosBusquedaDTO;
 import dtos.PeriodoDTO;
+import dtos.ReservaDTO;
 import excepciones.FechaException;
 import java.sql.Time;
 import java.time.DayOfWeek;
@@ -58,10 +59,13 @@ public class GestorReserva {
         if(busquedaAulaDTO.getTipo_reserva().equals("Periódica")) {
             listaFechas.addAll(calcularFechas(busquedaAulaDTO.getDia(), periodo));
         }
-        else if(validarFecha(busquedaAulaDTO.getFecha(), periodo)) {
-            listaFechas.add(busquedaAulaDTO.getFecha());
+        else if(busquedaAulaDTO.getTipo_reserva().equals("Esporádica")) {
+            
+            if(validarFecha(busquedaAulaDTO.getFecha(), periodo)) {
+                listaFechas.add(busquedaAulaDTO.getFecha());
+            }
+            else throw new FechaException();
         }
-        else throw new FechaException();
         
         DatosBusquedaDTO datosBusquedaDTO = new DatosBusquedaDTO();
         datosBusquedaDTO.setAlumnos(busquedaAulaDTO.getAlumnos());
@@ -139,7 +143,24 @@ public class GestorReserva {
        return aulaCompuestaDTO;
            
        }
-       
+    
+    public void verificarPeriodo(ReservaDTO reservaDTO) throws FechaException {
+        
+        PeriodoDTO periodoDTO = new PeriodoDTO();
+        periodoDTO.setTipo_periodo(reservaDTO.getPeriodo());
+        LocalDate fechaActual = LocalDate.now();
+        int anio = fechaActual.getYear();
+        periodoDTO.setAnio_lectivo(anio);
+        
+        Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
+        
+        if(fechaActual.isAfter(periodo.getFecha_fin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+            throw new FechaException();
+        }
+
+        
+        
+    }
    
     private List<Date> calcularFechas(String dia, Periodo periodo) {
         

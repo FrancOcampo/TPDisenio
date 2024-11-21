@@ -169,10 +169,10 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
       jLabelError4.setVisible(visibilidad);
       setCampoPeriodo(defaultBorder, visibilidad);
     }
-    
-    public void crearPopUpAdvertencia() {
+
+    public void crearPopUpAdvertencia(String mensaje) {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Hay campos inválidos o sin rellenar.");
+        JLabel label = new JLabel(mensaje);
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);

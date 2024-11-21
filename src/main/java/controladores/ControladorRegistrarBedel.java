@@ -142,39 +142,39 @@ public class ControladorRegistrarBedel implements ActionListener {
         boolean visibilidad = true;
         boolean advertencia = false;
         
-      if(irb.getCampoNombre().getText().trim().isEmpty() || !(irb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
-         irb.setCampoNombre(redBorder, visibilidad);
-         advertencia = true;
+        if(irb.getCampoNombre().getText().trim().isEmpty() || !(irb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
+           irb.setCampoNombre(redBorder, visibilidad);
+           advertencia = true;
+        }
+        if(irb.getCampoApellido().getText().trim().isEmpty() || !(irb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
+           irb.setCampoApellido(redBorder, visibilidad);
+           advertencia = true;
+        }
+        if(irb.getCampoContrasenia().getText().trim().isEmpty()){
+          irb.setCampoContrasenia(redBorder, visibilidad);
+          advertencia = true;
+        }
+        if(irb.getCampoConfirmarContrasenia().getText().trim().isEmpty()){
+          irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
+          advertencia = true;
+        }
+        if(irb.getCampoID().getText().trim().isEmpty()){
+          irb.setCampoID(redBorder, visibilidad);
+          advertencia = true;
+        }
+        if(!irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText())){
+          advertencia = true;
+          irb.setCampoContrasenia(redBorder, visibilidad);
+          irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
+          irb.getjLabelError9().setVisible(visibilidad);
+        }
+        if(irb.getTurno().equals("")){
+           advertencia = true;
+           irb.setCampoTurno(redBorder, visibilidad);
+        }
+
+        if(advertencia) irb.crearPopUpAdvertencia();
       }
-      if(irb.getCampoApellido().getText().trim().isEmpty() || !(irb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
-         irb.setCampoApellido(redBorder, visibilidad);
-         advertencia = true;
-      }
-      if(irb.getCampoContrasenia().getText().trim().isEmpty()){
-        irb.setCampoContrasenia(redBorder, visibilidad);
-        advertencia = true;
-      }
-      if(irb.getCampoConfirmarContrasenia().getText().trim().isEmpty()){
-        irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        advertencia = true;
-      }
-      if(irb.getCampoID().getText().trim().isEmpty()){
-        irb.setCampoID(redBorder, visibilidad);
-        advertencia = true;
-      }
-      if(!irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText())){
-        advertencia = true;
-        irb.setCampoContrasenia(redBorder, visibilidad);
-        irb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        irb.getjLabelError9().setVisible(visibilidad);
-      }
-      if(irb.getTurno().equals("")){
-         advertencia = true;
-         irb.setCampoTurno(redBorder, visibilidad);
-      }
-      
-      if(advertencia) irb.crearPopUpAdvertencia();
-    }
     
     private void marcarCampos(List<String> mensajes) {
         

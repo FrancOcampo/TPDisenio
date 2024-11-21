@@ -158,11 +158,11 @@ public class ControladorBuscarBedel implements ActionListener {
             
             } catch(DatosInvalidosException e1) {
                 if(ibb.getCampoApellido().getText().trim().isEmpty()) {
-                    ibb.crearPopUpAdvertencia();
+                    ibb.crearPopUpAdvertencia("Ingrese al menos un criterio de búsqueda.");
                 }
                 else {
                     ibb.marcarCampoApellido();
-                    ibb.crearPopUpDatosInvalidos();
+                    ibb.crearPopUpAdvertencia("El apellido sólo puede contener letras.");
                 }
                 
             } catch(NoExisteBedelException e2) {

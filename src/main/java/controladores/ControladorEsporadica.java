@@ -109,7 +109,7 @@ public class ControladorEsporadica implements ActionListener {
             }
                 
             } catch(DatosInvalidosException e1) {
-                ire.crearPopUpAdvertencia();
+                ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
                 marcarCampos();
                 
             } catch(FechaException e2) {
@@ -234,7 +234,7 @@ public class ControladorEsporadica implements ActionListener {
             
             
         } catch (DatosInvalidosException e1) {
-          ire.crearPopUpAdvertencia();  
+          ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");  
           Border redBorder = new LineBorder(Color.RED, 2);
           ire.setCamposHora(redBorder, true);
           
@@ -265,11 +265,11 @@ public class ControladorEsporadica implements ActionListener {
             return true;
         }
 
-        if (!ire.getHoraInicio().equals("8:00")) {
+        if (!ire.getHoraInicio().equals("08:00")) {
             return true;
         }
 
-        if (!ire.getHoraFin().equals("8:30")) {
+        if (!ire.getHoraFin().equals("08:30")) {
             return true;
         }
 

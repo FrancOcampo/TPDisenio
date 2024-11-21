@@ -114,9 +114,9 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         return jTable1;
     }
   
-    public void crearPopUpAdvertencia() {
+    public void crearPopUpAdvertencia(String mensaje) {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Ingrese al menos un criterio de búsqueda.");
+        JLabel label = new JLabel(mensaje);
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);
@@ -144,16 +144,6 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
 
-    public void crearPopUpDatosInvalidos() {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("El apellido sólo puede contener letras.");
-        label.setForeground(Color.BLACK); 
-        label.setFont(new Font("Arial", Font.BOLD, 13)); 
-        panel.add(label);
-        
-        JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
-    } 
-    
     public void marcarCampoApellido() {
         jLabelError1.setVisible(true);
         Border redBorder = new LineBorder(Color.RED, 2);

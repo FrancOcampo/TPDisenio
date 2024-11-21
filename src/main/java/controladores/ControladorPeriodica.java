@@ -109,11 +109,10 @@ public class ControladorPeriodica implements ActionListener {
             }
                 
             } catch(DatosInvalidosException e1) {
-                irp.crearPopUpAdvertencia();
+                irp.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
                 marcarCampos();
                 
             } catch(FechaException e2) {}
-            
         }
         
         else if (comando.equals("Confirmar")) {
@@ -239,7 +238,7 @@ public class ControladorPeriodica implements ActionListener {
             
             
         } catch (DatosInvalidosException e1) {
-          irp.crearPopUpAdvertencia();  
+          irp.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");  
           Border redBorder = new LineBorder(Color.RED, 2);
           irp.setCamposHora(redBorder, true);
           
@@ -270,11 +269,11 @@ public class ControladorPeriodica implements ActionListener {
             return true;
         }
 
-        if (!irp.getHoraInicio().equals("8:00")) {
+        if (!irp.getHoraInicio().equals("08:00")) {
             return true;
         }
 
-        if (!irp.getHoraFin().equals("8:30")) {
+        if (!irp.getHoraFin().equals("08:30")) {
             return true;
         }
 

@@ -269,16 +269,6 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         return (DefaultTableModel) jTable1.getModel();
     }
     
-    public void crearPopUpAdvertencia() {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Hay campos inválidos o sin rellenar.");
-        label.setForeground(Color.BLACK); 
-        label.setFont(new Font("Arial", Font.BOLD, 13)); 
-        panel.add(label);
-        
-        JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
-    }
-    
     public void crearPopUpAdvertencia(String mensaje) {
         JPanel panel = new JPanel();
         JLabel label = new JLabel(mensaje);

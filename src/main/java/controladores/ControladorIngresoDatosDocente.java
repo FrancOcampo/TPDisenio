@@ -4,6 +4,8 @@ package controladores;
 import daos.Conexion;
 import dtos.ReservaDTO;
 import excepciones.DatosInvalidosException;
+import excepciones.FechaException;
+import gestores.GestorReserva;
 import gestores.GestorServiciosExternos;
 import interfaces.InterfazIngresoDatosDocente;
 import interfaces.InterfazMainBedel;
@@ -63,6 +65,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
             
             try {
                 iidd.desmarcarCampos();
+                
                 if(!validarCampos()) throw new DatosInvalidosException();
                 
                 ReservaDTO reservaDTO = new ReservaDTO();
@@ -74,6 +77,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                     
                     reservaDTO.setTipo_reserva("Periódica");
                     reservaDTO.setPeriodo(iidd.getPeriodo());
+                    GestorReserva.obtenerInstancia().verificarPeriodo(reservaDTO);
                   
                     new InterfazReservaPeriodica().getControlador().setDatos(reservaDTO);
                     iidd.dispose();
@@ -89,8 +93,10 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 }
                 
             } catch(DatosInvalidosException e1) {
-                iidd.crearPopUpAdvertencia();
+                iidd.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
                 marcarCampos();
+            } catch(FechaException e2) {
+                iidd.crearPopUpAdvertencia("El período seleccionado ya finalizó. Por favor, seleccione otro período.");
             }
             
         }
