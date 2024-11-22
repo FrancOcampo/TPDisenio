@@ -86,7 +86,6 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
 
     }
 
-
     // Crear un renderizador personalizado para las celdas
     DefaultTableCellRenderer customRenderer = new DefaultTableCellRenderer() {
             
@@ -271,12 +270,12 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public int confirmarContinuacion() {
+    public int confirmarContinuacion(String mensaje) {
         String[] opciones = {"Aceptar", "Cancelar"};
         // Mostrar el diálogo con las opciones personalizadas
         int respuesta = JOptionPane.showOptionDialog(
             null,                                // Componente padre (null para centrar)
-            "Hay cambios sin guardar. ¿Desea continuar?", // Mensaje
+            mensaje, // Mensaje
             "ADVERTENCIA",                       // Título
             JOptionPane.DEFAULT_OPTION,          // Tipo de opción (sin botones por defecto)
             JOptionPane.INFORMATION_MESSAGE,     // Tipo de mensaje
@@ -286,6 +285,26 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         );
         
         return respuesta;
+    }
+    
+    public void crearPopUpExito() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("La reserva se registró con éxito.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "RESERVA REGISTRADA", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void setearCamposEnBlanco() {
+        campoCantidadAlumnos.setText("");
+        listaTiposAula.setSelectedItem("");
+        calendario.setDate(null);
+        listaHoraInicio.setSelectedItem("08:00");
+        listaHoraFin.setSelectedItem("08:30");
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Eliminar todas las filas de la tabla
     }
     
     @SuppressWarnings("unchecked")

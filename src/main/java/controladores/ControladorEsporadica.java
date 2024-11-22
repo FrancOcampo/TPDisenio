@@ -118,10 +118,21 @@ public class ControladorEsporadica implements ActionListener {
                 ire.setCampoFecha(redBorder, true);
             }
         }
+        else if(comando.equals("Registrar reserva")) {
+            if(ire.getModel().getRowCount() > 0) {
+                int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
+                if(confirmacion == JOptionPane.OK_OPTION) {
+                    //llamar al metodo registrarReserva() que debería tirar una excepción en caso de inconsistencia
+                    ire.crearPopUpExito();
+                    ire.setearCamposEnBlanco();
+                }
+            }
+            else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
+        }
         else if(comando.equals("Cancelar")) {
             
             if(hayCambios()) {
-                int confirmacion = ire.confirmarContinuacion();
+                int confirmacion = ire.confirmarContinuacion("Hay cambios sin guardar. ¿Desea continuar?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
                     ire.dispose();
@@ -139,7 +150,7 @@ public class ControladorEsporadica implements ActionListener {
             ias.dispose();
         }
     
- }
+    }
     
     private boolean validarCampos() {
         
@@ -250,8 +261,7 @@ public class ControladorEsporadica implements ActionListener {
         return valido;
     }       
     
-        public boolean hayCambios() {
-        
+    public boolean hayCambios() {
         
         if (!ire.getCampoCantidadAlumnos().getText().equals("")) {
             return true;
@@ -275,7 +285,7 @@ public class ControladorEsporadica implements ActionListener {
 
         if(ire.getModel().getRowCount() > 0) {
             return true;
-        };
+        }
 
         // Si ninguno de los valores cambió
         return false;

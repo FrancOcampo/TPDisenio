@@ -134,10 +134,21 @@ public class ControladorPeriodica implements ActionListener {
             }
             
         }
+        else if(comando.equals("Registrar reserva")) {
+            if(irp.getModel().getRowCount() > 0) {
+                int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
+                if(confirmacion == JOptionPane.OK_OPTION) {
+                    //llamar al metodo registrarReserva() que debería tirar una excepción en caso de inconsistencia
+                    irp.crearPopUpExito();
+                    irp.setearCamposEnBlanco();
+                }
+            }
+            else irp.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
+        }
         else if(comando.equals("Cancelar")) {
             
             if(hayCambios()) {
-                int confirmacion = irp.confirmarContinuacion();
+                int confirmacion = irp.confirmarContinuacion("Hay cambios sin guardar. ¿Desea continuar?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
                     irp.dispose();
@@ -256,7 +267,6 @@ public class ControladorPeriodica implements ActionListener {
     
     public boolean hayCambios() {
         
-        
         if (!irp.getCampoCantidadAlumnos().getText().equals("")) {
             return true;
         }
@@ -279,7 +289,7 @@ public class ControladorPeriodica implements ActionListener {
 
         if(irp.getModel().getRowCount() > 0) {
             return true;
-        };
+        }
 
         // Si ninguno de los valores cambió
         return false;
