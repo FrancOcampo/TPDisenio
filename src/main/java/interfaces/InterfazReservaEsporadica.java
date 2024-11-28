@@ -256,6 +256,7 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
       jLabelError1.setVisible(visibilidad);
       jLabelError2.setVisible(visibilidad);
       jLabelError3.setVisible(visibilidad);
+      jLabel2.setVisible(visibilidad);
     }
     
     public DefaultTableModel getModel() {
@@ -305,6 +306,7 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         calendario.setDate(null);
         listaHoraInicio.setSelectedItem("08:00");
         listaHoraFin.setSelectedItem("08:30");
+        jLabel2.setVisible(false);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Eliminar todas las filas de la tabla
     }
@@ -321,6 +323,10 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
 
     public JLabel getjLabel2() {
         return jLabel2;
+    }
+
+    public JTable getjTable() {
+        return jTable1;
     }
     
     @SuppressWarnings("unchecked")
@@ -540,9 +546,9 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
                                 .addComponent(jLabelError1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel6)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelError3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)

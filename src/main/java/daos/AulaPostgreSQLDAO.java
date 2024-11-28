@@ -3,7 +3,6 @@ package daos;
 
 import dtos.DatosBusquedaDTO;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class AulaPostgreSQLDAO implements AulaDAO {
             String queryStr = "SELECT a FROM Aula a " +
                               "WHERE a.id_aula NOT IN :listaIdAulasSolapadas " + 
                               "AND a.habilitada = true " +
-                              "AND (TYPE(a) = :tipoAula) " +                     
+                              "AND TYPE(a) = :tipoAula " +                     
                               "AND a.capacidad >= :alumnos";                      
 
             TypedQuery<Aula> query = em.createQuery(queryStr, Aula.class);
@@ -51,7 +50,7 @@ public class AulaPostgreSQLDAO implements AulaDAO {
         return otrasAulas;
     }
     
-    public Aula obtenerAula(String nombre, String tipo) {
+    public Aula obtenerAula(String nombre, Class tipo) {
         
         EntityManager em = Conexion.getEntityManager();
         Aula aula = null;

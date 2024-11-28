@@ -25,17 +25,19 @@ import java.awt.event.WindowEvent;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class ControladorEsporadica implements ActionListener {
@@ -127,14 +129,33 @@ public class ControladorEsporadica implements ActionListener {
                 ire.setCampoFecha(redBorder, true);
             }
         }
-        else if(comando.equals("Registrar reserva")) {
+        else if (comando.equals("Confirmar")) {
+            
+            int row = iad.getjTable1().getSelectedRow();
+            SimpleDateFormat formatoBD = new SimpleDateFormat("dd-MM-yyyy");
+            
+            try {
+                if(row == -1) throw new DatosInvalidosException();
+                else {
+                    String aula = (String) iad.getModel().getValueAt(row, 0);
+                    Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
+                                           formatoBD.format(busquedaAulaDTO.getFecha()), busquedaAulaDTO.getHora_inicio(), busquedaAulaDTO.getHora_fin() };
+                    ire.getModel().addRow(nuevaFila);
+                    iad.dispose();
+                }
+                
+            } catch(DatosInvalidosException e1) {
+                iad.crearPopUpFila();
+            }
+        }
+        else if(comando.equals("Finalizar reserva")) {
             
             if(ire.getModel().getRowCount() > 0) {
                 int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     
-                    try {
-                    
+                try {
+                    if(subreservasRepetidas(ire.getjTable())) throw new DatosInvalidosException();
                     ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
                     TableModel modelo = ire.getModel();
                     
@@ -145,15 +166,29 @@ public class ControladorEsporadica implements ActionListener {
                         reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
                         reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
                         reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
-                        reservaParcialDTO.setFecha((Date) modelo.getValueAt(i, 3)); 
-                        reservaParcialDTO.setHora_inicio(Time.valueOf((String) modelo.getValueAt(i, 4))); 
-                        reservaParcialDTO.setHora_fin(Time.valueOf((String) modelo.getValueAt(i, 5))); 
+                        
+                        Object valor = modelo.getValueAt(i, 3); 
+                        String fechaString = (String) valor;  
+                        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");  
+                        Date fecha = formato.parse(fechaString);  
+                        reservaParcialDTO.setFecha(fecha);  
+                            
+                        Object valorHoraInicio = modelo.getValueAt(i, 4);
+                        Object valorHoraFin = modelo.getValueAt(i, 5);
+
+                        // Convertimos el Time a String en formato HH:mm:ss
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+                        String horaInicioString = sdf.format((Time) valorHoraInicio);
+                        String horaFinString = sdf.format((Time) valorHoraFin);
+
+                        reservaParcialDTO.setHora_inicio(Time.valueOf(horaInicioString));
+                        reservaParcialDTO.setHora_fin(Time.valueOf(horaFinString));
                         
                         long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
                         reservaParcialDTO.setDuracion((int)duracion);
                         
                         reservasParcialesDTO.add(reservaParcialDTO);
-                    }
                     
                     reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
                     GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
@@ -161,16 +196,20 @@ public class ControladorEsporadica implements ActionListener {
                     ire.crearPopUpExito();
                     ire.setearCamposEnBlanco();
                     
-                    } catch(ReservaInconsistenteException e1) {
-                        ire.crearPopUpAdvertencia(e1.getMessage());
+                    }
+                    } catch(DatosInvalidosException e1) {
+                        ire.crearPopUpAdvertencia("La reserva contiene subreservas repetidas.");
+                        
+                    } catch(ReservaInconsistenteException e2) {
+                        ire.crearPopUpAdvertencia(e2.getMessage());
                         
                     } catch(OperacionException e2) {
                         ire.crearPopUpFracaso();
-                    }
+                            
+                    } catch (ParseException e3) {}
                 }
-            }
-            else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
-        }
+            } else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
+    }
         else if(comando.equals("Cancelar")) {
             
             if(hayCambios()) {
@@ -206,6 +245,32 @@ public class ControladorEsporadica implements ActionListener {
            !verificarDiaFecha(ire.getCalendario().getDate())) valido = false;
         
         return valido;
+    }
+    
+    private boolean subreservasRepetidas(JTable tabla) throws DatosInvalidosException {
+
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            Object[] fila1 = new Object[modelo.getColumnCount()];
+            for (int j = 0; j < modelo.getColumnCount(); j++) {
+                fila1[j] = modelo.getValueAt(i, j);
+            }
+
+            for (int k = i + 1; k < modelo.getRowCount(); k++) {
+                Object[] fila2 = new Object[modelo.getColumnCount()];
+                for (int j = 0; j < modelo.getColumnCount(); j++) {
+                    fila2[j] = modelo.getValueAt(k, j);
+                }
+
+                // Verificar si las filas son iguales
+                if (Arrays.equals(fila1, fila2)) {
+                    return true;  
+                }
+            }
+        }
+
+        return false;  
     }
     
     private void marcarCampos() {

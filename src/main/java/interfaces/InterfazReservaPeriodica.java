@@ -325,6 +325,10 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
+
+    public JTable getjTable() {
+        return jTable1;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

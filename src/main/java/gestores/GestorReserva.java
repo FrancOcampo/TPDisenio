@@ -352,8 +352,22 @@ public class GestorReserva {
             reservaParcial.setHora_fin(rpDTO.getHora_fin());
             reservaParcial.setDuracion(rpDTO.getDuracion()); 
             reservaParcial.setFecha(rpDTO.getFecha());
-                
-            Aula aula = aulaPostgreSQLDAO.obtenerAula(rpDTO.getNombre_aula(), rpDTO.getTipo_aula());
+            
+            Class<?> tipoAula = null;
+
+            switch (rpDTO.getTipo_aula()) {
+                case "Multimedios":
+                    tipoAula = Multimedios.class;
+                    break;
+                case "Informática":
+                    tipoAula = Informatica.class;
+                    break;
+                case "Sin recursos adicionales":
+                    tipoAula = SinRecursosAdicionales.class;
+                    break;
+            }
+            
+            Aula aula = aulaPostgreSQLDAO.obtenerAula(rpDTO.getNombre_aula(), tipoAula);
                 
             reservaParcial.setAula(aula);
                 
