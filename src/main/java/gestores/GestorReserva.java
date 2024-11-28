@@ -324,8 +324,8 @@ public class GestorReserva {
     public void registrarReserva(ReservaDTO reservaDTO) throws ReservaInconsistenteException, OperacionException {
         
         AulaPostgreSQLDAO aulaPostgreSQLDAO = AulaPostgreSQLDAO.obtenerInstancia();
-        ArrayList<ReservaParcial> reservasParciales = new ArrayList<>();
-        ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
+        List<ReservaParcial> reservasParciales = new ArrayList<>();
+        List<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
         
         if(reservaDTO.getTipo_reserva().equals("Periódica")) {
             
@@ -383,9 +383,7 @@ public class GestorReserva {
         reserva.setTipo_reserva(reservaDTO.getTipo_reserva());
         reserva.setFecha_reserva(reservaDTO.getFecha_reserva());
         reserva.setReservasParciales(reservasParciales);
-        BedelDTO bedelDTO = new BedelDTO();
-        bedelDTO.setNombreUsuario(reservaDTO.getId_bedel());
-        Bedel bedel = BedelPostgreSQLDAO.obtenerInstancia().obtenerBedel(bedelDTO);
+        Bedel bedel = BedelPostgreSQLDAO.obtenerInstancia().obtenerBedel(reservaDTO.getId_bedel());
         reserva.setBedel(bedel);
         
         PeriodoDTO periodoDTO = new PeriodoDTO();

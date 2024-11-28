@@ -10,8 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity // Marca la clase como una entidad persistente
 @Table(name = "reserva") // Nombre de la tabla en la base de datos
@@ -28,14 +28,14 @@ public class Reserva {
     private String tipo_reserva;
     
     @OneToMany(mappedBy = "id_reserva", cascade = CascadeType.ALL)
-    private ArrayList<ReservaParcial> reservasParciales;
+    private List<ReservaParcial> reservasParciales;
     
     @ManyToOne
     @JoinColumn(name = "id_periodo") // Columna que referencia al periodo
     private Periodo periodo;
     
     @ManyToOne
-    @JoinColumn(name = "nombreusuario") // Columna que referencia al bedel
+    @JoinColumn(name = "id_bedel") // Columna que referencia al bedel
     private Bedel bedel;
 
     public int getId_reserva() {
@@ -86,11 +86,11 @@ public class Reserva {
         this.tipo_reserva = tipo_reserva;
     }
 
-    public ArrayList<ReservaParcial> getReservasParciales() {
+    public List<ReservaParcial> getReservasParciales() {
         return reservasParciales;
     }
 
-    public void setReservasParciales(ArrayList<ReservaParcial> reservasParciales) {
+    public void setReservasParciales(List<ReservaParcial> reservasParciales) {
         this.reservasParciales = reservasParciales;
     }
 

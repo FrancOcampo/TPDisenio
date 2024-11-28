@@ -318,7 +318,7 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
     
     public void crearPopUpFracaso() {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Error la reserva. Por favor, inténtelo de nuevo.");
+        JLabel label = new JLabel("Error al registrar la reserva. Por favor, inténtelo de nuevo.");
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);

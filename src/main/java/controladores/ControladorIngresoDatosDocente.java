@@ -74,7 +74,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 reservaDTO.setNombre_catedra(iidd.getCatedra());
                 reservaDTO.setEmail_docente(iidd.getCampoEmail().getText());
                 reservaDTO.setFecha_reserva(new Date());
-                reservaDTO.setId_bedel("usuario"); // ESTO HAY QUE VER SI HACEMOS AUTENTICACIÓN O QUÉ
+                reservaDTO.setId_bedel(1); // ESTO HAY QUE VER SI HACEMOS AUTENTICACIÓN 
                 
                 if(iidd.getBotonPeriodica().isSelected()) { // RESERVA PERIÓDICA
                     

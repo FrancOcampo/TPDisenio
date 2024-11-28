@@ -128,6 +128,7 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
            if (transaccion.isActive()) {
                transaccion.rollback();
            }
+           e.printStackTrace();
            throw new OperacionException();
            
        } finally {

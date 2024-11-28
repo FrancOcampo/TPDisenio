@@ -125,13 +125,14 @@ public class ControladorPeriodica implements ActionListener {
         else if (comando.equals("Confirmar")) {
             
             int row = iad.getjTable1().getSelectedRow();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             
             try {
                 if(row == -1) throw new DatosInvalidosException();
                 else {
                     String aula = (String) iad.getModel().getValueAt(row, 0);
                     Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
-                                           busquedaAulaDTO.getDia(), busquedaAulaDTO.getHora_inicio(), busquedaAulaDTO.getHora_fin() };
+                                           busquedaAulaDTO.getDia(), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
                     irp.getModel().addRow(nuevaFila);
                     iad.dispose();
                 }
@@ -161,8 +162,23 @@ public class ControladorPeriodica implements ActionListener {
                         reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
                         reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
                         reservaParcialDTO.setDia((String) modelo.getValueAt(i, 3)); 
-                        reservaParcialDTO.setHora_inicio(Time.valueOf((String) modelo.getValueAt(i, 4))); 
-                        reservaParcialDTO.setHora_fin(Time.valueOf((String) modelo.getValueAt(i, 5))); 
+                        
+                        Object valorHoraInicio = modelo.getValueAt(i, 4);
+                        Object valorHoraFin = modelo.getValueAt(i, 5);
+                        
+                        String horaInicioString = (String) valorHoraInicio;  // "HH:mm"
+                        String horaFinString = (String) valorHoraFin;        // "HH:mm"
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        
+                        Date horaInicioDate = sdf.parse(horaInicioString);
+                        Date horaFinDate = sdf.parse(horaFinString);
+
+                        Time horaInicio = new Time(horaInicioDate.getTime());
+                        Time horaFin = new Time(horaFinDate.getTime());
+
+                        reservaParcialDTO.setHora_inicio(horaInicio);
+                        reservaParcialDTO.setHora_fin(horaFin);
                         
                         long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
                         reservaParcialDTO.setDuracion((int)duracion);
@@ -184,9 +200,10 @@ public class ControladorPeriodica implements ActionListener {
                         
                     } catch(OperacionException e2) {
                         irp.crearPopUpFracaso();
-                    }
+                        
+                    } catch(Exception e3) {}
             }
-            else irp.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
+        } else irp.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
         }
         else if(comando.equals("Cancelar")) {
             
@@ -209,7 +226,6 @@ public class ControladorPeriodica implements ActionListener {
             ias.dispose();
         }
     }
- }
     
     private boolean validarCampos() {
         

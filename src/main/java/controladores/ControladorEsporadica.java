@@ -133,13 +133,14 @@ public class ControladorEsporadica implements ActionListener {
             
             int row = iad.getjTable1().getSelectedRow();
             SimpleDateFormat formatoBD = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             
             try {
                 if(row == -1) throw new DatosInvalidosException();
                 else {
                     String aula = (String) iad.getModel().getValueAt(row, 0);
                     Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
-                                           formatoBD.format(busquedaAulaDTO.getFecha()), busquedaAulaDTO.getHora_inicio(), busquedaAulaDTO.getHora_fin() };
+                                           formatoBD.format(busquedaAulaDTO.getFecha()), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
                     ire.getModel().addRow(nuevaFila);
                     iad.dispose();
                 }
@@ -167,23 +168,22 @@ public class ControladorEsporadica implements ActionListener {
                         reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
                         reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
                         
-                        Object valor = modelo.getValueAt(i, 3); 
-                        String fechaString = (String) valor;  
-                        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");  
-                        Date fecha = formato.parse(fechaString);  
-                        reservaParcialDTO.setFecha(fecha);  
-                            
                         Object valorHoraInicio = modelo.getValueAt(i, 4);
                         Object valorHoraFin = modelo.getValueAt(i, 5);
+                        
+                        String horaInicioString = (String) valorHoraInicio;  // "HH:mm"
+                        String horaFinString = (String) valorHoraFin;        // "HH:mm"
 
-                        // Convertimos el Time a String en formato HH:mm:ss
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        
+                        Date horaInicioDate = sdf.parse(horaInicioString);
+                        Date horaFinDate = sdf.parse(horaFinString);
 
-                        String horaInicioString = sdf.format((Time) valorHoraInicio);
-                        String horaFinString = sdf.format((Time) valorHoraFin);
+                        Time horaInicio = new Time(horaInicioDate.getTime());
+                        Time horaFin = new Time(horaFinDate.getTime());
 
-                        reservaParcialDTO.setHora_inicio(Time.valueOf(horaInicioString));
-                        reservaParcialDTO.setHora_fin(Time.valueOf(horaFinString));
+                        reservaParcialDTO.setHora_inicio(horaInicio);
+                        reservaParcialDTO.setHora_fin(horaFin);
                         
                         long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
                         reservaParcialDTO.setDuracion((int)duracion);
@@ -205,11 +205,11 @@ public class ControladorEsporadica implements ActionListener {
                         
                     } catch(OperacionException e2) {
                         ire.crearPopUpFracaso();
-                            
-                    } catch (ParseException e3) {}
-                }
-            } else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
-    }
+                        
+                    } catch(Exception e3) {}
+            } 
+        } else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
+        }
         else if(comando.equals("Cancelar")) {
             
             if(hayCambios()) {

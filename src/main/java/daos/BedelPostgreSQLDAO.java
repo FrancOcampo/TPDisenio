@@ -163,6 +163,21 @@ public class BedelPostgreSQLDAO implements BedelDAO {
 
         return bedeles; 
     }
+    
+    public Bedel obtenerBedel(int id_bedel) {
+    
+        EntityManager em = Conexion.getEntityManager();
+        EntityTransaction transaccion = em.getTransaction();
+
+        TypedQuery<Bedel> query = em.createQuery("SELECT b FROM Bedel b WHERE b.id_usuario = :idBedel", Bedel.class);
+        query.setParameter("idBedel", id_bedel);
+
+        try {
+            return query.getSingleResult(); 
+        } catch (NoResultException e) {
+            return null;  
+        }
+    }
 
     
 }

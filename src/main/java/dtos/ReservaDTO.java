@@ -14,7 +14,7 @@ public class ReservaDTO {
     private String tipo_reserva;
     private ArrayList<ReservaParcialDTO> reservasParcialesDTO;
     private String periodo;
-    private String id_bedel;
+    private int id_bedel;
     
     public int getId_reserva() {
         return id_reserva;
@@ -72,11 +72,11 @@ public class ReservaDTO {
         this.reservasParcialesDTO = reservasParcialesDTO;
     }
 
-    public String getId_bedel() {
+    public int getId_bedel() {
         return id_bedel;
     }
 
-    public void setId_bedel(String id_bedel) {
+    public void setId_bedel(int id_bedel) {
         this.id_bedel = id_bedel;
     }
 
