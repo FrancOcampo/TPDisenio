@@ -65,7 +65,10 @@
                               </Group>
                               <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="calendario" min="-2" pref="178" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="calendario" min="-2" pref="178" max="-2" attributes="0"/>
+                                      <Component id="jLabel2" min="-2" pref="162" max="-2" attributes="0"/>
+                                  </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabelError3" min="-2" pref="15" max="-2" attributes="0"/>
                               </Group>
@@ -124,6 +127,8 @@
                               <Component id="jLabelError3" min="-2" pref="22" max="-2" attributes="0"/>
                               <Component id="calendario" min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" pref="53" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -484,6 +489,14 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="calendario">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="jLabel2"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

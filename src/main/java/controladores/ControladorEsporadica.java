@@ -6,9 +6,12 @@ import dtos.AulaDisponibleDTO;
 import dtos.AulaSolapadaDTO;
 import dtos.BusquedaAulaDTO;
 import dtos.ReservaDTO;
+import dtos.ReservaParcialDTO;
 import excepciones.DatosInvalidosException;
 import excepciones.DuracionException;
 import excepciones.FechaException;
+import excepciones.OperacionException;
+import excepciones.ReservaInconsistenteException;
 import gestores.GestorReserva;
 import interfaces.InterfazAulasDisponibles;
 import interfaces.InterfazAulasSolapadas;
@@ -22,14 +25,18 @@ import java.awt.event.WindowEvent;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.table.TableModel;
 
 public class ControladorEsporadica implements ActionListener {
     
@@ -113,18 +120,53 @@ public class ControladorEsporadica implements ActionListener {
                 marcarCampos();
                 
             } catch(FechaException e2) {
-                ire.crearPopUpAdvertencia("La fecha es anterior a la actual y/o no corresponde a las fechas de cursado.");
+                ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
+                ire.getjLabel2().setText("<html>La fecha es anterior a la actual y/o<br>no corresponde a las fechas de cursado.<html>");
+                ire.getjLabel2().setVisible(true);
                 Border redBorder = new LineBorder(Color.RED, 2);
                 ire.setCampoFecha(redBorder, true);
             }
         }
         else if(comando.equals("Registrar reserva")) {
+            
             if(ire.getModel().getRowCount() > 0) {
                 int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
-                    //llamar al metodo registrarReserva() que debería tirar una excepción en caso de inconsistencia
+                    
+                    try {
+                    
+                    ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
+                    TableModel modelo = ire.getModel();
+                    
+                    for(int i = 0; i < modelo.getRowCount(); i++) {
+                        
+                        ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
+
+                        reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
+                        reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
+                        reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
+                        reservaParcialDTO.setFecha((Date) modelo.getValueAt(i, 3)); 
+                        reservaParcialDTO.setHora_inicio(Time.valueOf((String) modelo.getValueAt(i, 4))); 
+                        reservaParcialDTO.setHora_fin(Time.valueOf((String) modelo.getValueAt(i, 5))); 
+                        
+                        long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
+                        reservaParcialDTO.setDuracion((int)duracion);
+                        
+                        reservasParcialesDTO.add(reservaParcialDTO);
+                    }
+                    
+                    reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
+                    GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
+                    
                     ire.crearPopUpExito();
                     ire.setearCamposEnBlanco();
+                    
+                    } catch(ReservaInconsistenteException e1) {
+                        ire.crearPopUpAdvertencia(e1.getMessage());
+                        
+                    } catch(OperacionException e2) {
+                        ire.crearPopUpFracaso();
+                    }
                 }
             }
             else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
@@ -160,7 +202,8 @@ public class ControladorEsporadica implements ActionListener {
            !ire.getCampoCantidadAlumnos().getText().matches("\\d+") ||
            Integer.parseInt(ire.getCampoCantidadAlumnos().getText()) <= 0 ||
            ire.getTipoAula().equals("") ||
-           ire.getFecha().equals("")) valido = false;
+           ire.getFecha().equals("") ||
+           !verificarDiaFecha(ire.getCalendario().getDate())) valido = false;
         
         return valido;
     }
@@ -178,6 +221,11 @@ public class ControladorEsporadica implements ActionListener {
         }
         if(ire.getFecha().equals("")) {
             ire.setCampoFecha(redBorder, visibilidad);
+        }
+        if(!verificarDiaFecha(ire.getCalendario().getDate())) {
+            ire.setCampoFecha(redBorder, visibilidad);
+            ire.getjLabel2().setText("<html>La fecha no puede corresponder<br>al día domingo.<html>");
+            ire.getjLabel2().setVisible(true);
         }
     }
 
@@ -209,6 +257,17 @@ public class ControladorEsporadica implements ActionListener {
         }
     }
     
+    private boolean verificarDiaFecha(Date fecha) {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaString = sdf.format(fecha);
+
+        // Convertir el String a LocalDate
+        LocalDate fechaLocal = LocalDate.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        
+        return !fechaLocal.getDayOfWeek().equals(java.time.DayOfWeek.SUNDAY);
+    }
+
     private boolean verificarHora(String horaInicio, String horaFin) {
         
         boolean valido = false;
@@ -232,11 +291,7 @@ public class ControladorEsporadica implements ActionListener {
             // Comparar horaFin con horaInicio
             if (hora_fin.compareTo(hora_inicio) > 0) {
                 
-                LocalTime inicio = hora_inicio.toLocalTime();
-                LocalTime fin = hora_fin.toLocalTime();
-
-                Duration duracion = Duration.between(inicio, fin);
-                long minutos = duracion.toMinutes();  // Convertir la duración a minutos
+                long minutos = calcularDuracion(hora_inicio, hora_fin);
 
                 if (minutos % 30 == 0) valido = true;
                 else throw new DuracionException();
@@ -259,7 +314,17 @@ public class ControladorEsporadica implements ActionListener {
         } 
         
         return valido;
-    }       
+    }      
+    
+    private long calcularDuracion(Time hora_inicio, Time hora_fin) {
+        
+        LocalTime inicio = hora_inicio.toLocalTime(); 
+        LocalTime fin = hora_fin.toLocalTime();
+        
+        // Calcular la duración entre las horas
+        Duration duracion = Duration.between(inicio, fin);
+        return duracion.toMinutes();  
+    }
     
     public boolean hayCambios() {
         

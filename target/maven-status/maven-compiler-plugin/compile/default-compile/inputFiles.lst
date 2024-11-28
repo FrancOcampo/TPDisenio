@@ -14,7 +14,6 @@ C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\mode
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\controladores\ControladorIngresoDatosDocente.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos\PeriodoDTO.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\interfaces\InterfazRegistrarBedel.java
-C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\daos\GestorBedelDAO.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos\ReservaDTO.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\controladores\ControladorPeriodica.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\model\Informatica.java
@@ -52,6 +51,7 @@ C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\inte
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\model\Aula.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\model\ReservaParcial.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos\AulaCompuestaDTO.java
+C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\excepciones\ReservaInconsistenteException.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\excepciones\PoliticasContraseniaException.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\model\Bedel.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\daos\BedelDAO.java

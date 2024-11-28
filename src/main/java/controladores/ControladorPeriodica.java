@@ -7,9 +7,12 @@ import dtos.AulaDisponibleDTO;
 import dtos.AulaSolapadaDTO;
 import dtos.BusquedaAulaDTO;
 import dtos.ReservaDTO;
+import dtos.ReservaParcialDTO;
 import excepciones.DatosInvalidosException;
 import excepciones.DuracionException;
 import excepciones.FechaException;
+import excepciones.OperacionException;
+import excepciones.ReservaInconsistenteException;
 import gestores.GestorReserva;
 import interfaces.InterfazAulasDisponibles;
 import interfaces.InterfazAulasSolapadas;
@@ -25,11 +28,13 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.table.TableModel;
 
 public class ControladorPeriodica implements ActionListener {
     
@@ -138,10 +143,40 @@ public class ControladorPeriodica implements ActionListener {
             if(irp.getModel().getRowCount() > 0) {
                 int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
-                    //llamar al metodo registrarReserva() que debería tirar una excepción en caso de inconsistencia
+                    try {
+                    
+                    ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
+                    TableModel modelo = irp.getModel();
+                    
+                    for(int i = 0; i < modelo.getRowCount(); i++) {
+                        
+                        ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
+
+                        reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
+                        reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
+                        reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
+                        reservaParcialDTO.setDia((String) modelo.getValueAt(i, 3)); 
+                        reservaParcialDTO.setHora_inicio(Time.valueOf((String) modelo.getValueAt(i, 4))); 
+                        reservaParcialDTO.setHora_fin(Time.valueOf((String) modelo.getValueAt(i, 5))); 
+                        
+                        long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
+                        reservaParcialDTO.setDuracion((int)duracion);
+                        
+                        reservasParcialesDTO.add(reservaParcialDTO);
+                    }
+                    
+                    reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
+                    GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
+                    
                     irp.crearPopUpExito();
                     irp.setearCamposEnBlanco();
-                }
+                    
+                    } catch(ReservaInconsistenteException e1) {
+                        irp.crearPopUpAdvertencia(e1.getMessage());
+                        
+                    } catch(OperacionException e2) {
+                        irp.crearPopUpFracaso();
+                    }
             }
             else irp.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
         }
@@ -165,8 +200,8 @@ public class ControladorPeriodica implements ActionListener {
         else if(comando.equals("Continuar")) {
             ias.dispose();
         }
-    
     }
+ }
     
     private boolean validarCampos() {
         
@@ -236,11 +271,7 @@ public class ControladorPeriodica implements ActionListener {
             // Comparar horaFin con horaInicio
             if (hora_fin.compareTo(hora_inicio) > 0) {
                 
-                LocalTime inicio = hora_inicio.toLocalTime();
-                LocalTime fin = hora_fin.toLocalTime();
-
-                Duration duracion = Duration.between(inicio, fin);
-                long minutos = duracion.toMinutes();  // Convertir la duración a minutos
+                long minutos = calcularDuracion(hora_inicio, hora_fin);
 
                 if (minutos % 30 == 0) valido = true;
                 else throw new DuracionException();
@@ -263,6 +294,16 @@ public class ControladorPeriodica implements ActionListener {
         } 
         
         return valido;
+    }
+    
+    private long calcularDuracion(Time hora_inicio, Time hora_fin) {
+        
+        LocalTime inicio = hora_inicio.toLocalTime(); 
+        LocalTime fin = hora_fin.toLocalTime();
+        
+        // Calcular la duración entre las horas
+        Duration duracion = Duration.between(inicio, fin);
+        return duracion.toMinutes();  
     }
     
     public boolean hayCambios() {

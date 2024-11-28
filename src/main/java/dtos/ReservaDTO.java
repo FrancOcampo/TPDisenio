@@ -7,8 +7,6 @@ import java.util.Date;
 public class ReservaDTO {
     
     private int id_reserva;
-    private int id_docente;
-    private int id_catedra;
     private String nombre_docente;
     private String email_docente;
     private String nombre_catedra;
@@ -16,7 +14,7 @@ public class ReservaDTO {
     private String tipo_reserva;
     private ArrayList<ReservaParcialDTO> reservasParcialesDTO;
     private String periodo;
-    private int id_bedel;
+    private String id_bedel;
     
     public int getId_reserva() {
         return id_reserva;
@@ -24,22 +22,6 @@ public class ReservaDTO {
 
     public void setId_reserva(int id_reserva) {
         this.id_reserva = id_reserva;
-    }
-
-    public int getId_docente() {
-        return id_docente;
-    }
-
-    public void setId_docente(int id_docente) {
-        this.id_docente = id_docente;
-    }
-
-    public int getId_catedra() {
-        return id_catedra;
-    }
-
-    public void setId_catedra(int id_catedra) {
-        this.id_catedra = id_catedra;
     }
 
     public String getNombre_docente() {
@@ -90,11 +72,11 @@ public class ReservaDTO {
         this.reservasParcialesDTO = reservasParcialesDTO;
     }
 
-    public int getId_bedel() {
+    public String getId_bedel() {
         return id_bedel;
     }
 
-    public void setId_bedel(int id_bedel) {
+    public void setId_bedel(String id_bedel) {
         this.id_bedel = id_bedel;
     }
 

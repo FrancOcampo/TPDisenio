@@ -316,6 +316,16 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         model.setRowCount(0); // Eliminar todas las filas de la tabla
     }
     
+    public void crearPopUpFracaso() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Error la reserva. Por favor, inténtelo de nuevo.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

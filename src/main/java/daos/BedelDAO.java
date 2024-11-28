@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface BedelDAO {
+    
     public void registrarBedel(Bedel bedel) throws OperacionException;
     public void modificarBedel(Bedel bedel) throws OperacionException;
     public List<Bedel> buscarBedeles(BedelGeneralDTO bedelDTO);

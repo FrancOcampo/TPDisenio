@@ -1,7 +1,6 @@
 sistemasexternos\SistemaCatedras.class
 dtos\AulaSolapadaDTO.class
 interfaces\InterfazAulasSolapadas.class
-daos\GestorBedelDAO.class
 interfaces\InterfazIngresoDatosDocente$5.class
 gestores\GestorServiciosExternos$2.class
 interfaces\InterfazRegistrarBedel$1.class
@@ -100,6 +99,7 @@ interfaces\InterfazReservaEsporadica.class
 dtos\PeriodoDTO.class
 controladores\ControladorRegistrarBedel.class
 interfaces\InterfazMainAdministrador.class
+excepciones\ReservaInconsistenteException.class
 model\Aula.class
 interfaces\InterfazAulasSolapadas$3.class
 interfaces\InterfazRegistrarBedel$5.class

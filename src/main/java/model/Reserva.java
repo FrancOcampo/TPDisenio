@@ -21,8 +21,6 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_reserva;
     
-    private int id_docente;
-    private int id_catedra;
     private String nombre_docente;
     private String email_docente;
     private String nombre_catedra;
@@ -37,7 +35,7 @@ public class Reserva {
     private Periodo periodo;
     
     @ManyToOne
-    @JoinColumn(name = "id_usuario") // Columna que referencia al bedel
+    @JoinColumn(name = "nombreusuario") // Columna que referencia al bedel
     private Bedel bedel;
 
     public int getId_reserva() {
@@ -46,22 +44,6 @@ public class Reserva {
 
     public void setId_reserva(int id_reserva) {
         this.id_reserva = id_reserva;
-    }
-
-    public int getId_docente() {
-        return id_docente;
-    }
-
-    public void setId_docente(int id_docente) {
-        this.id_docente = id_docente;
-    }
-
-    public int getId_catedra() {
-        return id_catedra;
-    }
-
-    public void setId_catedra(int id_catedra) {
-        this.id_catedra = id_catedra;
     }
 
     public String getNombre_docente() {

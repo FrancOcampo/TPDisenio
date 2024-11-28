@@ -2,16 +2,21 @@
 package gestores;
 
 import daos.AulaPostgreSQLDAO;
+import daos.BedelPostgreSQLDAO;
 import daos.PeriodoPostgreSQLDAO;
 import daos.ReservaPostgreSQLDAO;
 import dtos.AulaCompuestaDTO;
 import dtos.AulaDisponibleDTO;
 import dtos.AulaSolapadaDTO;
+import dtos.BedelDTO;
 import dtos.BusquedaAulaDTO;
 import dtos.DatosBusquedaDTO;
 import dtos.PeriodoDTO;
 import dtos.ReservaDTO;
+import dtos.ReservaParcialDTO;
 import excepciones.FechaException;
+import excepciones.OperacionException;
+import excepciones.ReservaInconsistenteException;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -27,6 +32,7 @@ import model.Periodo;
 import model.ReservaParcial;
 import java.util.Map;
 import java.util.HashMap;
+import model.Bedel;
 import model.Reserva;
 import model.SinRecursosAdicionales;
 
@@ -157,9 +163,6 @@ public class GestorReserva {
         if(fechaActual.isAfter(periodo.getFecha_fin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
             throw new FechaException();
         }
-
-        
-        
     }
    
     private List<Date> calcularFechas(String dia, Periodo periodo) {
@@ -243,31 +246,31 @@ public class GestorReserva {
         StringBuilder caracteristicas = new StringBuilder();
 
         if (aula.canion()) {
-            caracteristicas.append("Con cañón, ");
+            caracteristicas.append("Con cañón. ");
         }
         if (aula.getTipoPizarron() != null && !aula.getTipoPizarron().isEmpty()) {
-            caracteristicas.append("Tipo de pizarrón: ").append(aula.getTipoPizarron()).append(", ");
+            caracteristicas.append("Tipo de pizarrón: ").append(aula.getTipoPizarron()).append(". ");
         }
         if (aula.ventiladores()) {
-            caracteristicas.append("Con ventiladores, ");
+            caracteristicas.append("Con ventiladores. ");
         }
         if (aula.aireAcondicionado()) {
-            caracteristicas.append("Con aire acondicionado, ");
+            caracteristicas.append("Con aire acondicionado. ");
         }
 
         if (aula instanceof Informatica) {
             Informatica aulaInformatica = (Informatica) aula;
-            caracteristicas.append("Cantidad de PCs: ").append(aulaInformatica.getCantidadPC()).append(", ");
+            caracteristicas.append("Cantidad de PCs: ").append(aulaInformatica.getCantidadPC()).append(". ");
 
         }
 
         if (aula instanceof Multimedios) {
             Multimedios aulaMultimedios = (Multimedios) aula;
             if (aulaMultimedios.televisor()) {
-                caracteristicas.append("Con televisor, ");
+                caracteristicas.append("Con televisor. ");
             }
             if (aulaMultimedios.computadora()) {
-                caracteristicas.append("Con computadora, ");
+                caracteristicas.append("Con computadora. ");
             }
         }
 
@@ -317,6 +320,162 @@ public class GestorReserva {
 
         return reservasMenosSolapadas;
     }
+    
+    public void registrarReserva(ReservaDTO reservaDTO) throws ReservaInconsistenteException, OperacionException {
+        
+        AulaPostgreSQLDAO aulaPostgreSQLDAO = AulaPostgreSQLDAO.obtenerInstancia();
+        ArrayList<ReservaParcial> reservasParciales = new ArrayList<>();
+        ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
+        
+        if(reservaDTO.getTipo_reserva().equals("Periódica")) {
+            
+            PeriodoDTO periodoDTO = new PeriodoDTO();
+            periodoDTO.setTipo_periodo(reservaDTO.getPeriodo());
+            LocalDate fechaActual = LocalDate.now();
+            int anio = fechaActual.getYear();
+            periodoDTO.setAnio_lectivo(anio);
 
+            Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
 
-}
+            reservasParcialesDTO = calcularRP(reservaDTO.getReservasParcialesDTO(), periodo);
+            
+        }
+        else if(reservaDTO.getTipo_reserva().equals("Esporádica")) {
+            reservasParcialesDTO = reservaDTO.getReservasParcialesDTO();
+        }
+            
+        for(ReservaParcialDTO rpDTO : reservasParcialesDTO) {
+                
+            ReservaParcial reservaParcial = new ReservaParcial();
+                
+            reservaParcial.setHora_inicio(rpDTO.getHora_inicio());
+            reservaParcial.setHora_fin(rpDTO.getHora_fin());
+            reservaParcial.setDuracion(rpDTO.getDuracion()); 
+            reservaParcial.setFecha(rpDTO.getFecha());
+                
+            Aula aula = aulaPostgreSQLDAO.obtenerAula(rpDTO.getNombre_aula(), rpDTO.getTipo_aula());
+                
+            reservaParcial.setAula(aula);
+                
+            reservasParciales.add(reservaParcial);
+        }            
+            
+        verificarDisponibilidad(reservasParciales);
+        
+        Reserva reserva = new Reserva();
+        reserva.setNombre_docente(reservaDTO.getNombre_docente());
+        reserva.setNombre_catedra(reservaDTO.getNombre_catedra());
+        reserva.setEmail_docente(reservaDTO.getEmail_docente());
+        reserva.setTipo_reserva(reservaDTO.getTipo_reserva());
+        reserva.setFecha_reserva(reservaDTO.getFecha_reserva());
+        reserva.setReservasParciales(reservasParciales);
+        BedelDTO bedelDTO = new BedelDTO();
+        bedelDTO.setNombreUsuario(reservaDTO.getId_bedel());
+        Bedel bedel = BedelPostgreSQLDAO.obtenerInstancia().obtenerBedel(bedelDTO);
+        reserva.setBedel(bedel);
+        
+        PeriodoDTO periodoDTO = new PeriodoDTO();
+        periodoDTO.setTipo_periodo(reservaDTO.getPeriodo());
+        LocalDate fechaActual = LocalDate.now();
+        int anio = fechaActual.getYear();
+        periodoDTO.setAnio_lectivo(anio);
+
+        Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
+        
+        reserva.setPeriodo(periodo);
+        
+        ReservaPostgreSQLDAO.obtenerInstancia().registrarReserva(reserva);
+
+    }
+   
+    // Método para calcular reservas parciales DTO con las fechas del día en el período
+    private ArrayList<ReservaParcialDTO> calcularRP(List<ReservaParcialDTO> reservasParcialesDTO, Periodo periodo) {
+        
+        ArrayList<ReservaParcialDTO> rpCalculadas = new ArrayList<>();
+        
+        for(ReservaParcialDTO rpDTO : reservasParcialesDTO) {
+            
+            String dia = rpDTO.getDia();
+            DayOfWeek diaSemana = null;
+
+            // Mapeo de días en español a DayOfWeek dentro del método
+            switch (dia.toLowerCase()) {
+                case "lunes":
+                    diaSemana = DayOfWeek.MONDAY;
+                    break;
+                case "martes":
+                    diaSemana = DayOfWeek.TUESDAY;
+                    break;
+                case "miércoles":
+                    diaSemana = DayOfWeek.WEDNESDAY;
+                    break;
+                case "jueves":
+                    diaSemana = DayOfWeek.THURSDAY;
+                    break;
+                case "viernes":
+                    diaSemana = DayOfWeek.FRIDAY;
+                    break;
+                case "sábado":
+                    diaSemana = DayOfWeek.SATURDAY;
+                    break;
+            }
+
+            // Convertir la fecha de inicio de tipo Date a LocalDate
+            LocalDate currentDate = periodo.getFecha_inicio().toInstant()
+                                           .atZone(ZoneId.systemDefault())
+                                           .toLocalDate();
+
+            // Convertir la fecha de fin de tipo Date a LocalDate
+            LocalDate fechaFin = periodo.getFecha_fin().toInstant()
+                                        .atZone(ZoneId.systemDefault())
+                                        .toLocalDate();
+
+            // Ajustamos la fecha de inicio al primer día correcto dentro del rango
+            while (currentDate.getDayOfWeek() != diaSemana) {
+                currentDate = currentDate.plusDays(1);
+            }
+
+            // Iteramos desde la fecha ajustada hasta la fecha de fin
+            while (!currentDate.isAfter(fechaFin)) {
+                
+                ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
+                reservaParcialDTO.setNombre_aula(rpDTO.getNombre_aula());
+                reservaParcialDTO.setTipo_aula(rpDTO.getTipo_aula());
+                reservaParcialDTO.setCurso(rpDTO.getCurso());
+                reservaParcialDTO.setFecha(java.sql.Date.valueOf(currentDate));
+                reservaParcialDTO.setHora_inicio(rpDTO.getHora_inicio());
+                reservaParcialDTO.setHora_fin(rpDTO.getHora_fin());
+                reservaParcialDTO.setDuracion(rpDTO.getDuracion());
+                
+                rpCalculadas.add(reservaParcialDTO);
+                
+                currentDate = currentDate.plusWeeks(1); // Sumamos 7 días
+            }
+        }
+        
+        return rpCalculadas;
+    }
+
+    private void verificarDisponibilidad(List<ReservaParcial> reservasParciales) throws ReservaInconsistenteException {
+        
+        ReservaPostgreSQLDAO reservaPostgreSQLDAO = ReservaPostgreSQLDAO.obtenerInstancia();
+        
+        List<ReservaParcial> reservasConConflicto;
+        
+        reservasConConflicto = reservaPostgreSQLDAO.verificarDisponibilidad(reservasParciales);
+        
+        if (!reservasConConflicto.isEmpty()) {
+               StringBuilder mensaje = new StringBuilder("Conflictos detectados en las siguientes reservas:\n");
+               for (ReservaParcial rp : reservasConConflicto) {
+                   mensaje.append("Aula: ").append(rp.getAula().getNombre())
+                          .append(", fecha: ").append(rp.getFecha())
+                          .append(", hora inicio: ").append(rp.getHora_inicio())
+                          .append(", hora fin: ").append(rp.getHora_fin())
+                          .append("\n");
+               }
+               throw new ReservaInconsistenteException(mensaje.toString());
+           }
+        
+    }
+    
+ }

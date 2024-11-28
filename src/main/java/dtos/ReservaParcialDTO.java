@@ -6,11 +6,63 @@ import java.util.Date;
 
 public class ReservaParcialDTO {
     
+    private int id_aula;
+    private String nombre_aula;
+    private String tipo_aula;
+    private String curso;
+    private String dia;
+    private Date fecha;
     private Time hora_inicio;
     private Time hora_fin;
     private int duracion;
-    private Date fecha;
-    private int id_aula;
+
+    public int getId_aula() {
+        return id_aula;
+    }
+
+    public void setId_aula(int id_aula) {
+        this.id_aula = id_aula;
+    }
+
+    public String getNombre_aula() {
+        return nombre_aula;
+    }
+
+    public void setNombre_aula(String nombre_aula) {
+        this.nombre_aula = nombre_aula;
+    }
+
+    public String getTipo_aula() {
+        return tipo_aula;
+    }
+
+    public void setTipo_aula(String tipo_aula) {
+        this.tipo_aula = tipo_aula;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
     public Time getHora_inicio() {
         return hora_inicio;
@@ -34,22 +86,6 @@ public class ReservaParcialDTO {
 
     public void setDuracion(int duracion) {
         this.duracion = duracion;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public int getId_aula() {
-        return id_aula;
-    }
-
-    public void setId_aula(int id_aula) {
-        this.id_aula = id_aula;
     }
     
 }
