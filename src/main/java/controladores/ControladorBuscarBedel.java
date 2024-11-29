@@ -46,6 +46,7 @@ public class ControladorBuscarBedel implements ActionListener {
               
         }
         else if(comando.equals("Restaurar valores por defecto")) {
+            ibb.desmarcarCampo();
             ibb.getCampoApellido().setText("");
             ibb.getjCheckBox1().setSelected(false);
             ibb.getjCheckBox2().setSelected(false);
@@ -125,6 +126,8 @@ public class ControladorBuscarBedel implements ActionListener {
         
         try {
             
+            ibb.desmarcarCampo();
+            
             if(!criteriosDeBusqueda() || !ibb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) throw new DatosInvalidosException();
             
             BedelGeneralDTO bedelGeneralDTO = new BedelGeneralDTO();
@@ -155,11 +158,11 @@ public class ControladorBuscarBedel implements ActionListener {
             
             } catch(DatosInvalidosException e1) {
                 if(ibb.getCampoApellido().getText().trim().isEmpty()) {
-                    ibb.crearPopUpAdvertencia();
+                    ibb.crearPopUpAdvertencia("Ingrese al menos un criterio de búsqueda.");
                 }
                 else {
                     ibb.marcarCampoApellido();
-                    ibb.crearPopUpDatosInvalidos();
+                    ibb.crearPopUpAdvertencia("El apellido sólo puede contener letras.");
                 }
                 
             } catch(NoExisteBedelException e2) {

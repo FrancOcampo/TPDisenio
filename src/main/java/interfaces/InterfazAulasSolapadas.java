@@ -1,6 +1,7 @@
 
 package interfaces;
 
+import controladores.ControladorEsporadica;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -10,9 +11,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import controladores.ControladorPeriodica;
+import javax.swing.table.DefaultTableModel;
 
 public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
+    private ControladorPeriodica controladorPeriodica;
+    private ControladorEsporadica controladorEsporadica;
+            
     public InterfazAulasSolapadas() {
         initComponents();
         setLocationRelativeTo(null);
@@ -53,6 +59,16 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
     }
 
+    public void setControlador(ControladorPeriodica controlador) {
+        controladorPeriodica = controlador;
+        botonContinuar.addActionListener(controladorPeriodica);
+    }
+    
+    public void setControlador(ControladorEsporadica controlador) {
+        controladorEsporadica = controlador;
+        botonContinuar.addActionListener(controladorEsporadica);
+    }
+   
     // Crear un renderizador personalizado para las celdas
     DefaultTableCellRenderer customRenderer = new DefaultTableCellRenderer() {
             
@@ -77,6 +93,10 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
             return cellComponent;
         }
     };
+    
+    public DefaultTableModel getModel() {
+        return (DefaultTableModel) jTable1.getModel();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -211,9 +231,6 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_botonContinuarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

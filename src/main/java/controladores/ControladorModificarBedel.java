@@ -157,36 +157,36 @@ public class ControladorModificarBedel implements ActionListener {
         boolean visibilidad = true;
         boolean advertencia = false;
         
-      if(imb.getCampoNombre().getText().trim().isEmpty() || !(imb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
-         imb.setCampoNombre(redBorder, visibilidad);
-         advertencia = true;
+        if(imb.getCampoNombre().getText().trim().isEmpty() || !(imb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
+           imb.setCampoNombre(redBorder, visibilidad);
+           advertencia = true;
+        }
+        if(imb.getCampoApellido().getText().trim().isEmpty() || !(imb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
+           imb.setCampoApellido(redBorder, visibilidad);
+           advertencia = true;
+        }
+        if(imb.getCampoContrasenia().getText().trim().isEmpty()){
+          imb.setCampoContrasenia(redBorder, visibilidad);
+          advertencia = true;
+        }
+        if(imb.getCampoConfirmarContrasenia().getText().trim().isEmpty()){
+              imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
+              advertencia = true;
+        }
+        if(!imb.getCampoContrasenia().getText().equals(imb.getCampoConfirmarContrasenia().getText())){
+              advertencia = true;
+              imb.setCampoContrasenia(redBorder, visibilidad);
+              imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
+              imb.getjLabelError9().setVisible(visibilidad);
+        }
+        if(imb.getTurno().equals("")){
+              advertencia = true;
+              imb.setCampoTurno(redBorder, visibilidad);
+        }
+
+        if(advertencia) imb.crearPopUpAdvertencia();
       }
-      if(imb.getCampoApellido().getText().trim().isEmpty() || !(imb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
-         imb.setCampoApellido(redBorder, visibilidad);
-         advertencia = true;
-      }
-      if(imb.getCampoContrasenia().getText().trim().isEmpty()){
-        imb.setCampoContrasenia(redBorder, visibilidad);
-        advertencia = true;
-      }
-      if(imb.getCampoConfirmarContrasenia().getText().trim().isEmpty()){
-            imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-            advertencia = true;
-      }
-      if(!imb.getCampoContrasenia().getText().equals(imb.getCampoConfirmarContrasenia().getText())){
-            advertencia = true;
-            imb.setCampoContrasenia(redBorder, visibilidad);
-            imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-            imb.setJLabelError9Visible(visibilidad);
-      }
-      if(imb.getTurno().equals("")){
-            advertencia = true;
-            imb.setCampoTurno(redBorder, visibilidad);
-      }
-      
-      if(advertencia) imb.crearPopUpAdvertencia();
-    }
-    
+
     private void marcarCampos(List<String> mensajes) {
         
         Border redBorder = new LineBorder(Color.RED, 2);
@@ -194,8 +194,8 @@ public class ControladorModificarBedel implements ActionListener {
         
         imb.setCampoContrasenia(redBorder, visibilidad);
         imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-        imb.setJLabelError8Mensaje(mensajes);
-        imb.setJLabelError8Visible(visibilidad);
+        imb.setjLabelError8Mensaje(mensajes);
+        imb.getjLabelError8().setVisible(visibilidad);
         imb.crearPopUpAdvertencia();
         
     }

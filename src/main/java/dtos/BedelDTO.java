@@ -3,6 +3,7 @@ package dtos;
 
 public class BedelDTO {
     
+    private int id_bedel;
     private String nombreUsuario;
     private String nombre;
     private String apellido;
@@ -25,6 +26,14 @@ public class BedelDTO {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+    
+    public int getId_bedel() {
+        return id_bedel;
+    }
+
+    public void setId_bedel(int id_bedel) {
+        this.id_bedel = id_bedel;
     }
 
     public String getNombre() {
