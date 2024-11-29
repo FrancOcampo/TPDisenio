@@ -62,7 +62,7 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
         
         EntityManager em = Conexion.getEntityManager();
         
-        String queryStr = "SELECT r FROM Reserva r WHERE r.idReserva = :id";
+        String queryStr = "SELECT r FROM Reserva r WHERE r.id_reserva = :id";
         
         TypedQuery<Reserva> query = em.createQuery(queryStr, Reserva.class);
         query.setParameter("id", id);  
@@ -120,9 +120,23 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
        EntityTransaction transaccion = em.getTransaction();
 
        try {
-           transaccion.begin();
-           em.persist(reserva);
-           transaccion.commit();
+            transaccion.begin();
+            
+            List<ReservaParcial> reservasParciales = reserva.getReservasParciales();
+            reserva.setReservasParciales(null);
+    
+            em.persist(reserva);
+
+            for (ReservaParcial reservaParcial : reservasParciales) {
+                reservaParcial.setId_reserva(reserva.getId_reserva()); 
+                em.persist(reservaParcial); 
+            }
+            
+            reserva.setReservasParciales(reservasParciales);
+            
+            em.merge(reserva);
+
+            transaccion.commit();
            
        } catch (Exception e) {
            if (transaccion.isActive()) {

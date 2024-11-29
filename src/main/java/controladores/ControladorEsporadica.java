@@ -168,6 +168,14 @@ public class ControladorEsporadica implements ActionListener {
                         reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
                         reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
                         
+                        Object valorFecha = modelo.getValueAt(i, 3);
+                        
+                        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+                        java.util.Date utilDate = formato.parse((String) valorFecha); // Convierte String a java.util.Date
+                        java.sql.Date fecha = new java.sql.Date(utilDate.getTime()); // Convierte java.util.Date a java.sql.Date
+
+                        reservaParcialDTO.setFecha(fecha);
+                        
                         Object valorHoraInicio = modelo.getValueAt(i, 4);
                         Object valorHoraFin = modelo.getValueAt(i, 5);
                         
