@@ -8,12 +8,12 @@ import daos.ReservaPostgreSQLDAO;
 import dtos.AulaCompuestaDTO;
 import dtos.AulaDisponibleDTO;
 import dtos.AulaSolapadaDTO;
-import dtos.BedelDTO;
 import dtos.BusquedaAulaDTO;
 import dtos.DatosBusquedaDTO;
 import dtos.PeriodoDTO;
 import dtos.ReservaDTO;
 import dtos.ReservaParcialDTO;
+import excepciones.ErrorException;
 import excepciones.FechaException;
 import excepciones.OperacionException;
 import excepciones.ReservaInconsistenteException;
@@ -49,7 +49,7 @@ public class GestorReserva {
         return instancia;
     }
     
-    public AulaCompuestaDTO disponerAulas(BusquedaAulaDTO busquedaAulaDTO) throws FechaException {
+    public AulaCompuestaDTO disponerAulas(BusquedaAulaDTO busquedaAulaDTO) throws FechaException, ErrorException {
         
         AulaCompuestaDTO aulaCompuestaDTO = new AulaCompuestaDTO();
         PeriodoDTO periodoDTO = new PeriodoDTO();
@@ -321,7 +321,7 @@ public class GestorReserva {
         return reservasMenosSolapadas;
     }
     
-    public void registrarReserva(ReservaDTO reservaDTO) throws ReservaInconsistenteException, OperacionException {
+    public void registrarReserva(ReservaDTO reservaDTO) throws ErrorException, ReservaInconsistenteException, OperacionException {
         
         AulaPostgreSQLDAO aulaPostgreSQLDAO = AulaPostgreSQLDAO.obtenerInstancia();
         List<ReservaParcial> reservasParciales = new ArrayList<>();
@@ -468,7 +468,7 @@ public class GestorReserva {
         return rpCalculadas;
     }
 
-    private void verificarDisponibilidad(List<ReservaParcial> reservasParciales) throws ReservaInconsistenteException {
+    private void verificarDisponibilidad(List<ReservaParcial> reservasParciales) throws ErrorException, ReservaInconsistenteException {
         
         ReservaPostgreSQLDAO reservaPostgreSQLDAO = ReservaPostgreSQLDAO.obtenerInstancia();
         

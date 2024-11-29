@@ -31,7 +31,6 @@ C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\gest
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\model\SinRecursosAdicionales.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\excepciones\FechaException.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\sistemasexternos\Docente.java
-C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\controladores\ControladorMainAdministrador.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\sistemasexternos\SistemaContrasenia.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\controladores\ControladorMainBedel.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos\AulaSolapadaDTO.java
@@ -39,6 +38,7 @@ C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\sistemasexternos\SistemaDocentes.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\ds\sistemagestionreservas\SistemaGestionReservas.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\controladores\ControladorBuscarBedel.java
+C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\interfaces\InterfazMainPrincipal.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\controladores\ControladorEliminarBedel.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\interfaces\InterfazModificarBedel.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\interfaces\InterfazIngresoDatosDocente.java
@@ -62,6 +62,7 @@ C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos\DatosBusquedaDTO.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\dtos\BedelDTO.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\sistemasexternos\Catedra.java
+C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\excepciones\ErrorException.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\excepciones\NoExisteBedelException.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\sistemasexternos\PoliticasContrasenia.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\daos\PeriodoDAO.java

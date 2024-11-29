@@ -2,23 +2,18 @@
 package interfaces;
 
 import daos.Conexion;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
-public class InterfazMainAdministrador extends javax.swing.JFrame {
-    
-    public InterfazMainAdministrador() {
+public class InterfazMainPrincipal extends javax.swing.JFrame {
+
+    public InterfazMainPrincipal() {
         initComponents();
         jPanel1.setLayout(null);
         setLocationRelativeTo(null);
-        setTitle("Main Administrador");
+        setTitle("Principal");
         setResizable(false);
         setVisible(true);
         // Establece un ícono transparente para evitar que se muestre el ícono de Java
@@ -42,8 +37,8 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        botonRegistrarBedel = new javax.swing.JButton();
-        botonBuscarBedel = new javax.swing.JButton();
+        botonMainBedel = new javax.swing.JButton();
+        botonMainAdministrador = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,34 +52,34 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
         jLabel1.setText("Seleccione una opción");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        botonRegistrarBedel.setBackground(new java.awt.Color(102, 102, 102));
-        botonRegistrarBedel.setFont(new java.awt.Font("Dubai", 0, 18)); // NOI18N
-        botonRegistrarBedel.setForeground(new java.awt.Color(0, 0, 0));
-        botonRegistrarBedel.setText("Registrar bedel");
-        botonRegistrarBedel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        botonRegistrarBedel.setNextFocusableComponent(botonCancelar);
-        botonRegistrarBedel.addActionListener(new java.awt.event.ActionListener() {
+        botonMainBedel.setBackground(new java.awt.Color(102, 102, 102));
+        botonMainBedel.setFont(new java.awt.Font("Dubai", 0, 18)); // NOI18N
+        botonMainBedel.setForeground(new java.awt.Color(0, 0, 0));
+        botonMainBedel.setText("Bedel");
+        botonMainBedel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        botonMainBedel.setNextFocusableComponent(botonCancelar);
+        botonMainBedel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonRegistrarBedelActionPerformed(evt);
+                botonMainBedelActionPerformed(evt);
             }
         });
 
-        botonBuscarBedel.setBackground(new java.awt.Color(102, 102, 102));
-        botonBuscarBedel.setFont(new java.awt.Font("Dubai", 0, 18)); // NOI18N
-        botonBuscarBedel.setForeground(new java.awt.Color(0, 0, 0));
-        botonBuscarBedel.setText("Buscar bedel");
-        botonBuscarBedel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        botonBuscarBedel.setNextFocusableComponent(botonRegistrarBedel);
-        botonBuscarBedel.addActionListener(new java.awt.event.ActionListener() {
+        botonMainAdministrador.setBackground(new java.awt.Color(102, 102, 102));
+        botonMainAdministrador.setFont(new java.awt.Font("Dubai", 0, 18)); // NOI18N
+        botonMainAdministrador.setForeground(new java.awt.Color(0, 0, 0));
+        botonMainAdministrador.setText("Administrador");
+        botonMainAdministrador.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        botonMainAdministrador.setNextFocusableComponent(botonMainBedel);
+        botonMainAdministrador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBuscarBedelActionPerformed(evt);
+                botonMainAdministradorActionPerformed(evt);
             }
         });
 
         botonCancelar.setBackground(new java.awt.Color(102, 0, 0));
         botonCancelar.setForeground(new java.awt.Color(255, 255, 255));
         botonCancelar.setText("Cancelar");
-        botonCancelar.setNextFocusableComponent(botonBuscarBedel);
+        botonCancelar.setNextFocusableComponent(botonMainAdministrador);
         botonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCancelarActionPerformed(evt);
@@ -98,9 +93,9 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(botonBuscarBedel, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonMainAdministrador, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(botonRegistrarBedel, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonMainBedel, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -114,8 +109,8 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonRegistrarBedel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscarBedel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonMainBedel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonMainAdministrador, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                 .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
@@ -135,30 +130,20 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void generarPopUpNoDisponible() {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Esta acción no se encuentra disponible.");
-        label.setForeground(Color.BLACK); 
-        label.setFont(new Font("Arial", Font.BOLD, 13)); 
-        panel.add(label);
-        
-        JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    private void botonBuscarBedelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarBedelActionPerformed
-        new InterfazBuscarBedel();
+    private void botonMainBedelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMainBedelActionPerformed
+        new InterfazMainBedel();
         dispose();
-    }//GEN-LAST:event_botonBuscarBedelActionPerformed
+    }//GEN-LAST:event_botonMainBedelActionPerformed
+
+    private void botonMainAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMainAdministradorActionPerformed
+        new InterfazMainAdministrador();
+        dispose();
+    }//GEN-LAST:event_botonMainAdministradorActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-        new InterfazMainPrincipal();
-        dispose();
+        Conexion.closeEntityManagerFactory();
+        System.exit(0);
     }//GEN-LAST:event_botonCancelarActionPerformed
-
-    private void botonRegistrarBedelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarBedelActionPerformed
-        new InterfazRegistrarBedel();
-        dispose();
-    }//GEN-LAST:event_botonRegistrarBedelActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -174,28 +159,28 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazMainAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazMainPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazMainAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazMainPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazMainAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazMainPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazMainAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazMainPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfazMainAdministrador();
+                new InterfazMainPrincipal().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonBuscarBedel;
     private javax.swing.JButton botonCancelar;
-    private javax.swing.JButton botonRegistrarBedel;
+    private javax.swing.JButton botonMainAdministrador;
+    private javax.swing.JButton botonMainBedel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

@@ -18,6 +18,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
@@ -33,7 +35,6 @@ public class ControladorIngresoDatosDocente implements ActionListener {
     public ControladorIngresoDatosDocente() {}
     
     public ControladorIngresoDatosDocente(InterfazIngresoDatosDocente iidd) {
-        
         this.iidd = iidd;
         iidd.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         iidd.addWindowListener(new WindowAdapter() {
@@ -73,7 +74,9 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 reservaDTO.setNombre_docente(iidd.getDocente());
                 reservaDTO.setNombre_catedra(iidd.getCatedra());
                 reservaDTO.setEmail_docente(iidd.getCampoEmail().getText());
-                reservaDTO.setFecha_reserva(new Date());
+                LocalDate fechaActual = LocalDate.now();
+                Date fecha = Date.from(fechaActual.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                reservaDTO.setFecha_reserva(fecha);
                 reservaDTO.setId_bedel(1); // ESTO HAY QUE VER SI HACEMOS AUTENTICACIÓN 
                 
                 if(iidd.getBotonPeriodica().isSelected()) { // RESERVA PERIÓDICA
@@ -98,6 +101,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
             } catch(DatosInvalidosException e1) {
                 iidd.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
                 marcarCampos();
+                
             } catch(FechaException e2) {
                 iidd.crearPopUpAdvertencia("El período seleccionado ya finalizó. Por favor, seleccione otro período.");
             }

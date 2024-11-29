@@ -190,11 +190,11 @@ public class InterfazMainBedel extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonListarReservasDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListarReservasDiaActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_botonListarReservasDiaActionPerformed
 
     private void botonListarReservasCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListarReservasCursoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_botonListarReservasCursoActionPerformed
 
     public static void main(String args[]) {

@@ -31,9 +31,7 @@ public class ControladorModificarBedel implements ActionListener {
     public ControladorModificarBedel() {}
     
     public ControladorModificarBedel(InterfazModificarBedel imb) {
-        
         this.imb = imb;
-        
         imb.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         imb.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

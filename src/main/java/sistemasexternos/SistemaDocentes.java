@@ -21,10 +21,10 @@ public class SistemaDocentes {
         Docente docente2 = new Docente("Rodolfo", "Pérez", "rodolfoperez@gmail.com");
         Docente docente3 = new Docente("Marcela", "Domínguez", "mdominguez@gmail.com");
         Docente docente4 = new Docente("Mirtha", "López", "lopezmirtha@gmail.com");
-        Docente docente5 = new Docente("Pablo", "Edding", "pablo_edding@gmail.com");
+        Docente docente5 = new Docente("Pablo", "Sánchez", "pablo_sanchez@gmail.com");
         Docente docente6 = new Docente("Mauro", "Rodríguez", "mauro.rodriguez@gmail.com");
         Docente docente7 = new Docente("Sandra", "Fernández", "sfernandez@gmail.com");
-        Docente docente8 = new Docente("Graciela", "Gómez", "gomezgraciela@gmail.com");
+        Docente docente8 = new Docente("Graciela", "Mendez", "mendezgraciela@gmail.com");
         Docente docente9 = new Docente("Cristian", "Impini", "cristianimpini@gmail.com");
         Docente docente10 = new Docente("Santiago", "Marnetto", "santiagomarnetto@gmail.com");
         

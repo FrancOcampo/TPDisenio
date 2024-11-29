@@ -29,7 +29,6 @@ public class ControladorRegistrarBedel implements ActionListener {
     public ControladorRegistrarBedel() {}
     
     public ControladorRegistrarBedel(InterfazRegistrarBedel irb) {
-        
         this.irb = irb;
         irb.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         irb.addWindowListener(new WindowAdapter() {

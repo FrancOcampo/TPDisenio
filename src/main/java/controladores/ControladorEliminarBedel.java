@@ -21,9 +21,7 @@ public class ControladorEliminarBedel implements ActionListener {
     public ControladorEliminarBedel() {}
     
     public ControladorEliminarBedel(InterfazEliminarBedel ieb) {
-        
         this.ieb = ieb;
-        
         ieb.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         ieb.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

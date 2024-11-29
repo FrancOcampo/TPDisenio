@@ -2,6 +2,7 @@
 package daos;
 
 import dtos.DatosBusquedaDTO;
+import excepciones.ErrorException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class AulaPostgreSQLDAO implements AulaDAO {
         return instancia;
     }
     
-    public List<Aula> obtenerOtrasAulas(List<Integer> listaIdAulasSolapadas, DatosBusquedaDTO datosBusquedaDTO) {
+    public List<Aula> obtenerOtrasAulas(List<Integer> listaIdAulasSolapadas, DatosBusquedaDTO datosBusquedaDTO) throws ErrorException {
         
         EntityManager em = Conexion.getEntityManager();
         List<Aula> otrasAulas = new ArrayList<>(); 
@@ -41,8 +42,8 @@ public class AulaPostgreSQLDAO implements AulaDAO {
 
             otrasAulas = query.getResultList();
             
-        } catch (Exception e) {
-            e.printStackTrace();  
+        } catch(Exception e) {
+            throw new ErrorException();  
         } finally {
             Conexion.closeEntityManager();  
         }
@@ -50,7 +51,7 @@ public class AulaPostgreSQLDAO implements AulaDAO {
         return otrasAulas;
     }
     
-    public Aula obtenerAula(String nombre, Class tipo) {
+    public Aula obtenerAula(String nombre, Class tipo) throws ErrorException {
         
         EntityManager em = Conexion.getEntityManager();
         Aula aula = null;
@@ -67,8 +68,8 @@ public class AulaPostgreSQLDAO implements AulaDAO {
 
             aula = query.getSingleResult();
 
-        } catch (Exception e) {
-            e.printStackTrace();  
+        } catch(Exception e) {
+            throw new ErrorException();   
         } finally {
             Conexion.closeEntityManager();
         }

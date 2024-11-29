@@ -143,6 +143,16 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
+    
+     public void crearPopUpError() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Ocurrió un error. Por favor, vuelva a intentarlo.");
+        label.setForeground(Color.BLACK); 
+        label.setFont(new Font("Arial", Font.BOLD, 13)); 
+        panel.add(label);
+        
+        JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 
     public void marcarCampoApellido() {
         jLabelError1.setVisible(true);

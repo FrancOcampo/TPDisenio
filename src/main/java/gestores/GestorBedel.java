@@ -5,6 +5,7 @@ import model.Bedel;
 import daos.BedelPostgreSQLDAO;
 import dtos.BedelBusquedaDTO;
 import dtos.BedelGeneralDTO;
+import excepciones.ErrorException;
 import excepciones.OperacionException;
 import excepciones.PoliticasContraseniaException;
 import excepciones.YaExisteUsuarioException;
@@ -95,7 +96,7 @@ public class GestorBedel {
         return bedelBusquedaDTO;
     }
     
-    public List<BedelBusquedaDTO> buscarBedeles(BedelGeneralDTO bedelGeneralDTO) {
+    public List<BedelBusquedaDTO> buscarBedeles(BedelGeneralDTO bedelGeneralDTO) throws ErrorException {
         
         BedelPostgreSQLDAO bedelPostgreSQLDAO = BedelPostgreSQLDAO.obtenerInstancia();
     

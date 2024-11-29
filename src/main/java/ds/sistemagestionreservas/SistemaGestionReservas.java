@@ -1,11 +1,11 @@
 
 package ds.sistemagestionreservas;
 
-import daos.BedelPostgreSQLDAO;
 import daos.Conexion;
 import gestores.GestorBedel;
+import gestores.GestorReserva;
 import gestores.GestorServiciosExternos;
-import interfaces.InterfazMainAdministrador;
+import interfaces.InterfazMainPrincipal;
 import javax.swing.*;
 
 public class SistemaGestionReservas {
@@ -13,7 +13,7 @@ public class SistemaGestionReservas {
     public static void main(String[] args) {
         
         GestorBedel.obtenerInstancia();
-        BedelPostgreSQLDAO.obtenerInstancia();
+        GestorReserva.obtenerInstancia();
         GestorServiciosExternos.obtenerInstancia();
         Conexion.getEntityManager();
         
@@ -25,7 +25,7 @@ public class SistemaGestionReservas {
 
         // Crear la interfaz gráfica en el hilo de despacho de eventos
         SwingUtilities.invokeLater(() -> {
-            InterfazMainAdministrador ima = new InterfazMainAdministrador();
+            new InterfazMainPrincipal();
         });
     }
 }

@@ -10,6 +10,7 @@ import dtos.ReservaDTO;
 import dtos.ReservaParcialDTO;
 import excepciones.DatosInvalidosException;
 import excepciones.DuracionException;
+import excepciones.ErrorException;
 import excepciones.FechaException;
 import excepciones.OperacionException;
 import excepciones.ReservaInconsistenteException;
@@ -24,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -50,7 +52,6 @@ public class ControladorPeriodica implements ActionListener {
     public ControladorPeriodica() {}
     
     public ControladorPeriodica(InterfazReservaPeriodica irp) {
-        
         this.irp = irp;
         irp.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         irp.addWindowListener(new WindowAdapter() {
@@ -99,7 +100,6 @@ public class ControladorPeriodica implements ActionListener {
                        
                         Object[] row = { aula.getNombre_aula(), aula.getUbicacion(), aula.getCapacidad(), aula.getCaracteristicas() };
                         iad.getModel().addRow(row);
-                    
                     }    
                 }
                 else {
@@ -120,7 +120,10 @@ public class ControladorPeriodica implements ActionListener {
                 irp.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
                 marcarCampos();
                 
-            } catch(FechaException e2) {}
+            } catch(ErrorException e2) {
+                irp.crearPopUpError();
+                
+            } catch(FechaException e3) {}
         }
         else if (comando.equals("Confirmar")) {
             
@@ -195,13 +198,18 @@ public class ControladorPeriodica implements ActionListener {
                     } catch(DatosInvalidosException e1) {
                         irp.crearPopUpAdvertencia("La reserva contiene subreservas repetidas.");
                         
-                    } catch(ReservaInconsistenteException e1) {
-                        irp.crearPopUpAdvertencia(e1.getMessage());
-                        
-                    } catch(OperacionException e2) {
+                    } catch(ParseException e2) {
                         irp.crearPopUpFracaso();
                         
-                    } catch(Exception e3) {}
+                    } catch(ErrorException e3) {
+                        irp.crearPopUpError();
+                        
+                    } catch(ReservaInconsistenteException e4) {
+                        irp.crearPopUpAdvertencia(e4.getMessage());
+                        
+                    } catch(OperacionException e5) {
+                        irp.crearPopUpFracaso();
+                    } 
             }
         } else irp.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
         }
@@ -286,15 +294,13 @@ public class ControladorPeriodica implements ActionListener {
     
         try {
             
-        LocalTime localTime = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
+            LocalTime localTime = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
+
+            return Time.valueOf(localTime.atDate(java.time.LocalDate.now()).toLocalTime()); 
         
-        return Time.valueOf(localTime.atDate(java.time.LocalDate.now()).toLocalTime()); 
-        
-        } catch (Exception e) {
-            
-        e.printStackTrace();
-        return null;
-        
+        } catch(Exception e) {
+            irp.crearPopUpError();
+            return null;
         }
     }
     
@@ -327,20 +333,21 @@ public class ControladorPeriodica implements ActionListener {
                 else throw new DuracionException();
                 
             } else throw new DatosInvalidosException();
+           
             
-            
-        } catch (DatosInvalidosException e1) {
+        } catch(ParseException e) {
+          irp.crearPopUpError();
+          
+        } catch(DatosInvalidosException e1) {
           irp.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");  
           Border redBorder = new LineBorder(Color.RED, 2);
           irp.setCamposHora(redBorder, true);
           
-        } catch (DuracionException e2) {
+        } catch(DuracionException e2) {
           irp.crearPopUpAdvertencia("La duración de la reserva no es múltiplo de 30 minutos.");
           Border redBorder = new LineBorder(Color.RED, 2);
           irp.setCamposHora(redBorder, true);
           
-        } catch (Exception e) {
-          e.printStackTrace();
         } 
         
         return valido;

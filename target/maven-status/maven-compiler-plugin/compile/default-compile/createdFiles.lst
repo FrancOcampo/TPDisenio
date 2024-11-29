@@ -18,7 +18,7 @@ sistemasexternos\SistemaDocentes.class
 interfaces\InterfazMainBedel$4.class
 excepciones\NoExisteBedelException.class
 interfaces\InterfazReservaEsporadica$6.class
-controladores\ControladorMainAdministrador.class
+interfaces\InterfazMainPrincipal$4.class
 interfaces\InterfazAulasDisponibles$2.class
 model\ReservaParcial.class
 controladores\ControladorEliminarBedel.class
@@ -33,9 +33,9 @@ interfaces\InterfazAulasDisponibles.class
 controladores\ControladorEsporadica.class
 interfaces\InterfazIngresoDatosDocente$2.class
 interfaces\InterfazAulasDisponibles$5.class
+interfaces\InterfazMainPrincipal$1.class
 interfaces\InterfazMainBedel$5.class
 interfaces\InterfazModificarBedel$9.class
-controladores\ControladorMainAdministrador$1.class
 daos\Conexion.class
 interfaces\InterfazBuscarBedel$7.class
 interfaces\InterfazIngresoDatosDocente$7.class
@@ -44,6 +44,7 @@ interfaces\InterfazRegistrarBedel$6.class
 interfaces\InterfazAulasDisponibles$3.class
 model\Informatica.class
 model\Usuario.class
+interfaces\InterfazMainPrincipal$3.class
 model\Reserva.class
 interfaces\InterfazReservaEsporadica$8.class
 gestores\GestorServiciosExternos$1.class
@@ -71,6 +72,7 @@ excepciones\YaExisteUsuarioException.class
 interfaces\InterfazReservaPeriodica.class
 controladores\ControladorEliminarBedel$1.class
 interfaces\InterfazReservaEsporadica$2.class
+interfaces\InterfazMainAdministrador$5.class
 interfaces\InterfazRegistrarBedel$11.class
 interfaces\InterfazModificarBedel$4.class
 sistemasexternos\Catedra.class
@@ -88,7 +90,9 @@ controladores\ControladorMainBedel.class
 interfaces\InterfazBuscarBedel.class
 interfaces\InterfazAulasDisponibles$4.class
 interfaces\InterfazBuscarBedel$2.class
+interfaces\InterfazMainPrincipal$2.class
 dtos\ReservaDTO.class
+interfaces\InterfazMainPrincipal$5.class
 interfaces\InterfazModificarBedel$8.class
 dtos\ReservaParcialDTO.class
 interfaces\InterfazMainAdministrador$4.class
@@ -137,6 +141,8 @@ excepciones\FechaException.class
 excepciones\OperacionException.class
 interfaces\InterfazAulasDisponibles$6.class
 interfaces\InterfazRegistrarBedel$2.class
+excepciones\ErrorException.class
+interfaces\InterfazMainPrincipal.class
 interfaces\InterfazReservaEsporadica$5.class
 daos\BedelPostgreSQLDAO.class
 interfaces\InterfazModificarBedel$1.class

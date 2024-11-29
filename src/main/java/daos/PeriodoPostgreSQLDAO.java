@@ -34,8 +34,7 @@ public class PeriodoPostgreSQLDAO implements PeriodoDAO {
         
         return periodo; 
         
-    } catch (Exception e) {
-        e.printStackTrace(); 
+    } catch(Exception e) {
         return null;
         
     } finally {
@@ -44,7 +43,5 @@ public class PeriodoPostgreSQLDAO implements PeriodoDAO {
       
   }
     
-    
-
 }
     

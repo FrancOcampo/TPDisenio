@@ -5,6 +5,7 @@ import daos.Conexion;
 import dtos.BedelBusquedaDTO;
 import dtos.BedelGeneralDTO;
 import excepciones.DatosInvalidosException;
+import excepciones.ErrorException;
 import excepciones.NoExisteBedelException;
 import gestores.GestorBedel;
 import interfaces.InterfazBuscarBedel;
@@ -165,7 +166,10 @@ public class ControladorBuscarBedel implements ActionListener {
                     ibb.crearPopUpAdvertencia("El apellido sólo puede contener letras.");
                 }
                 
-            } catch(NoExisteBedelException e2) {
+            } catch(ErrorException e2) {
+                    ibb.crearPopUpError();
+                
+            } catch(NoExisteBedelException e3) {
                 ibb.crearPopUpBusqueda();
             }
     }

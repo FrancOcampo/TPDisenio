@@ -4,6 +4,7 @@ package controladores;
 import daos.Conexion;
 import interfaces.InterfazIngresoDatosDocente;
 import interfaces.InterfazMainBedel;
+import interfaces.InterfazMainPrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -48,8 +49,8 @@ public class ControladorMainBedel implements ActionListener {
                 imb.generarPopUpNoDisponible();
         }
         else if(comando.equals("Cancelar")) {
-                Conexion.closeEntityManagerFactory();
-                System.exit(0);
+                new InterfazMainPrincipal();
+                imb.dispose();
         }
     }
     

@@ -2,6 +2,7 @@
 package daos;
 import dtos.BedelDTO;
 import dtos.BedelGeneralDTO;
+import excepciones.ErrorException;
 import excepciones.OperacionException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.EntityManager;
@@ -35,11 +36,10 @@ public class BedelPostgreSQLDAO implements BedelDAO {
             em.persist(bedel); 
             transaccion.commit(); 
             
-        } catch (Exception e) {
+        } catch(Exception e) {
             if (transaccion.isActive()) {
                 transaccion.rollback(); 
             }
-            e.printStackTrace();
             throw new OperacionException(); 
             
         } finally {
@@ -57,7 +57,8 @@ public class BedelPostgreSQLDAO implements BedelDAO {
             
         try {
             return query.getSingleResult();
-        } catch (NoResultException e) {
+            
+        } catch(NoResultException e) {
             return null; // Retorna null si no se encuentra el bedel
         }
  }
@@ -74,11 +75,10 @@ public class BedelPostgreSQLDAO implements BedelDAO {
 
             transaccion.commit();
             
-        } catch (Exception e) {
+        } catch(Exception e) {
             if (transaccion != null) {
                 transaccion.rollback(); 
             }
-            e.printStackTrace();
             throw new OperacionException();
             
         } finally {
@@ -87,7 +87,7 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         
     }
 
-    public List<Bedel> buscarBedeles(BedelGeneralDTO bedelGeneralDTO) {
+    public List<Bedel> buscarBedeles(BedelGeneralDTO bedelGeneralDTO) throws ErrorException {
         
         EntityManager em = Conexion.getEntityManager();
         List<Bedel> bedeles = new ArrayList<>();
@@ -104,8 +104,8 @@ public class BedelPostgreSQLDAO implements BedelDAO {
 
             bedeles = query.getResultList();
         
-        } catch (PersistenceException e) {
-            e.printStackTrace(); 
+        } catch(PersistenceException e) {
+            throw new ErrorException();
             
         } finally {
             Conexion.closeEntityManager();
@@ -114,7 +114,7 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         return bedeles; 
     }
     
-    public List<Bedel> buscarBedelesApellido(String apellido) {
+    public List<Bedel> buscarBedelesApellido(String apellido) throws ErrorException {
         
         EntityManager em = Conexion.getEntityManager();
         List<Bedel> bedeles = new ArrayList<>();
@@ -129,8 +129,8 @@ public class BedelPostgreSQLDAO implements BedelDAO {
             
             bedeles = query.getResultList();
         
-        } catch (PersistenceException e) {
-            e.printStackTrace(); 
+        } catch(PersistenceException e) {
+            throw new ErrorException(); 
             
         } finally {
             Conexion.closeEntityManager();
@@ -139,7 +139,7 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         return bedeles; 
     }
     
-    public List<Bedel> buscarBedelesTurno(ArrayList<String> turnos) {
+    public List<Bedel> buscarBedelesTurno(ArrayList<String> turnos) throws ErrorException {
         
         EntityManager em = Conexion.getEntityManager();
         List<Bedel> bedeles = new ArrayList<>();
@@ -154,8 +154,8 @@ public class BedelPostgreSQLDAO implements BedelDAO {
 
             bedeles = query.getResultList();
         
-        } catch (PersistenceException e) {
-            e.printStackTrace(); 
+        } catch(PersistenceException e) {
+            throw new ErrorException(); 
             
         } finally {
             Conexion.closeEntityManager();
@@ -174,10 +174,10 @@ public class BedelPostgreSQLDAO implements BedelDAO {
 
         try {
             return query.getSingleResult(); 
-        } catch (NoResultException e) {
+            
+        } catch(NoResultException e) {
             return null;  
         }
     }
 
-    
 }

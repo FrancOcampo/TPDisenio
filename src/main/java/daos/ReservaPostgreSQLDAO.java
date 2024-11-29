@@ -2,6 +2,7 @@
 package daos;
 
 import dtos.DatosBusquedaDTO;
+import excepciones.ErrorException;
 import excepciones.OperacionException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -24,7 +25,7 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
         return instancia;
     }
     
-    public List<ReservaParcial> obtener_RP_solapadas(DatosBusquedaDTO datosBusquedaDTO) {
+    public List<ReservaParcial> obtener_RP_solapadas(DatosBusquedaDTO datosBusquedaDTO) throws ErrorException {
         
         List<ReservaParcial> reservasParciales = new ArrayList<>();  
         
@@ -49,8 +50,9 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
 
             reservasParciales = query.getResultList();
 
-        } catch (Exception e) {
-            e.printStackTrace();  
+        } catch(Exception e) {
+            throw new ErrorException();
+            
         } finally {
             Conexion.closeEntityManager(); 
         }
@@ -58,7 +60,7 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
         return reservasParciales;  
     }
 
-    public Reserva obtenerReserva(int id) {
+    public Reserva obtenerReserva(int id) throws ErrorException {
         
         EntityManager em = Conexion.getEntityManager();
         
@@ -72,8 +74,9 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
         try {
             reserva = query.getSingleResult();  
             
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch(Exception e) {
+            throw new ErrorException();
+            
         } finally {
             Conexion.closeEntityManager(); 
         }
@@ -81,7 +84,7 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
         return reserva;
     }
 
-    public List<ReservaParcial> verificarDisponibilidad(List<ReservaParcial> reservasParciales) {
+    public List<ReservaParcial> verificarDisponibilidad(List<ReservaParcial> reservasParciales) throws ErrorException {
         
         EntityManager em = Conexion.getEntityManager();
         List<ReservaParcial> reservasConConflicto = new ArrayList<>();
@@ -104,8 +107,9 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
                 reservasConConflicto.addAll(query.getResultList());
             }
             
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch(Exception e) {
+            throw new ErrorException();
+            
         } finally {
             Conexion.closeEntityManager();
         }
@@ -138,11 +142,10 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
 
             transaccion.commit();
            
-       } catch (Exception e) {
+       } catch(Exception e) {
            if (transaccion.isActive()) {
                transaccion.rollback();
            }
-           e.printStackTrace();
            throw new OperacionException();
            
        } finally {
