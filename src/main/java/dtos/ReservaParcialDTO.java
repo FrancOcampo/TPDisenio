@@ -2,7 +2,7 @@
 package dtos;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ReservaParcialDTO {
     
@@ -11,7 +11,7 @@ public class ReservaParcialDTO {
     private String tipo_aula;
     private String curso;
     private String dia;
-    private Date fecha;
+    private LocalDate fecha;
     private Time hora_inicio;
     private Time hora_fin;
     private int duracion;
@@ -56,11 +56,11 @@ public class ReservaParcialDTO {
         this.dia = dia;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

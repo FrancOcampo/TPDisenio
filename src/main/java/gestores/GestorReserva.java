@@ -20,10 +20,8 @@ import excepciones.ReservaInconsistenteException;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import model.Aula;
 import model.Informatica;
@@ -60,7 +58,7 @@ public class GestorReserva {
         
         Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
         
-        List<Date> listaFechas = new ArrayList<>();
+        List<LocalDate> listaFechas = new ArrayList<>();
         
         if(busquedaAulaDTO.getTipo_reserva().equals("Periódica")) {
             listaFechas.addAll(calcularFechas(busquedaAulaDTO.getDia(), periodo));
@@ -159,14 +157,14 @@ public class GestorReserva {
         
         Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
         
-        if(fechaActual.isAfter(periodo.getFecha_fin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+        if(fechaActual.isAfter(periodo.getFecha_fin())) {
             throw new FechaException();
         }
     }
    
-    private List<Date> calcularFechas(String dia, Periodo periodo) {
+    private List<LocalDate> calcularFechas(String dia, Periodo periodo) {
         
-        List<Date> fechas = new ArrayList<>();
+        List<LocalDate> fechas = new ArrayList<>();
         DayOfWeek diaSemana;
         
         // Mapeo de días en español a DayOfWeek dentro del método
@@ -193,15 +191,7 @@ public class GestorReserva {
                 throw new IllegalArgumentException("Día no válido: " + dia);
         }
 
-        // Convertir la fecha de inicio de tipo Date a LocalDate
-        LocalDate currentDate = periodo.getFecha_inicio().toInstant()
-                                       .atZone(ZoneId.systemDefault())
-                                       .toLocalDate();
-        
-        // Convertir la fecha de fin de tipo Date a LocalDate
-        LocalDate fechaFin = periodo.getFecha_fin().toInstant()
-                                    .atZone(ZoneId.systemDefault())
-                                    .toLocalDate();
+        LocalDate currentDate = periodo.getFecha_inicio();
         
         // Ajustamos la fecha de inicio al primer día correcto dentro del rango
         while (currentDate.getDayOfWeek() != diaSemana) {
@@ -209,9 +199,10 @@ public class GestorReserva {
         }
         
         // Iteramos desde la fecha ajustada hasta la fecha de fin
-        while (!currentDate.isAfter(fechaFin)) {
-            // Convertir LocalDate a Date y agregarlo al listado
-            fechas.add(java.sql.Date.valueOf(currentDate));
+        while (!currentDate.isAfter(periodo.getFecha_fin())) {
+            
+            fechas.add(currentDate);
+            
             // Avanzar al siguiente día del mismo tipo
             currentDate = currentDate.plusWeeks(1); // Sumamos 7 días
         }
@@ -219,14 +210,15 @@ public class GestorReserva {
         return fechas;
     }
     
-    private boolean validarFecha(Date fecha, Periodo periodo) {
+    private boolean validarFecha(LocalDate fecha, Periodo periodo) {
         
-        Date fechaActual = new Date(); // Fecha actual
+        LocalDate fechaActual = LocalDate.now(); // Fecha actual
 
-        return (fecha.after(periodo.getFecha_inicio()) && 
-                fecha.before(periodo.getFecha_fin()) &&
-                fecha.after(fechaActual));
-    }
+        // Compara la fecha con el inicio y fin del período, además de verificar que sea posterior a la fecha actual
+        return (fecha.isAfter(periodo.getFecha_inicio()) && 
+                fecha.isBefore(periodo.getFecha_fin()) &&
+                fecha.isAfter(fechaActual));
+}
     
     private AulaDisponibleDTO map_Aula_a_AulaDisponibleDTO(Aula aula) {
         
@@ -431,15 +423,7 @@ public class GestorReserva {
                     break;
             }
 
-            // Convertir la fecha de inicio de tipo Date a LocalDate
-            LocalDate currentDate = periodo.getFecha_inicio().toInstant()
-                                           .atZone(ZoneId.systemDefault())
-                                           .toLocalDate();
-
-            // Convertir la fecha de fin de tipo Date a LocalDate
-            LocalDate fechaFin = periodo.getFecha_fin().toInstant()
-                                        .atZone(ZoneId.systemDefault())
-                                        .toLocalDate();
+            LocalDate currentDate = periodo.getFecha_inicio();
 
             // Ajustamos la fecha de inicio al primer día correcto dentro del rango
             while (currentDate.getDayOfWeek() != diaSemana) {
@@ -447,13 +431,13 @@ public class GestorReserva {
             }
 
             // Iteramos desde la fecha ajustada hasta la fecha de fin
-            while (!currentDate.isAfter(fechaFin)) {
+            while (!currentDate.isAfter(periodo.getFecha_fin())) {
                 
                 ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
                 reservaParcialDTO.setNombre_aula(rpDTO.getNombre_aula());
                 reservaParcialDTO.setTipo_aula(rpDTO.getTipo_aula());
                 reservaParcialDTO.setCurso(rpDTO.getCurso());
-                reservaParcialDTO.setFecha(java.sql.Date.valueOf(currentDate));
+                reservaParcialDTO.setFecha(currentDate);
                 reservaParcialDTO.setHora_inicio(rpDTO.getHora_inicio());
                 reservaParcialDTO.setHora_fin(rpDTO.getHora_fin());
                 reservaParcialDTO.setDuracion(rpDTO.getDuracion());

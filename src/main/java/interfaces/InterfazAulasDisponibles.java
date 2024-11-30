@@ -79,11 +79,13 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
     public void setControlador(ControladorPeriodica controlador) {
         controladorPeriodica = controlador;
         botonConfirmar.addActionListener(controladorPeriodica);
+        botonCancelar.addActionListener(controladorPeriodica);
     }
     
     public void setControlador(ControladorEsporadica controlador) {
         controladorEsporadica = controlador;
         botonConfirmar.addActionListener(controladorEsporadica);
+        botonCancelar.addActionListener(controladorEsporadica);
     }
 
     // Crear un renderizador personalizado para las celdas

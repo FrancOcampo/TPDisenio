@@ -2,14 +2,14 @@
 package dtos;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class BusquedaAulaDTO {
     
     private int alumnos;
     private String tipo_aula; 
     private String tipo_reserva;
-    private Date fecha;
+    private LocalDate fecha;
     private String periodo; 
     private String dia;
     private Time hora_inicio;
@@ -39,11 +39,11 @@ public class BusquedaAulaDTO {
         this.tipo_reserva = tipo_reserva;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

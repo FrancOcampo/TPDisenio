@@ -31,14 +31,13 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class ControladorPeriodica implements ActionListener {
@@ -133,17 +132,25 @@ public class ControladorPeriodica implements ActionListener {
             try {
                 if(row == -1) throw new DatosInvalidosException();
                 else {
-                    String aula = (String) iad.getModel().getValueAt(row, 0);
-                    Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
-                                           busquedaAulaDTO.getDia(), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
-                    irp.getModel().addRow(nuevaFila);
-                    iad.dispose();
+                    int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea agregar la subreserva?");
+                    if(confirmacion == JOptionPane.OK_OPTION) {
+                        
+                        String aula = (String) iad.getModel().getValueAt(row, 0);
+                        Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
+                                               busquedaAulaDTO.getDia(), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
+
+                        if(subreservasRepetidas(irp.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas repetidas.");
+                        irp.getModel().addRow(nuevaFila);
+                        iad.dispose();
+                    }
                 }
                 
             } catch(DatosInvalidosException e1) {
                 iad.crearPopUpFila();
+                
+            } catch(ReservaInconsistenteException e2) {
+                irp.crearPopUpAdvertencia(e2.getMessage());
             }
-            
         }
         else if(comando.equals("Finalizar reserva")) {
             
@@ -152,8 +159,6 @@ public class ControladorPeriodica implements ActionListener {
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     
                 try {
-                    if(subreservasRepetidas(irp.getjTable())) throw new DatosInvalidosException();
-                    
                     ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
                     TableModel modelo = irp.getModel();
                     
@@ -196,19 +201,16 @@ public class ControladorPeriodica implements ActionListener {
                     new InterfazIngresoDatosDocente().getControlador().completarDatos();
                     irp.dispose();
                     
-                    } catch(DatosInvalidosException e1) {
-                        irp.crearPopUpAdvertencia("La reserva contiene subreservas repetidas.");
-                        
-                    } catch(ParseException e2) {
+                    } catch(ParseException e1) {
                         irp.crearPopUpFracaso();
                         
-                    } catch(ErrorException e3) {
+                    } catch(ErrorException e2) {
                         irp.crearPopUpError();
                         
-                    } catch(ReservaInconsistenteException e4) {
-                        irp.crearPopUpAdvertencia(e4.getMessage());
+                    } catch(ReservaInconsistenteException e3) {
+                        irp.crearPopUpAdvertencia(e3.getMessage());
                         
-                    } catch(OperacionException e5) {
+                    } catch(OperacionException e4) {
                         irp.crearPopUpFracaso();
                     } 
             }
@@ -249,30 +251,31 @@ public class ControladorPeriodica implements ActionListener {
         return valido;
     }
     
-    private boolean subreservasRepetidas(JTable tabla) throws DatosInvalidosException {
+    private boolean subreservasRepetidas(JTable tabla, Object[] fila) {
+        
+        int columnas = tabla.getColumnCount();
+        int filas = tabla.getRowCount();
 
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        // Recorrer cada fila de la tabla
+        for (int i = 0; i < filas; i++) {
+            boolean sonIguales = true;
 
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            Object[] fila1 = new Object[modelo.getColumnCount()];
-            for (int j = 0; j < modelo.getColumnCount(); j++) {
-                fila1[j] = modelo.getValueAt(i, j);
+            // Comparar cada elemento de la fila
+            for (int j = 0; j < columnas; j++) {
+                Object valorTabla = tabla.getValueAt(i, j);
+                Object valorFilaBuscada = fila[j];
+
+                if (!Objects.equals(valorTabla, valorFilaBuscada)) {
+                    sonIguales = false;
+                    break; 
+                }
             }
 
-            for (int k = i + 1; k < modelo.getRowCount(); k++) {
-                Object[] fila2 = new Object[modelo.getColumnCount()];
-                for (int j = 0; j < modelo.getColumnCount(); j++) {
-                    fila2[j] = modelo.getValueAt(k, j);
-                }
-
-                // Verificar si las filas son iguales
-                if (Arrays.equals(fila1, fila2)) {
-                    return true;  
-                }
+            if (sonIguales) {
+                return true; 
             }
         }
-
-        return false;  
+        return false; 
     }
     
     private void marcarCampos() {

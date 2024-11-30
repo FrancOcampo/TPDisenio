@@ -34,6 +34,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -136,21 +137,30 @@ public class ControladorEsporadica implements ActionListener {
         else if (comando.equals("Confirmar")) {
             
             int row = iad.getjTable1().getSelectedRow();
-            SimpleDateFormat formatoBD = new SimpleDateFormat("dd-MM-yyyy");
+            DateTimeFormatter formatoBD = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             
             try {
                 if(row == -1) throw new DatosInvalidosException();
                 else {
-                    String aula = (String) iad.getModel().getValueAt(row, 0);
-                    Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
-                                           formatoBD.format(busquedaAulaDTO.getFecha()), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
-                    ire.getModel().addRow(nuevaFila);
-                    iad.dispose();
+                    int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea agregar la subreserva?");
+                    if(confirmacion == JOptionPane.OK_OPTION) {
+                        
+                        String aula = (String) iad.getModel().getValueAt(row, 0);
+                        Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
+                                               busquedaAulaDTO.getFecha().format(formatoBD), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
+
+                        if(subreservasRepetidas(ire.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas repetidas.");
+                        ire.getModel().addRow(nuevaFila);
+                        iad.dispose();
+                    }
                 }
                 
             } catch(DatosInvalidosException e1) {
                 iad.crearPopUpFila();
+                
+            } catch(ReservaInconsistenteException e2) {
+                ire.crearPopUpAdvertencia(e2.getMessage());
             }
         }
         else if(comando.equals("Finalizar reserva")) {
@@ -160,7 +170,6 @@ public class ControladorEsporadica implements ActionListener {
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     
                 try {
-                    if(subreservasRepetidas(ire.getjTable())) throw new DatosInvalidosException();
                     ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
                     TableModel modelo = ire.getModel();
                     
@@ -174,9 +183,8 @@ public class ControladorEsporadica implements ActionListener {
                         
                         Object valorFecha = modelo.getValueAt(i, 3);
                         
-                        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-                        java.util.Date utilDate = formato.parse((String) valorFecha); // Convierte String a java.util.Date
-                        java.sql.Date fecha = new java.sql.Date(utilDate.getTime()); // Convierte java.util.Date a java.sql.Date
+                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
+                        LocalDate fecha = LocalDate.parse((String) valorFecha, formato);
 
                         reservaParcialDTO.setFecha(fecha);
                         
@@ -209,20 +217,17 @@ public class ControladorEsporadica implements ActionListener {
                     new InterfazIngresoDatosDocente().getControlador().completarDatos();
                     ire.dispose();
                     
-                    }
-                    } catch(DatosInvalidosException e1) {
-                        ire.crearPopUpAdvertencia("La reserva contiene subreservas repetidas.");
-                        
-                    } catch(ParseException e2) {
+                    } 
+                    } catch(ParseException e1) {
                         ire.crearPopUpFracaso();
                           
-                    } catch(ErrorException e3) {
+                    } catch(ErrorException e2) {
                         ire.crearPopUpError();
     
-                    } catch(ReservaInconsistenteException e4) {
-                        ire.crearPopUpAdvertencia(e4.getMessage());
+                    } catch(ReservaInconsistenteException e3) {
+                        ire.crearPopUpAdvertencia(e3.getMessage());
                         
-                    } catch(OperacionException e5) {
+                    } catch(OperacionException e4) {
                         ire.crearPopUpFracaso();
                     } 
             } 
@@ -265,30 +270,31 @@ public class ControladorEsporadica implements ActionListener {
         return valido;
     }
     
-    private boolean subreservasRepetidas(JTable tabla) throws DatosInvalidosException {
+    private boolean subreservasRepetidas(JTable tabla, Object[] fila) {
+        
+        int columnas = tabla.getColumnCount();
+        int filas = tabla.getRowCount();
 
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        // Recorrer cada fila de la tabla
+        for (int i = 0; i < filas; i++) {
+            boolean sonIguales = true;
 
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            Object[] fila1 = new Object[modelo.getColumnCount()];
-            for (int j = 0; j < modelo.getColumnCount(); j++) {
-                fila1[j] = modelo.getValueAt(i, j);
+            // Comparar cada elemento de la fila
+            for (int j = 0; j < columnas; j++) {
+                Object valorTabla = tabla.getValueAt(i, j);
+                Object valorFilaBuscada = fila[j];
+
+                if (!Objects.equals(valorTabla, valorFilaBuscada)) {
+                    sonIguales = false;
+                    break; 
+                }
             }
 
-            for (int k = i + 1; k < modelo.getRowCount(); k++) {
-                Object[] fila2 = new Object[modelo.getColumnCount()];
-                for (int j = 0; j < modelo.getColumnCount(); j++) {
-                    fila2[j] = modelo.getValueAt(k, j);
-                }
-
-                // Verificar si las filas son iguales
-                if (Arrays.equals(fila1, fila2)) {
-                    return true;  
-                }
+            if (sonIguales) {
+                return true; 
             }
         }
-
-        return false;  
+        return false; 
     }
     
     private void marcarCampos() {
@@ -312,14 +318,15 @@ public class ControladorEsporadica implements ActionListener {
         }
     }
 
-    private Date convertirFecha(Date date) {
-        
-        SimpleDateFormat formatoBD = new SimpleDateFormat("yyyy-MM-dd");
+    private LocalDate convertirFecha(Date date) {
     
         try {
-            return formatoBD.parse(formatoBD.format(date));
             
-        } catch(ParseException e) {
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();                     // Convierte a LocalDate, sin la parte de la hora
+
+            return localDate; 
+            
+        } catch(Exception e) {
             ire.crearPopUpError();
             return null;
         }

@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity  // Marca la clase como una entidad persistente
 @Table(name = "reserva_parcial")  // Nombre de la tabla en la base de datos
@@ -23,7 +23,7 @@ public class ReservaParcial {
     private int duracion;
     private Time hora_inicio;
     private Time hora_fin;
-    private Date fecha;
+    private LocalDate fecha;
     
     @Column(name = "id_reserva")
     private int id_reserva;
@@ -65,11 +65,11 @@ public class ReservaParcial {
         this.hora_fin = hora_fin;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

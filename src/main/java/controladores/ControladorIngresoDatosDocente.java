@@ -19,7 +19,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
@@ -74,8 +73,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 reservaDTO.setNombre_docente(iidd.getDocente());
                 reservaDTO.setNombre_catedra(iidd.getCatedra());
                 reservaDTO.setEmail_docente(iidd.getCampoEmail().getText());
-                LocalDate fechaActual = LocalDate.now();
-                Date fecha = Date.from(fechaActual.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                LocalDate fecha = LocalDate.now();
                 reservaDTO.setFecha_reserva(fecha);
                 reservaDTO.setId_bedel(1); // ESTO HAY QUE VER SI HACEMOS AUTENTICACIÓN 
                 

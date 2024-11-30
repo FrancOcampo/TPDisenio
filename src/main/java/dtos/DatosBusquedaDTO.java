@@ -2,14 +2,14 @@
 package dtos;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class DatosBusquedaDTO {
     
     private int alumnos;
     private Class<?> tipoAula;
-    private List<Date> listaFechas; 
+    private List<LocalDate> listaFechas; 
     private Time hora_inicio;
     private Time hora_fin;
 
@@ -21,11 +21,11 @@ public class DatosBusquedaDTO {
         this.alumnos = alumnos;
     }
     
-    public List<Date> getListaFechas() {
+    public List<LocalDate> getListaFechas() {
         return listaFechas;
     }
 
-    public void setListaFechas(List<Date> listaFechas) {
+    public void setListaFechas(List<LocalDate> listaFechas) {
         this.listaFechas = listaFechas;
     }
 

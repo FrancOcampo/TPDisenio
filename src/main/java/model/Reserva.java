@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity // Marca la clase como una entidad persistente
@@ -24,7 +24,7 @@ public class Reserva {
     private String nombre_docente;
     private String email_docente;
     private String nombre_catedra;
-    private Date fecha_reserva;
+    private LocalDate fecha_reserva;
     private String tipo_reserva;
     
     @OneToMany(mappedBy = "id_reserva", cascade = CascadeType.ALL)
@@ -70,11 +70,11 @@ public class Reserva {
         this.nombre_catedra = nombre_catedra;
     }
 
-    public Date getFecha_reserva() {
+    public LocalDate getFecha_reserva() {
         return fecha_reserva;
     }
 
-    public void setFecha_reserva(Date fecha_reserva) {
+    public void setFecha_reserva(LocalDate fecha_reserva) {
         this.fecha_reserva = fecha_reserva;
     }
 

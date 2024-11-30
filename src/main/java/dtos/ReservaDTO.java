@@ -1,8 +1,8 @@
 
 package dtos;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ReservaDTO {
     
@@ -10,7 +10,7 @@ public class ReservaDTO {
     private String nombre_docente;
     private String email_docente;
     private String nombre_catedra;
-    private Date fecha_reserva;
+    private LocalDate fecha_reserva;
     private String tipo_reserva;
     private ArrayList<ReservaParcialDTO> reservasParcialesDTO;
     private String periodo;
@@ -48,11 +48,11 @@ public class ReservaDTO {
         this.nombre_catedra = nombre_catedra;
     }
 
-    public Date getFecha_reserva() {
+    public LocalDate getFecha_reserva() {
         return fecha_reserva;
     }
 
-    public void setFecha_reserva(Date fecha_reserva) {
+    public void setFecha_reserva(LocalDate fecha_reserva) {
         this.fecha_reserva = fecha_reserva;
     }
 
