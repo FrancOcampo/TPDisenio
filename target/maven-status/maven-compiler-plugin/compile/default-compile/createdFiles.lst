@@ -55,6 +55,7 @@ model\Periodo.class
 controladores\ControladorModificarBedel$1.class
 daos\AulaPostgreSQLDAO.class
 excepciones\DatosInvalidosException.class
+interfaces\InterfazAulasSolapadas$6.class
 interfaces\InterfazReservaEsporadica$1.class
 interfaces\InterfazRegistrarBedel$10.class
 ds\sistemagestionreservas\SistemaGestionReservas.class
@@ -147,6 +148,7 @@ interfaces\InterfazReservaEsporadica$5.class
 daos\BedelPostgreSQLDAO.class
 interfaces\InterfazModificarBedel$1.class
 interfaces\InterfazMainAdministrador$2.class
+interfaces\InterfazAulasDisponibles$7.class
 interfaces\InterfazMainBedel$1.class
 interfaces\InterfazIngresoDatosDocente$4.class
 dtos\BedelBusquedaDTO.class

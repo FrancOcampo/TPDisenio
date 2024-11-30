@@ -12,6 +12,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import controladores.ControladorPeriodica;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 public class InterfazAulasSolapadas extends javax.swing.JFrame {
@@ -54,6 +57,13 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
         
         // Asignar el renderizador de encabezado a cada columna
         header.setDefaultRenderer(headerRenderer);
+        
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
         
         setVisible(true);
 

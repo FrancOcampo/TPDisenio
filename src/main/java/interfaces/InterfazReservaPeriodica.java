@@ -37,6 +37,8 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         jLabelError1.setVisible(false);
         jLabelError2.setVisible(false);
         jLabelError3.setVisible(false);
+        jLabelError4.setVisible(false);
+        jLabelError5.setVisible(false);
         jTable1.setRowSelectionAllowed(false);
         listaDias.addItem("");
         listaDias.addItem("Lunes");
@@ -126,16 +128,16 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         calendar.set(Calendar.HOUR_OF_DAY, h);
         calendar.set(Calendar.MINUTE, m);
 
-        // Establecer los límites para el día (00:00 a 23:59)
+        // Establecer la hora y minuto finales
         Calendar endCalendar = Calendar.getInstance();
         endCalendar.set(Calendar.HOUR_OF_DAY, 23);
-        endCalendar.set(Calendar.MINUTE, 59);
+        endCalendar.set(Calendar.MINUTE, 55);
 
         // Agregar las horas y minutos al JComboBox
         while (calendar.before(endCalendar) || calendar.equals(endCalendar)) {
             Date hora = calendar.getTime();
             comboBox.addItem(formatoHora.format(hora));
-            calendar.add(Calendar.MINUTE, 1); // Incrementar 1 minuto
+            calendar.add(Calendar.MINUTE, 5); // Incrementar 5 minutos
         }
     }
 
@@ -249,6 +251,8 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
     public void setCamposHora(Border borde, boolean visibilidad){
          listaHoraInicio.setBorder(borde);
          listaHoraFin.setBorder(borde);
+         jLabelError4.setVisible(true);
+         jLabelError5.setVisible(true);
     }
     
     public void desmarcarCampos() {
@@ -263,6 +267,8 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
       jLabelError1.setVisible(visibilidad);
       jLabelError2.setVisible(visibilidad);
       jLabelError3.setVisible(visibilidad);
+      jLabelError4.setVisible(visibilidad);
+      jLabelError5.setVisible(visibilidad);
     }
     
     public DefaultTableModel getModel() {
@@ -365,6 +371,8 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         listaHoraFin = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabelError4 = new javax.swing.JLabel();
+        jLabelError5 = new javax.swing.JLabel();
         botonConfirmarDia = new javax.swing.JButton();
         botonRegistrarReserva = new javax.swing.JButton();
 
@@ -489,6 +497,14 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Hora de fin");
 
+        jLabelError4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelError4.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelError4.setText("!");
+
+        jLabelError5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelError5.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelError5.setText("!");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -496,15 +512,21 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelError5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelError4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel8))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel9)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,11 +534,15 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(listaHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelError4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(listaHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelError5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -710,6 +736,8 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelError1;
     private javax.swing.JLabel jLabelError2;
     private javax.swing.JLabel jLabelError3;
+    private javax.swing.JLabel jLabelError4;
+    private javax.swing.JLabel jLabelError5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

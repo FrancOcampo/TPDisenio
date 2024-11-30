@@ -20,7 +20,7 @@ public class SistemaGestionReservas {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al intentar iniciar la aplicación.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
         // Crear la interfaz gráfica en el hilo de despacho de eventos

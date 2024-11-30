@@ -193,7 +193,8 @@ public class ControladorPeriodica implements ActionListener {
                     GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
                     
                     irp.crearPopUpExito();
-                    irp.setearCamposEnBlanco();
+                    new InterfazIngresoDatosDocente().getControlador().completarDatos();
+                    irp.dispose();
                     
                     } catch(DatosInvalidosException e1) {
                         irp.crearPopUpAdvertencia("La reserva contiene subreservas repetidas.");

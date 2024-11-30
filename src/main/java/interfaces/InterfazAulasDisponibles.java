@@ -3,10 +3,14 @@ package interfaces;
 
 import controladores.ControladorEsporadica;
 import controladores.ControladorPeriodica;
+import daos.Conexion;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -56,6 +60,13 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         
         // Asignar el renderizador de encabezado a cada columna
         header.setDefaultRenderer(headerRenderer);
+        
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
         
         setVisible(true);
 

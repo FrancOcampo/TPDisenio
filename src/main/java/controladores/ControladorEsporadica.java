@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -205,7 +206,8 @@ public class ControladorEsporadica implements ActionListener {
                     GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
                     
                     ire.crearPopUpExito();
-                    ire.setearCamposEnBlanco();
+                    new InterfazIngresoDatosDocente().getControlador().completarDatos();
+                    ire.dispose();
                     
                     }
                     } catch(DatosInvalidosException e1) {
@@ -416,7 +418,10 @@ public class ControladorEsporadica implements ActionListener {
             return true;
         }
         
-        if (!ire.getFecha().equals("")) {
+        LocalDate fechaSeleccionada = ire.getCalendario().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fechaActual = LocalDate.now();
+        
+        if (!fechaSeleccionada.equals(fechaActual)) {
             return true;
         }
 
