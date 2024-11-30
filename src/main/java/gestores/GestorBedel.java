@@ -43,7 +43,7 @@ public class GestorBedel {
             bedelPostgreSQLDAO.registrarBedel(bedel);
     }
     
-    public boolean validarDatosRegistro(BedelDTO bedelDTO) throws YaExisteUsuarioException, PoliticasContraseniaException {
+    private boolean validarDatosRegistro(BedelDTO bedelDTO) throws YaExisteUsuarioException, PoliticasContraseniaException {
         
         BedelPostgreSQLDAO bedelPostgreSQLDAO = BedelPostgreSQLDAO.obtenerInstancia();
         
@@ -155,7 +155,7 @@ public class GestorBedel {
         
     }
     
-    public boolean validarDatosModificacion(BedelDTO bedelDTO) throws PoliticasContraseniaException {
+    private boolean validarDatosModificacion(BedelDTO bedelDTO) throws PoliticasContraseniaException {
         
         BedelPostgreSQLDAO bedelPostgreSQLDAO = BedelPostgreSQLDAO.obtenerInstancia();
         

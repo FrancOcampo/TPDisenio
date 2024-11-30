@@ -75,7 +75,6 @@ public class GestorReserva {
         
         DatosBusquedaDTO datosBusquedaDTO = new DatosBusquedaDTO();
         datosBusquedaDTO.setAlumnos(busquedaAulaDTO.getAlumnos());
-        datosBusquedaDTO.setTipo_aula(busquedaAulaDTO.getTipo_aula());
         datosBusquedaDTO.setListaFechas(listaFechas);
         datosBusquedaDTO.setHora_inicio(busquedaAulaDTO.getHora_inicio());
         datosBusquedaDTO.setHora_fin(busquedaAulaDTO.getHora_fin());
@@ -84,7 +83,7 @@ public class GestorReserva {
         
         Class<?> tipoAula = null;
 
-        switch (datosBusquedaDTO.getTipo_aula()) {
+        switch (busquedaAulaDTO.getTipo_aula()) {
             case "Multimedios":
                 tipoAula = Multimedios.class;
                 break;
@@ -148,7 +147,7 @@ public class GestorReserva {
        
        return aulaCompuestaDTO;
            
-       }
+    }
     
     public void verificarPeriodo(ReservaDTO reservaDTO) throws FechaException {
         

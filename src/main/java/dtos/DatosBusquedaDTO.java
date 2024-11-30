@@ -8,7 +8,6 @@ import java.util.List;
 public class DatosBusquedaDTO {
     
     private int alumnos;
-    private String tipo_aula;
     private Class<?> tipoAula;
     private List<Date> listaFechas; 
     private Time hora_inicio;
@@ -21,15 +20,7 @@ public class DatosBusquedaDTO {
     public void setAlumnos(int alumnos) {
         this.alumnos = alumnos;
     }
-
-    public String getTipo_aula() {
-        return tipo_aula;
-    }
-
-    public void setTipo_aula(String tipo_aula) {
-        this.tipo_aula = tipo_aula;
-    }
-
+    
     public List<Date> getListaFechas() {
         return listaFechas;
     }
