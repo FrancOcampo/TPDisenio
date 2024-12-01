@@ -101,7 +101,7 @@ public class GestorReserva {
        if(!reservasParcialesSolapadas.isEmpty()) {
            
             for (ReservaParcial reservaParcial : reservasParcialesSolapadas) {
-                idAulas.add(reservaParcial.getAula().getId_aula()); // Asumiendo que 'getAula()' devuelve el objeto Aula
+                idAulas.add(reservaParcial.getAula().getId_aula()); 
             }
        }
        else idAulas.add(0);
@@ -167,7 +167,7 @@ public class GestorReserva {
         List<LocalDate> fechas = new ArrayList<>();
         DayOfWeek diaSemana;
         
-        // Mapeo de días en español a DayOfWeek dentro del método
+        // Mapeo de días en español a DayOfWeek
         switch (dia.toLowerCase()) {
             case "lunes":
                 diaSemana = DayOfWeek.MONDAY;
@@ -273,6 +273,7 @@ public class GestorReserva {
     }
     
     private List<ReservaParcial> listaRpMenosSolapadas(List<ReservaParcial> rpSolapadas, Time hora_inicio, Time hora_fin) {
+        
         // Lista para almacenar las reservas con su solapamiento calculado
         Map<ReservaParcial, Integer> reservasConSolapamiento = new HashMap<>();
 
