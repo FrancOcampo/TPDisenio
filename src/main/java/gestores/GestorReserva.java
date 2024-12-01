@@ -98,53 +98,53 @@ public class GestorReserva {
         List<ReservaParcial> reservasParcialesSolapadas = reservaPostgreSQLDAO.obtener_RP_solapadas(datosBusquedaDTO);
         List<Integer> idAulas = new ArrayList<>();
         
-       if(!reservasParcialesSolapadas.isEmpty()) {
-           
-            for (ReservaParcial reservaParcial : reservasParcialesSolapadas) {
-                idAulas.add(reservaParcial.getAula().getId_aula()); 
+        if(!reservasParcialesSolapadas.isEmpty()) {
+
+             for (ReservaParcial reservaParcial : reservasParcialesSolapadas) {
+                 idAulas.add(reservaParcial.getAula().getId_aula()); 
+             }
+        }
+        else idAulas.add(0);
+
+        AulaPostgreSQLDAO aulaPostgreSQLDAO = AulaPostgreSQLDAO.obtenerInstancia();
+
+        List<Aula> aulasDisponibles = aulaPostgreSQLDAO.obtenerOtrasAulas(idAulas, datosBusquedaDTO);
+
+        if(!aulasDisponibles.isEmpty()) {
+
+            List<AulaDisponibleDTO> aulasDisponiblesDTO = new ArrayList<>();
+
+            for(Aula aula : aulasDisponibles) {
+                AulaDisponibleDTO aulaDisponibleDTO = map_Aula_a_AulaDisponibleDTO(aula);
+                aulasDisponiblesDTO.add(aulaDisponibleDTO);
             }
-       }
-       else idAulas.add(0);
-       
-       AulaPostgreSQLDAO aulaPostgreSQLDAO = AulaPostgreSQLDAO.obtenerInstancia();
-       
-       List<Aula> aulasDisponibles = aulaPostgreSQLDAO.obtenerOtrasAulas(idAulas, datosBusquedaDTO);
-       
-       if(!aulasDisponibles.isEmpty()) {
-           
-           List<AulaDisponibleDTO> aulasDisponiblesDTO = new ArrayList<>();
-           
-           for(Aula aula : aulasDisponibles) {
-               AulaDisponibleDTO aulaDisponibleDTO = map_Aula_a_AulaDisponibleDTO(aula);
-               aulasDisponiblesDTO.add(aulaDisponibleDTO);
-           }
-           
-           aulaCompuestaDTO.setAulasDisponiblesDTO(aulasDisponiblesDTO);
-           
-       }
-       else {
-           List<AulaSolapadaDTO> aulasSolapadasDTO = new ArrayList<>();
-           List<ReservaParcial> rpMenosSolapadas = listaRpMenosSolapadas(reservasParcialesSolapadas, busquedaAulaDTO.getHora_inicio(), busquedaAulaDTO.getHora_fin());
-           
-           for(ReservaParcial rpSolapada : rpMenosSolapadas) {
-               
-               AulaSolapadaDTO aulaSolapadaDTO = new AulaSolapadaDTO();
-               aulaSolapadaDTO.setNombre_aula(rpSolapada.getAula().getNombre());
-               Reserva reserva = reservaPostgreSQLDAO.obtenerReserva(rpSolapada.getId_reserva());
-               aulaSolapadaDTO.setDocente(reserva.getNombre_docente());
-               aulaSolapadaDTO.setContacto(reserva.getEmail_docente());
-               aulaSolapadaDTO.setCurso(reserva.getNombre_catedra());
-               aulaSolapadaDTO.setHora_inicio(rpSolapada.getHora_inicio());
-               aulaSolapadaDTO.setHora_fin(rpSolapada.getHora_fin());
-               
-               aulasSolapadasDTO.add(aulaSolapadaDTO);
-           }
-           
-           aulaCompuestaDTO.setAulasSolapadasDTO(aulasSolapadasDTO);
-       }
-       
-       return aulaCompuestaDTO;
-           
+
+            aulaCompuestaDTO.setAulasDisponiblesDTO(aulasDisponiblesDTO);
+
+        }
+        else {
+            List<AulaSolapadaDTO> aulasSolapadasDTO = new ArrayList<>();
+            List<ReservaParcial> rpMenosSolapadas = listaRpMenosSolapadas(reservasParcialesSolapadas, busquedaAulaDTO.getHora_inicio(), busquedaAulaDTO.getHora_fin());
+
+            for(ReservaParcial rpSolapada : rpMenosSolapadas) {
+
+                AulaSolapadaDTO aulaSolapadaDTO = new AulaSolapadaDTO();
+                aulaSolapadaDTO.setNombre_aula(rpSolapada.getAula().getNombre());
+                Reserva reserva = reservaPostgreSQLDAO.obtenerReserva(rpSolapada.getId_reserva());
+                aulaSolapadaDTO.setDocente(reserva.getNombre_docente());
+                aulaSolapadaDTO.setContacto(reserva.getEmail_docente());
+                aulaSolapadaDTO.setCurso(reserva.getNombre_catedra());
+                aulaSolapadaDTO.setHora_inicio(rpSolapada.getHora_inicio());
+                aulaSolapadaDTO.setHora_fin(rpSolapada.getHora_fin());
+
+                aulasSolapadasDTO.add(aulaSolapadaDTO);
+            }
+
+            aulaCompuestaDTO.setAulasSolapadasDTO(aulasSolapadasDTO);
+        }
+
+        return aulaCompuestaDTO;
+
     }
     
     public void verificarPeriodo(ReservaDTO reservaDTO) throws FechaException {
