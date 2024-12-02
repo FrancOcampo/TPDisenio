@@ -57,8 +57,7 @@ public class ControladorEliminarBedel implements ActionListener {
                 
                 ieb.crearPopUpExito();
                 ieb.dispose();
-                if(!cbb.criteriosDeBusqueda()) cbb.cargarTabla();
-                else cbb.busqueda();
+                cbb.mostrarTabla();
                 
             } catch(OperacionException e1) {
                 ieb.crearPopUpFracaso();

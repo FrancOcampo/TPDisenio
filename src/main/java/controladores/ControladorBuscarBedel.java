@@ -97,7 +97,7 @@ public class ControladorBuscarBedel implements ActionListener {
         }
     }
     
-    public boolean criteriosDeBusqueda() {
+    private boolean criteriosDeBusqueda() {
         
         boolean criterios = true;
         
@@ -123,7 +123,7 @@ public class ControladorBuscarBedel implements ActionListener {
         }
     }
     
-    public void busqueda() {
+    private void busqueda() {
         
         try {
             
@@ -174,7 +174,7 @@ public class ControladorBuscarBedel implements ActionListener {
             }
     }
     
-    public void cargarTabla() {
+    private void cargarTabla() { // Cargar tabla con todos los bedeles que existen en la base de datos
         
         ibb.getModel().setRowCount(0);
         ArrayList<String> turnos = new ArrayList<>();
@@ -196,6 +196,11 @@ public class ControladorBuscarBedel implements ActionListener {
             ibb.crearPopUpError();
         }
         
+    }
+    
+    public void mostrarTabla() {
+        if(!criteriosDeBusqueda()) cargarTabla();
+        else busqueda();
     }
 
 }

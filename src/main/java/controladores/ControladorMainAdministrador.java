@@ -35,7 +35,7 @@ public class ControladorMainAdministrador implements ActionListener {
         String comando = e.getActionCommand();
         
         if(comando.equals("Buscar bedel")) {
-            new InterfazBuscarBedel().getControlador().cargarTabla();
+            new InterfazBuscarBedel().getControlador().mostrarTabla();
             ima.dispose();
         }
         else if(comando.equals("Registrar bedel")) {
