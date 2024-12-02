@@ -53,7 +53,6 @@ public class ControladorBuscarBedel implements ActionListener {
             ibb.getjCheckBox2().setSelected(false);
             ibb.getjCheckBox3().setSelected(false);
             cargarTabla();
-            // ibb.getModel().setRowCount(0); 
         }
         else if(comando.equals("Modificar bedel")) {
             int row = ibb.getjTable1().getSelectedRow();
@@ -98,7 +97,7 @@ public class ControladorBuscarBedel implements ActionListener {
         }
     }
     
-    private boolean criteriosDeBusqueda() {
+    public boolean criteriosDeBusqueda() {
         
         boolean criterios = true;
         
@@ -130,8 +129,9 @@ public class ControladorBuscarBedel implements ActionListener {
             
             ibb.desmarcarCampo();
             
-            if(!criteriosDeBusqueda() || !ibb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) throw new DatosInvalidosException();
-            
+            if(!criteriosDeBusqueda()) throw new DatosInvalidosException("Ingrese al menos un criterio de búsqueda.");
+            if(!ibb.getCampoApellido().getText().trim().isEmpty() && !ibb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) throw new DatosInvalidosException("El apellido sólo puede contener letras.");
+
             BedelGeneralDTO bedelGeneralDTO = new BedelGeneralDTO();
             
             if(!ibb.getCampoApellido().getText().trim().isEmpty()) {
@@ -159,12 +159,11 @@ public class ControladorBuscarBedel implements ActionListener {
             else throw new NoExisteBedelException();
             
             } catch(DatosInvalidosException e1) {
-                if(ibb.getCampoApellido().getText().trim().isEmpty()) {
-                    ibb.crearPopUpAdvertencia("Ingrese al menos un criterio de búsqueda.");
-                }
-                else {
+                
+                ibb.crearPopUpAdvertencia(e1.getMessage());
+                
+                if(!ibb.getCampoApellido().getText().trim().isEmpty()) {
                     ibb.marcarCampoApellido();
-                    ibb.crearPopUpAdvertencia("El apellido sólo puede contener letras.");
                 }
                 
             } catch(ErrorException e2) {
@@ -177,6 +176,7 @@ public class ControladorBuscarBedel implements ActionListener {
     
     public void cargarTabla() {
         
+        ibb.getModel().setRowCount(0);
         ArrayList<String> turnos = new ArrayList<>();
         
         turnos.add("Mañana");

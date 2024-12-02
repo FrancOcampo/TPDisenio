@@ -92,7 +92,9 @@ public class ControladorModificarBedel implements ActionListener {
                         gb.modificarBedel(bedelDTO);
                 
                         imb.crearPopUpExito();
-                        cbb.busqueda();
+                        imb.dispose();
+                        if(!cbb.criteriosDeBusqueda()) cbb.cargarTabla();
+                        else cbb.busqueda();
                     }
                 }
             }

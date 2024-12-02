@@ -45,7 +45,6 @@ public class ControladorEliminarBedel implements ActionListener {
         ieb.getCampoTurno().setText(bedelDTO.getTurno());
     }
     
-    
     public void actionPerformed(ActionEvent e) {
         String comando = e.getActionCommand();
         
@@ -58,7 +57,8 @@ public class ControladorEliminarBedel implements ActionListener {
                 
                 ieb.crearPopUpExito();
                 ieb.dispose();
-                cbb.busqueda();
+                if(!cbb.criteriosDeBusqueda()) cbb.cargarTabla();
+                else cbb.busqueda();
                 
             } catch(OperacionException e1) {
                 ieb.crearPopUpFracaso();
