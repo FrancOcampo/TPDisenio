@@ -65,7 +65,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="listaPeriodos" min="-2" pref="164" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelError4" min="-2" pref="15" max="-2" attributes="0"/>
+                              <Component id="jLabelError4" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="botonPeriodica" min="-2" pref="110" max="-2" attributes="0"/>

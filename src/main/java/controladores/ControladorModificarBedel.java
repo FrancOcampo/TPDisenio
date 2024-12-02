@@ -80,9 +80,9 @@ public class ControladorModificarBedel implements ActionListener {
                     
                         BedelDTO bedelDTO = new BedelDTO();
                         bedelDTO.setNombreUsuario(imb.getIdentificador().getText());
-                        String nombre = imb.getCampoNombre().getText().substring(0, 1).toUpperCase() + imb.getCampoNombre().getText().substring(1).toLowerCase();
+                        String nombre = formato(imb.getCampoNombre().getText());
                         bedelDTO.setNombre(nombre);
-                        String apellido = imb.getCampoApellido().getText().substring(0, 1).toUpperCase() + imb.getCampoApellido().getText().substring(1).toLowerCase();
+                        String apellido = formato(imb.getCampoApellido().getText());
                         bedelDTO.setApellido(apellido);
                         bedelDTO.setTurno(imb.getTurno());
                         bedelDTO.setContrasenia(imb.getCampoContrasenia().getText());
@@ -198,5 +198,22 @@ public class ControladorModificarBedel implements ActionListener {
         
     }
     
+    // Poner nombre/s o apellidos/s en formato primera letra mayúscula y el resto minúsculas
+    private String formato(String texto) {
+        
+        String[] palabras = texto.split(" "); // Separa el texto por espacios
+        StringBuilder textoConFormato = new StringBuilder();
+
+        for (String palabra : palabras) {
+            if (!palabra.isEmpty()) {
+                textoConFormato.append(palabra.substring(0, 1).toUpperCase())
+                                 .append(palabra.substring(1).toLowerCase())
+                                 .append(" "); // Añadir espacio entre palabras
+            }
+        }
+
+        // Elimina el último espacio extra y devuelve el resultado
+        return textoConFormato.toString().trim();
+    }
     
-}
+ }
