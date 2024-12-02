@@ -455,7 +455,7 @@ public class GestorReserva {
         
         if (!reservasConConflicto.isEmpty()) {
             
-            StringBuilder mensaje = new StringBuilder("<html>Conflictos detectados en las siguientes subreservas:<br>");
+            StringBuilder mensaje = new StringBuilder("<html>Conflictos detectados con las siguientes reservas:<br>");
             
             for (ReservaParcial rp : reservasConConflicto) {
                 

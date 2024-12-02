@@ -225,6 +225,7 @@ public class ControladorEsporadica implements ActionListener {
                         reservaParcialDTO.setDuracion((int)duracion);
                         
                         reservasParcialesDTO.add(reservaParcialDTO);
+                    }
                     
                     reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
                     GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
@@ -233,7 +234,7 @@ public class ControladorEsporadica implements ActionListener {
                     new InterfazIngresoDatosDocente().getControlador().completarDatos();
                     ire.dispose();
                     
-                    } 
+                     
                     } catch(ParseException e1) {
                         ire.crearPopUpFracaso();
                           
