@@ -77,8 +77,6 @@ public class GestorReserva {
         datosBusquedaDTO.setHora_inicio(busquedaAulaDTO.getHora_inicio());
         datosBusquedaDTO.setHora_fin(busquedaAulaDTO.getHora_fin());
         
-        ReservaPostgreSQLDAO reservaPostgreSQLDAO = ReservaPostgreSQLDAO.obtenerInstancia();
-        
         Class<?> tipoAula = null;
 
         switch (busquedaAulaDTO.getTipo_aula()) {
@@ -94,6 +92,8 @@ public class GestorReserva {
         }
         
         datosBusquedaDTO.setTipoAula(tipoAula);
+        
+        ReservaPostgreSQLDAO reservaPostgreSQLDAO = ReservaPostgreSQLDAO.obtenerInstancia();
         
         List<ReservaParcial> reservasParcialesSolapadas = reservaPostgreSQLDAO.obtener_RP_solapadas(datosBusquedaDTO);
         List<Integer> idAulas = new ArrayList<>();
