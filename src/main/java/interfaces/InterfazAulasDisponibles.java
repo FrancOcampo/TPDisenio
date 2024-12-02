@@ -14,11 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 public class InterfazAulasDisponibles extends javax.swing.JFrame {
 
@@ -36,11 +37,10 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         setIconImage(transparentImage);
         
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
-            jTable1.getColumnModel().getColumn(i).setCellRenderer(customRenderer);
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(new MultiLineCellRenderer());
         }
         
         jScrollPane1.getViewport().setBackground(new Color(153,153,153)); // Cambia el fondo del área vacía del JScrollPane
-        jTable1.setRowHeight(20); // Cambia el alto de todas las filas 
         
         // Personalizar los encabezados de columna
         JTableHeader header = jTable1.getTableHeader();
@@ -87,30 +87,38 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         botonCancelar.addActionListener(controladorEsporadica);
     }
 
-    // Crear un renderizador personalizado para las celdas
-    DefaultTableCellRenderer customRenderer = new DefaultTableCellRenderer() {
-            
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column) {
-            
-            Component cellComponent = super.getTableCellRendererComponent(jTable1, value, isSelected, hasFocus, row, column);
+    // Renderizador de celdas que permite múltiples líneas usando JTextArea
+    class MultiLineCellRenderer extends JTextArea implements TableCellRenderer {
 
-            // Establecer el fondo y color de texto 
-            if (isSelected) {
-                cellComponent.setBackground(new Color(102,102,102)); // Color de fondo cuando está seleccionada
-                cellComponent.setForeground(Color.WHITE); // Color del texto cuando está seleccionada
-                setBorder(new LineBorder(new Color(51,51,51)));
-            } else {
-                cellComponent.setBackground(new Color(153,153,153)); // Fondo para las celdas no seleccionadas
-                cellComponent.setForeground(Color.BLACK); // Texto 
-                setBorder(new LineBorder(new Color(102,102,102)));
-            }
-            
-            setHorizontalAlignment(SwingConstants.CENTER); // Centrar el texto
-            
-            return cellComponent;
+        public MultiLineCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+            setOpaque(true); // Para que se muestre el fondo
         }
-    };
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                       boolean hasFocus, int row, int column) {
+            setText(value != null ? value.toString() : "");
+
+            // Ajustar la altura de la fila según el contenido, pero limitar a un valor máximo
+            int requiredHeight = getPreferredSize().height;
+            int newRowHeight = Math.min(requiredHeight, 110);
+
+            if (table.getRowHeight(row) < newRowHeight) {
+                table.setRowHeight(row, newRowHeight);
+            }
+
+            if (isSelected) {
+                setBackground(new Color(102, 102, 102));
+                setForeground(Color.WHITE);
+            } else {
+                setBackground(new Color(153, 153, 153));
+                setForeground(Color.BLACK);
+            }
+
+            return this;
+        }
+    }
     
     public DefaultTableModel getModel() {
         return (DefaultTableModel) jTable1.getModel();
@@ -179,6 +187,10 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(3).setMinWidth(170);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(170);
+        }
 
         botonCancelar.setBackground(new java.awt.Color(102, 0, 0));
         botonCancelar.setForeground(new java.awt.Color(255, 255, 255));
@@ -213,15 +225,15 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 446, Short.MAX_VALUE)
                 .addComponent(botonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,11 +244,11 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

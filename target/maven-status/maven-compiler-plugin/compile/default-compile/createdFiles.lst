@@ -90,6 +90,7 @@ gestores\GestorReserva.class
 controladores\ControladorMainBedel.class
 interfaces\InterfazBuscarBedel.class
 interfaces\InterfazAulasDisponibles$4.class
+interfaces\InterfazAulasDisponibles$MultiLineCellRenderer.class
 interfaces\InterfazBuscarBedel$2.class
 interfaces\InterfazMainPrincipal$2.class
 dtos\ReservaDTO.class
@@ -148,7 +149,6 @@ interfaces\InterfazReservaEsporadica$5.class
 daos\BedelPostgreSQLDAO.class
 interfaces\InterfazModificarBedel$1.class
 interfaces\InterfazMainAdministrador$2.class
-interfaces\InterfazAulasDisponibles$7.class
 interfaces\InterfazMainBedel$1.class
 interfaces\InterfazIngresoDatosDocente$4.class
 dtos\BedelBusquedaDTO.class

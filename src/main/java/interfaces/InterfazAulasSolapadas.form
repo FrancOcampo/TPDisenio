@@ -47,7 +47,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="574" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="767" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
@@ -68,7 +68,7 @@
                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="237" max="-2" attributes="0"/>
-                  <EmptySpace pref="43" max="32767" attributes="0"/>
+                  <EmptySpace pref="58" max="32767" attributes="0"/>
                   <Component id="botonContinuar" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               </Group>
@@ -97,7 +97,7 @@
                     <Column editable="false" title="Solicitante" type="java.lang.String"/>
                     <Column editable="false" title="Curso" type="java.lang.String"/>
                     <Column editable="false" title="Contacto" type="java.lang.String"/>
-                    <Column editable="true" title="Hora inicio" type="java.lang.Object"/>
+                    <Column editable="false" title="Hora inicio" type="java.lang.Object"/>
                     <Column editable="false" title="Hora fin" type="java.lang.Object"/>
                   </Table>
                 </Property>
@@ -123,12 +123,12 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="70" minWidth="70" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="70" minWidth="70" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

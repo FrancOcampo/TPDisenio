@@ -32,7 +32,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import javax.swing.JFrame;
@@ -40,7 +39,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class ControladorEsporadica implements ActionListener {
@@ -112,11 +110,30 @@ public class ControladorEsporadica implements ActionListener {
                     
                     for (AulaSolapadaDTO aula : aulas.getAulasSolapadasDTO()) {
                         
-                        Object[] row = { aula.getNombre_aula(), aula.getDocente(), aula.getCurso(), aula.getContacto(), aula.getHora_inicio(), aula.getHora_fin() };
+                        Time horaInicio = aula.getHora_inicio();
+                        Time horaFin = aula.getHora_fin();
+
+                        int horaInicioHoras = horaInicio.getHours();
+                        int horaInicioMinutos = horaInicio.getMinutes();
+                        int horaFinHoras = horaFin.getHours();
+                        int horaFinMinutos = horaFin.getMinutes();
+
+                        // Formatear a "hh:mm"
+                        String horaInicioFormateada = String.format("%02d:%02d", horaInicioHoras, horaInicioMinutos);
+                        String horaFinFormateada = String.format("%02d:%02d", horaFinHoras, horaFinMinutos);
+
+                        Object[] row = { 
+                            aula.getNombre_aula(), 
+                            aula.getDocente(), 
+                            aula.getCurso(), 
+                            aula.getContacto(), 
+                            horaInicioFormateada,  
+                            horaFinFormateada      
+                        };
+
                         ias.getModel().addRow(row);
                     }
                 }
-                
             }
                 
             } catch(DatosInvalidosException e1) {

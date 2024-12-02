@@ -233,45 +233,36 @@ public class GestorReserva {
     }
     
     private String obtenerCaracteristicasAula(Aula aula) {
-        
+       
         StringBuilder caracteristicas = new StringBuilder();
 
-        if (aula.canion()) {
-            caracteristicas.append("Con cañón. ");
-        }
-        if (aula.getTipoPizarron() != null && !aula.getTipoPizarron().isEmpty()) {
-            caracteristicas.append("Tipo de pizarrón: ").append(aula.getTipoPizarron()).append(". ");
-        }
-        if (aula.ventiladores()) {
-            caracteristicas.append("Con ventiladores. ");
-        }
-        if (aula.aireAcondicionado()) {
-            caracteristicas.append("Con aire acondicionado. ");
-        }
+        caracteristicas.append("Con cañón: ").append(aula.canion() ? "SÍ" : "NO").append(".\n");
+
+        caracteristicas.append("Tipo de pizarrón: ").append(aula.getTipoPizarron().toLowerCase()).append(".\n");
+        
+        caracteristicas.append("Con ventiladores: ").append(aula.ventiladores() ? "SÍ" : "NO").append(".\n");
+
+        caracteristicas.append("Con aire acondicionado: ").append(aula.aireAcondicionado() ? "SÍ" : "NO").append(".\n");
 
         if (aula instanceof Informatica) {
             Informatica aulaInformatica = (Informatica) aula;
-            caracteristicas.append("Cantidad de PCs: ").append(aulaInformatica.getCantidadPC()).append(". ");
-
+            caracteristicas.append("Cantidad de PCs: ").append(aulaInformatica.getCantidadPC()).append(".\n");
         }
 
         if (aula instanceof Multimedios) {
             Multimedios aulaMultimedios = (Multimedios) aula;
-            if (aulaMultimedios.televisor()) {
-                caracteristicas.append("Con televisor. ");
-            }
-            if (aulaMultimedios.computadora()) {
-                caracteristicas.append("Con computadora. ");
-            }
+            caracteristicas.append("Con televisor: ").append(aulaMultimedios.televisor() ? "SÍ" : "NO").append(".\n");
+            caracteristicas.append("Con computadora: ").append(aulaMultimedios.computadora() ? "SÍ" : "NO").append(".\n");
         }
 
-        if (caracteristicas.length() > 0) {
-            caracteristicas.setLength(caracteristicas.length() - 2);
+        // Eliminar el último salto de línea si existe
+        if (caracteristicas.length() > 0 && caracteristicas.charAt(caracteristicas.length() - 1) == '\n') {
+            caracteristicas.setLength(caracteristicas.length() - 1);
         }
 
         return caracteristicas.toString();
     }
-    
+
     private List<ReservaParcial> listaRpMenosSolapadas(List<ReservaParcial> rpSolapadas, Time hora_inicio, Time hora_fin) {
         
         // Lista para almacenar las reservas con su solapamiento calculado
