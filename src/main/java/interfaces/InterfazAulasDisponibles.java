@@ -3,7 +3,6 @@ package interfaces;
 
 import controladores.ControladorEsporadica;
 import controladores.ControladorPeriodica;
-import daos.Conexion;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
