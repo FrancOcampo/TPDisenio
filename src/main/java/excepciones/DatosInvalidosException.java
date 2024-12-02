@@ -3,7 +3,9 @@ package excepciones;
 
 public class DatosInvalidosException extends Exception {
     
-    public DatosInvalidosException(){
-        super("Datos inválidos.");
+    public DatosInvalidosException(){}
+    
+    public DatosInvalidosException(String mensaje) {
+        super(mensaje);
     }
 }

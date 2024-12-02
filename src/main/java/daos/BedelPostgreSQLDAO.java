@@ -94,7 +94,8 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         
         try {
             String jpql = "SELECT b FROM Bedel b WHERE b.activo = true " +
-                          "AND b.apellido LIKE :apellidoPrefix " +
+                          "AND (LOWER(b.apellido) LIKE LOWER(:apellidoPrefix || '%') " +
+                          "OR LOWER(b.apellido) LIKE LOWER('% ' || :apellidoPrefix || '%')) " +
                           "AND b.turno IN :turnos";
 
             TypedQuery<Bedel> query = em.createQuery(jpql, Bedel.class);
@@ -121,7 +122,8 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         
         try {
             String jpql = "SELECT b FROM Bedel b WHERE b.activo = true " +
-                          "AND b.apellido LIKE :apellidoPrefix ";
+                          "AND (LOWER(b.apellido) LIKE LOWER(:apellidoPrefix || '%') " +
+                          "OR LOWER(b.apellido) LIKE LOWER('% ' || :apellidoPrefix || '%')) ";
 
             TypedQuery<Bedel> query = em.createQuery(jpql, Bedel.class);
 

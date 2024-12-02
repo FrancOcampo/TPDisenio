@@ -20,6 +20,8 @@ import excepciones.ReservaInconsistenteException;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -452,15 +454,28 @@ public class GestorReserva {
         reservasConConflicto = reservaPostgreSQLDAO.verificarDisponibilidad(reservasParciales);
         
         if (!reservasConConflicto.isEmpty()) {
-               StringBuilder mensaje = new StringBuilder("Conflictos detectados en las siguientes reservas:\n");
-               for (ReservaParcial rp : reservasConConflicto) {
-                   mensaje.append("Aula: ").append(rp.getAula().getNombre())
-                          .append(", fecha: ").append(rp.getFecha())
-                          .append(", hora inicio: ").append(rp.getHora_inicio())
-                          .append(", hora fin: ").append(rp.getHora_fin())
-                          .append("\n");
-               }
-               throw new ReservaInconsistenteException(mensaje.toString());
+            
+            StringBuilder mensaje = new StringBuilder("<html>Conflictos detectados en las siguientes subreservas:<br>");
+            
+            for (ReservaParcial rp : reservasConConflicto) {
+                
+                LocalTime inicio = rp.getHora_inicio().toLocalTime(); 
+                LocalTime fin = rp.getHora_fin().toLocalTime();
+
+                // Formatear a "HH:mm"
+                String horaInicio = inicio.format(DateTimeFormatter.ofPattern("HH:mm"));
+                String horaFin = fin.format(DateTimeFormatter.ofPattern("HH:mm"));
+                
+                mensaje.append("Aula: ").append(rp.getAula().getNombre())
+                        .append(", fecha: ").append(rp.getFecha())
+                        .append(", hora inicio: ").append(horaInicio)
+                        .append(", hora fin: ").append(horaFin)
+                        .append("<br>");
+            }
+            
+            mensaje.append("</html>");
+            
+            throw new ReservaInconsistenteException(mensaje.toString());
            }
         
     }

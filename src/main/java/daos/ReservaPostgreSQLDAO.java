@@ -104,6 +104,9 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
                 query.setParameter("horaInicio", reserva.getHora_inicio());
                 query.setParameter("horaFin", reserva.getHora_fin());
 
+                List<ReservaParcial> resultados = query.getResultList();
+            System.out.println("Resultados encontrados: " + resultados.size());
+            
                 reservasConConflicto.addAll(query.getResultList());
             }
             

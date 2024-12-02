@@ -1,13 +1,10 @@
 
 package interfaces;
 
-import daos.Conexion;
+import controladores.ControladorMainAdministrador;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,6 +13,10 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
     
     public InterfazMainAdministrador() {
         initComponents();
+        ControladorMainAdministrador controlador = new ControladorMainAdministrador(this);
+        botonBuscarBedel.addActionListener(controlador);
+        botonRegistrarBedel.addActionListener(controlador);
+        botonCancelar.addActionListener(controlador);
         jPanel1.setLayout(null);
         setLocationRelativeTo(null);
         setTitle("Main Administrador");
@@ -24,16 +25,6 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
         // Establece un ícono transparente para evitar que se muestre el ícono de Java
         BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         setIconImage(transparentImage);
-        
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                // Cerrar conexión y salir
-                Conexion.closeEntityManagerFactory();
-                dispose();
-            }
-        });
     }
 
     @SuppressWarnings("unchecked")
@@ -146,18 +137,15 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
     }
     
     private void botonBuscarBedelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarBedelActionPerformed
-        new InterfazBuscarBedel();
-        dispose();
+
     }//GEN-LAST:event_botonBuscarBedelActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-        new InterfazMainPrincipal();
-        dispose();
+
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonRegistrarBedelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarBedelActionPerformed
-        new InterfazRegistrarBedel();
-        dispose();
+        
     }//GEN-LAST:event_botonRegistrarBedelActionPerformed
 
     public static void main(String args[]) {

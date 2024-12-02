@@ -52,6 +52,7 @@ public class ControladorBuscarBedel implements ActionListener {
             ibb.getjCheckBox1().setSelected(false);
             ibb.getjCheckBox2().setSelected(false);
             ibb.getjCheckBox3().setSelected(false);
+            cargarTabla();
             // ibb.getModel().setRowCount(0); 
         }
         else if(comando.equals("Modificar bedel")) {
@@ -172,6 +173,29 @@ public class ControladorBuscarBedel implements ActionListener {
             } catch(NoExisteBedelException e3) {
                 ibb.crearPopUpBusqueda();
             }
+    }
+    
+    public void cargarTabla() {
+        
+        ArrayList<String> turnos = new ArrayList<>();
+        
+        turnos.add("Mañana");
+        turnos.add("Tarde");
+        turnos.add("Noche");
+        
+        BedelGeneralDTO bedelGeneralDTO = new BedelGeneralDTO();
+        bedelGeneralDTO.setTurnos(turnos);
+        
+        GestorBedel gb = GestorBedel.obtenerInstancia();
+        
+        try {
+            List<BedelBusquedaDTO> bedelesBusquedaDTO = gb.buscarBedeles(bedelGeneralDTO);
+            cargarDatosEnTabla(bedelesBusquedaDTO);
+            
+        } catch(ErrorException e) {
+            ibb.crearPopUpError();
+        }
+        
     }
 
 }

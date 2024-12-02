@@ -8,7 +8,6 @@ import dtos.BusquedaAulaDTO;
 import dtos.ReservaDTO;
 import dtos.ReservaParcialDTO;
 import excepciones.DatosInvalidosException;
-import excepciones.DuracionException;
 import excepciones.ErrorException;
 import excepciones.FechaException;
 import excepciones.OperacionException;
@@ -400,20 +399,15 @@ public class ControladorEsporadica implements ActionListener {
                 long minutos = calcularDuracion(hora_inicio, hora_fin);
 
                 if (minutos % 30 == 0) valido = true;
-                else throw new DuracionException();
+                else throw new DatosInvalidosException("La duración de la reserva debe ser múltiplo de 30 minutos.");
                 
-            } else throw new DatosInvalidosException();
+            } else throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
             
         } catch(ParseException e) {
           ire.crearPopUpError();
           
         } catch(DatosInvalidosException e1) {
-          ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");  
-          Border redBorder = new LineBorder(Color.RED, 2);
-          ire.setCamposHora(redBorder, true);
-          
-        } catch(DuracionException e2) {
-          ire.crearPopUpAdvertencia("La duración de la reserva no es múltiplo de 30 minutos.");
+          ire.crearPopUpAdvertencia(e1.getMessage());  
           Border redBorder = new LineBorder(Color.RED, 2);
           ire.setCamposHora(redBorder, true);
           

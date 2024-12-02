@@ -21,8 +21,10 @@ import javax.swing.table.JTableHeader;
 
 public class InterfazBuscarBedel extends javax.swing.JFrame {
 
+    private ControladorBuscarBedel controlador;
+    
     public InterfazBuscarBedel() {
-        ControladorBuscarBedel controlador = new ControladorBuscarBedel(this);
+        controlador = new ControladorBuscarBedel(this);
         initComponents();
         setLocationRelativeTo(null);
         jButton1.addActionListener(controlador);
@@ -93,6 +95,10 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
             return cellComponent;
         }
     };
+    
+    public ControladorBuscarBedel getControlador() {
+        return controlador;
+    }
 
     public JTextField getCampoApellido() {
         return campoApellido;

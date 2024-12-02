@@ -19,6 +19,7 @@ interfaces\InterfazMainBedel$4.class
 excepciones\NoExisteBedelException.class
 interfaces\InterfazReservaEsporadica$6.class
 interfaces\InterfazMainPrincipal$4.class
+controladores\ControladorMainAdministrador.class
 interfaces\InterfazAulasDisponibles$2.class
 model\ReservaParcial.class
 controladores\ControladorEliminarBedel.class
@@ -36,6 +37,7 @@ interfaces\InterfazAulasDisponibles$5.class
 interfaces\InterfazMainPrincipal$1.class
 interfaces\InterfazMainBedel$5.class
 interfaces\InterfazModificarBedel$9.class
+controladores\ControladorMainAdministrador$1.class
 daos\Conexion.class
 interfaces\InterfazBuscarBedel$7.class
 interfaces\InterfazIngresoDatosDocente$7.class
@@ -73,7 +75,6 @@ excepciones\YaExisteUsuarioException.class
 interfaces\InterfazReservaPeriodica.class
 controladores\ControladorEliminarBedel$1.class
 interfaces\InterfazReservaEsporadica$2.class
-interfaces\InterfazMainAdministrador$5.class
 interfaces\InterfazRegistrarBedel$11.class
 interfaces\InterfazModificarBedel$4.class
 sistemasexternos\Catedra.class
@@ -124,7 +125,6 @@ interfaces\InterfazReservaPeriodica$6.class
 interfaces\InterfazMainBedel$3.class
 interfaces\InterfazRegistrarBedel$8.class
 interfaces\InterfazReservaPeriodica$9.class
-excepciones\DuracionException.class
 sistemasexternos\Docente.class
 controladores\ControladorIngresoDatosDocente$1.class
 gestores\GestorBedel.class
