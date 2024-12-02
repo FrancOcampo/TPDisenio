@@ -144,7 +144,7 @@ public class ControladorEsporadica implements ActionListener {
     
             } catch(FechaException e3) {
                 ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
-                ire.getjLabel2().setText("<html>La fecha es anterior a la actual y/o<br>no corresponde a las fechas de cursado.<html>");
+                ire.getjLabel2().setText("<html>La fecha es anterior a la actual y/o<br>no corresponde con las fechas de cursado.<html>");
                 ire.getjLabel2().setVisible(true);
                 Border redBorder = new LineBorder(Color.RED, 2);
                 ire.setCampoFecha(redBorder, true);

@@ -32,6 +32,9 @@ import model.Periodo;
 import model.ReservaParcial;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 import model.Bedel;
 import model.Reserva;
 import model.SinRecursosAdicionales;
@@ -359,7 +362,7 @@ public class GestorReserva {
             reservasParciales.add(reservaParcial);
         }            
             
-        verificarDisponibilidad(reservasParciales);
+        verificarDisponibilidad(reservasParciales, reservaDTO.getTipo_reserva());
         
         Reserva reserva = new Reserva();
         reserva.setNombre_docente(reservaDTO.getNombre_docente());
@@ -445,19 +448,38 @@ public class GestorReserva {
         return rpCalculadas;
     }
 
-    private void verificarDisponibilidad(List<ReservaParcial> reservasParciales) throws ErrorException, ReservaInconsistenteException {
+    private void verificarDisponibilidad(List<ReservaParcial> reservasParciales, String tipo_reserva) throws ErrorException, ReservaInconsistenteException {
         
         ReservaPostgreSQLDAO reservaPostgreSQLDAO = ReservaPostgreSQLDAO.obtenerInstancia();
         
         List<ReservaParcial> reservasConConflicto;
         
+        Set<String> reservasPeriodicasConConflicto = new HashSet<>();
+        
         reservasConConflicto = reservaPostgreSQLDAO.verificarDisponibilidad(reservasParciales);
         
         if (!reservasConConflicto.isEmpty()) {
             
+            Set<ReservaParcial> reservasSolapadas = new HashSet<>();
+
+            for (ReservaParcial reserva : reservasParciales) {
+                for (ReservaParcial rp : reservasConConflicto) {
+                    
+                    if (rp.getAula().getId_aula() == reserva.getAula().getId_aula() &&
+                        rp.getFecha().equals(reserva.getFecha())) {
+
+                        // Verificar si los horarios se solapan
+                        boolean solapan = rp.getHora_inicio().before(reserva.getHora_fin()) && 
+                                          rp.getHora_fin().after(reserva.getHora_inicio());
+
+                        if (solapan) reservasSolapadas.add(reserva);  
+                    }
+                }
+            }
+    
             StringBuilder mensaje = new StringBuilder("<html>Conflictos detectados con las siguientes reservas:<br>");
             
-            for (ReservaParcial rp : reservasConConflicto) {
+            for (ReservaParcial rp : reservasSolapadas) {
                 
                 LocalTime inicio = rp.getHora_inicio().toLocalTime(); 
                 LocalTime fin = rp.getHora_fin().toLocalTime();
@@ -466,18 +488,34 @@ public class GestorReserva {
                 String horaInicio = inicio.format(DateTimeFormatter.ofPattern("HH:mm"));
                 String horaFin = fin.format(DateTimeFormatter.ofPattern("HH:mm"));
                 
-                mensaje.append("Aula: ").append(rp.getAula().getNombre())
-                        .append(", fecha: ").append(rp.getFecha())
-                        .append(", hora inicio: ").append(horaInicio)
-                        .append(", hora fin: ").append(horaFin)
-                        .append("<br>");
+                if(tipo_reserva.equals("Esporádica")) {
+                    mensaje.append("Aula: ").append(rp.getAula().getNombre())
+                            .append(", fecha: ").append(rp.getFecha())
+                            .append(", hora inicio: ").append(horaInicio)
+                            .append(", hora fin: ").append(horaFin)
+                            .append("<br>");
+                } 
+                else if(tipo_reserva.equals("Periódica")) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE", new Locale("es", "ES"));
+                    String dia = rp.getFecha().format(formatter);
+
+                    dia = dia.substring(0, 1).toUpperCase() + dia.substring(1).toLowerCase();
+
+                    String reservaTexto = "Aula: " + rp.getAula().getNombre() +
+                                          ", día: " + dia +
+                                          ", hora inicio: " + horaInicio +
+                                          ", hora fin: " + horaFin;
+
+                    // Solo agregar al mensaje si aún no se ha agregado
+                    if (reservasPeriodicasConConflicto.add(reservaTexto)) {
+                        mensaje.append(reservaTexto).append("<br>");
+                    }
+                }
             }
             
             mensaje.append("</html>");
             
             throw new ReservaInconsistenteException(mensaje.toString());
            }
-        
+        }
     }
-    
- }
