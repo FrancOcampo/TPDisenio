@@ -290,7 +290,7 @@ public class GestorReserva {
 
             // Calculamos la cantidad de minutos de solapamiento
             int solapamiento = 0;
-                solapamiento = (int) ((finSolapamiento - inicioSolapamiento) / 60000);  // Convertimos milisegundos a minutos
+            solapamiento = (int) ((finSolapamiento - inicioSolapamiento) / 60000);  // Convertimos milisegundos a minutos
 
             // Guardar el solapamiento calculado para cada reserva
             reservasConSolapamiento.put(reserva_parcial, solapamiento);

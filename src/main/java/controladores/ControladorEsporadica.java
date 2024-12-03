@@ -166,7 +166,7 @@ public class ControladorEsporadica implements ActionListener {
                         Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
                                                busquedaAulaDTO.getFecha().format(formatoBD), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
 
-                        if(subreservasRepetidas(ire.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas repetidas.");
+                        if(subreservasRepetidas(ire.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas solapadas.");
                         ire.getModel().addRow(nuevaFila);
                         iad.dispose();
                     }
@@ -288,7 +288,6 @@ public class ControladorEsporadica implements ActionListener {
     }
     
     private boolean subreservasRepetidas(JTable tabla, Object[] fila) {
-        
         int columnas = tabla.getColumnCount();
         int filas = tabla.getRowCount();
 
@@ -297,19 +296,41 @@ public class ControladorEsporadica implements ActionListener {
             boolean sonIguales = true;
 
             // Comparar cada elemento de la fila
-            for (int j = 0; j < columnas; j++) {
+            for (int j = 0; j < columnas-1; j++) {
                 Object valorTabla = tabla.getValueAt(i, j);
                 Object valorFilaBuscada = fila[j];
 
-                if (!Objects.equals(valorTabla, valorFilaBuscada)) {
-                    sonIguales = false;
-                    break; 
+                // Si estamos en la columna 4 
+                if (j == 4) {
+                        // Compara hora inicio y hora fin de la tabla con hora inicio y hora fin de la fila a insertar
+                        if (!sonHorasSuperpuestas(tabla.getValueAt(i, j), tabla.getValueAt(i, j+1), fila[4], fila[5])) {
+                            sonIguales = false;
+                            break;
+                        }
+                        
+                } else {
+                    if (!Objects.equals(valorTabla, valorFilaBuscada)) {
+                        sonIguales = false;
+                        break; 
+                    }
                 }
             }
 
             if (sonIguales) {
                 return true; 
             }
+        }
+        return false; 
+    }
+    
+    private boolean sonHorasSuperpuestas(Object horaInicio1, Object horaFin1, Object horaInicio2, Object horaFin2) {
+        if (horaInicio1 instanceof String && horaFin1 instanceof String && horaInicio2 instanceof String && horaFin2 instanceof String) {
+            LocalTime inicio1 = LocalTime.parse((String) horaInicio1);
+            LocalTime fin1 = LocalTime.parse((String) horaFin1);
+            LocalTime inicio2 = LocalTime.parse((String) horaInicio2);
+            LocalTime fin2 = LocalTime.parse((String) horaFin2);
+
+            return (inicio1.isBefore(fin2) && fin1.isAfter(inicio2));
         }
         return false; 
     }

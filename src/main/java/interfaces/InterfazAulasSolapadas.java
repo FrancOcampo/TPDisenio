@@ -151,6 +151,10 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(100);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(150);
+            jTable1.getColumnModel().getColumn(1).setMaxWidth(150);
             jTable1.getColumnModel().getColumn(4).setMinWidth(70);
             jTable1.getColumnModel().getColumn(4).setMaxWidth(70);
             jTable1.getColumnModel().getColumn(5).setMinWidth(70);

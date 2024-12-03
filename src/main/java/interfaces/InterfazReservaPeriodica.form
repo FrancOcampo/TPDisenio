@@ -63,7 +63,7 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="campoCantidadAlumnos" min="-2" pref="49" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabelError1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabelError1" max="32767" attributes="0"/>
                                           </Group>
                                           <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>

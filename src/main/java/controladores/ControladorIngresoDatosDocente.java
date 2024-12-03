@@ -20,7 +20,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
@@ -75,7 +74,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 reservaDTO.setEmail_docente(iidd.getCampoEmail().getText());
                 LocalDate fecha = LocalDate.now();
                 reservaDTO.setFecha_reserva(fecha);
-                reservaDTO.setId_bedel(1); // ESTO HAY QUE VER SI HACEMOS AUTENTICACIÓN 
+                reservaDTO.setId_bedel(1); 
                 
                 if(iidd.getBotonPeriodica().isSelected()) { // RESERVA PERIÓDICA
                     
