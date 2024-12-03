@@ -157,7 +157,7 @@ public class ControladorPeriodica implements ActionListener {
                         Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
                                                busquedaAulaDTO.getDia(), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
 
-                        if(subreservasRepetidas(irp.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas solapadas.");
+                        if(subreservasRepetidas(irp.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas superpuestas.");
                         irp.getModel().addRow(nuevaFila);
                         iad.dispose();
                     }
@@ -237,7 +237,7 @@ public class ControladorPeriodica implements ActionListener {
         else if(comando.equals("Cancelar")) {
             
             if(hayCambios()) {
-                int confirmacion = irp.confirmarContinuacion("Hay cambios sin guardar. ¿Desea continuar?");
+                int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea cancelar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
                     irp.dispose();

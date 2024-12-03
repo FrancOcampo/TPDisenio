@@ -166,7 +166,7 @@ public class ControladorEsporadica implements ActionListener {
                         Object[] nuevaFila = { aula, busquedaAulaDTO.getTipo_aula(), reservaDTO.getNombre_catedra(), 
                                                busquedaAulaDTO.getFecha().format(formatoBD), sdf.format((Time) busquedaAulaDTO.getHora_inicio()), sdf.format((Time) busquedaAulaDTO.getHora_fin()) };
 
-                        if(subreservasRepetidas(ire.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas solapadas.");
+                        if(subreservasRepetidas(ire.getjTable(), nuevaFila)) throw new ReservaInconsistenteException("La reserva no puede contener subreservas superpuestas.");
                         ire.getModel().addRow(nuevaFila);
                         iad.dispose();
                     }
@@ -253,7 +253,7 @@ public class ControladorEsporadica implements ActionListener {
         else if(comando.equals("Cancelar")) {
             
             if(hayCambios()) {
-                int confirmacion = ire.confirmarContinuacion("Hay cambios sin guardar. ¿Desea continuar?");
+                int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea cancelar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
                     ire.dispose();
