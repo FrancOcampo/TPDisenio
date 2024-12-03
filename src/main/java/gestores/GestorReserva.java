@@ -123,6 +123,9 @@ public class GestorReserva {
                 AulaDisponibleDTO aulaDisponibleDTO = map_Aula_a_AulaDisponibleDTO(aula);
                 aulasDisponiblesDTO.add(aulaDisponibleDTO);
             }
+            
+            // Ordenar por capacidad de aula ascendente
+            aulasDisponiblesDTO.sort(Comparator.comparingInt(AulaDisponibleDTO::getCapacidad));
 
             aulaCompuestaDTO.setAulasDisponiblesDTO(aulasDisponiblesDTO);
 
@@ -196,7 +199,7 @@ public class GestorReserva {
                 throw new IllegalArgumentException("Día no válido: " + dia);
         }
 
-        LocalDate currentDate = periodo.getFecha_inicio();
+        LocalDate currentDate = LocalDate.now(); // Calcular fechas a partir de la actual
         
         // Ajustamos la fecha de inicio al primer día correcto dentro del rango
         while (currentDate.getDayOfWeek() != diaSemana) {
@@ -420,7 +423,7 @@ public class GestorReserva {
                     break;
             }
 
-            LocalDate currentDate = periodo.getFecha_inicio();
+            LocalDate currentDate = LocalDate.now(); // Calcular reservas parciales a partir de la fecha actual
 
             // Ajustamos la fecha de inicio al primer día correcto dentro del rango
             while (currentDate.getDayOfWeek() != diaSemana) {
