@@ -56,7 +56,6 @@ public class ControladorIngresoDatosDocente implements ActionListener {
         });
     }
         
-
     public void actionPerformed(ActionEvent e) {
         
         String comando = e.getActionCommand();
@@ -101,6 +100,8 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 
             } catch(FechaException e2) {
                 iidd.crearPopUpAdvertencia("El período seleccionado ya finalizó. Por favor, seleccione otro período.");
+                Border redBorder = new LineBorder(Color.RED, 2);
+                iidd.setCampoPeriodo(redBorder, true);
             }
             
         }
@@ -119,7 +120,6 @@ public class ControladorIngresoDatosDocente implements ActionListener {
             }
         }
 
-    
     public void completarDatos() {
         
         GestorServiciosExternos gse = GestorServiciosExternos.obtenerInstancia();
@@ -173,19 +173,6 @@ public class ControladorIngresoDatosDocente implements ActionListener {
         if(iidd.getBotonPeriodica().isSelected() && iidd.getPeriodo().equals("")) {
             iidd.setCampoPeriodo(redBorder, visibilidad);
         }
-    }
-    
-    public void setearDatos(ReservaDTO reservaDTO) {
-        
-        completarDatos();
-        iidd.getListaDocentes().setSelectedItem(reservaDTO.getNombre_docente());
-        iidd.getListaCursos().setSelectedItem(reservaDTO.getNombre_catedra());
-        if(reservaDTO.getTipo_reserva().equals("Periódica")) {
-            iidd.getBotonPeriodica().setSelected(true);
-            iidd.getListaPeriodos().setSelectedItem(reservaDTO.getPeriodo());
-            iidd.getListaPeriodos().setVisible(true);
-        }
-        else iidd.getBotonEsporadica().setSelected(true);
     }
     
     public boolean hayCambios() {

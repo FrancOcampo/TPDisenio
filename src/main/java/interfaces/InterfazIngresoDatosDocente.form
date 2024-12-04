@@ -59,7 +59,7 @@
                               <Component id="listaDocentes" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabelError2" min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="jLabelError2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -83,7 +83,7 @@
                               <Component id="listaCursos" min="-2" pref="263" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabelError1" min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="jLabelError1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="76" max="32767" attributes="0"/>

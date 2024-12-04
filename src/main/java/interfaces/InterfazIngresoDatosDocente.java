@@ -185,7 +185,7 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
         // Mostrar el diálogo con las opciones personalizadas
         int respuesta = JOptionPane.showOptionDialog(
             null,                                // Componente padre (null para centrar)
-            "Hay cambios sin guardar. ¿Desea continuar?", // Mensaje
+            "¿Está seguro de que desea cancelar la reserva?", // Mensaje
             "ADVERTENCIA",                       // Título
             JOptionPane.DEFAULT_OPTION,          // Tipo de opción (sin botones por defecto)
             JOptionPane.INFORMATION_MESSAGE,     // Tipo de mensaje
@@ -334,7 +334,7 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
                             .addComponent(campoEmail, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(listaDocentes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelError2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabelError2))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                             .addComponent(listaPeriodos, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,7 +352,7 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(listaCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelError1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelError1)))
                 .addContainerGap(76, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(16, 16, 16)

@@ -16,6 +16,7 @@ import gestores.GestorReserva;
 import interfaces.InterfazAulasDisponibles;
 import interfaces.InterfazAulasSolapadas;
 import interfaces.InterfazIngresoDatosDocente;
+import interfaces.InterfazMainBedel;
 import interfaces.InterfazReservaEsporadica;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -252,15 +253,9 @@ public class ControladorEsporadica implements ActionListener {
         }
         else if(comando.equals("Cancelar")) {
             
-            if(hayCambios()) {
-                int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea cancelar la reserva?");
-                if(confirmacion == JOptionPane.OK_OPTION) {
-                    new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
-                    ire.dispose();
-                }
-            }
-            else {
-                new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
+            int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea cancelar la reserva?");
+            if(confirmacion == JOptionPane.OK_OPTION) {
+                new InterfazMainBedel();
                 ire.dispose();
             }
         }
@@ -447,44 +442,6 @@ public class ControladorEsporadica implements ActionListener {
         Duration duracion = Duration.between(inicio, fin);
         return duracion.toMinutes();  
     }
-    
-    public boolean hayCambios() {
-        
-        if (!ire.getCampoCantidadAlumnos().getText().equals("")) {
-            return true;
-        }
-
-        if (!ire.getTipoAula().equals("")) {
-            return true;
-        }
-        
-        LocalDate fechaSeleccionada = ire.getCalendario().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate fechaActual = LocalDate.now();
-        
-        if (!fechaSeleccionada.equals(fechaActual)) {
-            return true;
-        }
-
-        if (!ire.getHoraInicio().equals("08:00")) {
-            return true;
-        }
-
-        if (!ire.getHoraFin().equals("08:30")) {
-            return true;
-        }
-
-        if(ire.getModel().getRowCount() > 0) {
-            return true;
-        }
-
-        // Si ninguno de los valores cambió
-        return false;
-    }
-    
-                
-    
-            
-
 
 }
 

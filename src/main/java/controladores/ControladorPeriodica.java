@@ -17,6 +17,7 @@ import gestores.GestorReserva;
 import interfaces.InterfazAulasDisponibles;
 import interfaces.InterfazAulasSolapadas;
 import interfaces.InterfazIngresoDatosDocente;
+import interfaces.InterfazMainBedel;
 import interfaces.InterfazReservaPeriodica;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -236,15 +237,9 @@ public class ControladorPeriodica implements ActionListener {
         }
         else if(comando.equals("Cancelar")) {
             
-            if(hayCambios()) {
-                int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea cancelar la reserva?");
-                if(confirmacion == JOptionPane.OK_OPTION) {
-                    new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
-                    irp.dispose();
-                }
-            }
-            else {
-                new InterfazIngresoDatosDocente().getControlador().setearDatos(reservaDTO);
+            int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea cancelar la reserva?");
+            if(confirmacion == JOptionPane.OK_OPTION) {
+                new InterfazMainBedel();
                 irp.dispose();
             }
         }
@@ -401,35 +396,6 @@ public class ControladorPeriodica implements ActionListener {
         return duracion.toMinutes();  
     }
     
-    public boolean hayCambios() {
-        
-        if (!irp.getCampoCantidadAlumnos().getText().equals("")) {
-            return true;
-        }
-
-        if (!irp.getTipoAula().equals("")) {
-            return true;
-        }
-        
-        if (!irp.getDia().equals("")) {
-            return true;
-        }
-
-        if (!irp.getHoraInicio().equals("08:00")) {
-            return true;
-        }
-
-        if (!irp.getHoraFin().equals("08:30")) {
-            return true;
-        }
-
-        if(irp.getModel().getRowCount() > 0) {
-            return true;
-        }
-
-        // Si ninguno de los valores cambió
-        return false;
-    }
 }
 
 
