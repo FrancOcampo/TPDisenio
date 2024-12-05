@@ -7,5 +7,4 @@ public class ReservaInconsistenteException extends Exception {
         super(mensaje);
     }
     
-    
 }

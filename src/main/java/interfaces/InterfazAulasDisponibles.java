@@ -128,14 +128,14 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
         return jTable1;
     }
     
-    public void crearPopUpFila() {
+    public void crearPopUpAdvertencia(String mensaje) {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Por favor, seleccione un aula.");
+        JLabel label = new JLabel(mensaje);
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);
         
-        JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @SuppressWarnings("unchecked")

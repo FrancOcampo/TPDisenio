@@ -74,7 +74,7 @@ public class ControladorPeriodica implements ActionListener {
             
             try {
                 irp.desmarcarCampos();
-                if(!validarCampos()) throw new DatosInvalidosException();
+                if(!validarCampos()) throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
                 if(verificarHora(irp.getHoraInicio(), irp.getHoraFin())) {
                 
                 busquedaAulaDTO = new BusquedaAulaDTO();
@@ -135,7 +135,7 @@ public class ControladorPeriodica implements ActionListener {
             }
                 
             } catch(DatosInvalidosException e1) {
-                irp.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
+                irp.crearPopUpAdvertencia(e1.getMessage());
                 marcarCampos();
                 
             } catch(ErrorException e2) {
@@ -149,7 +149,7 @@ public class ControladorPeriodica implements ActionListener {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             
             try {
-                if(row == -1) throw new DatosInvalidosException();
+                if(row == -1) throw new DatosInvalidosException("Por favor, seleccione un aula.");
                 else {
                     int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea agregar la subreserva?");
                     if(confirmacion == JOptionPane.OK_OPTION) {
@@ -165,7 +165,7 @@ public class ControladorPeriodica implements ActionListener {
                 }
                 
             } catch(DatosInvalidosException e1) {
-                iad.crearPopUpFila();
+                iad.crearPopUpAdvertencia(e1.getMessage());
                 
             } catch(ReservaInconsistenteException e2) {
                 irp.crearPopUpAdvertencia(e2.getMessage());
@@ -248,6 +248,17 @@ public class ControladorPeriodica implements ActionListener {
         }
         else if(comando.equals("Continuar")) {
             ias.dispose();
+        }
+        else if(comando.equals("Eliminar subreserva")) {
+            try {
+                int row = irp.getjTable().getSelectedRow(); 
+                
+                if(row == -1) throw new DatosInvalidosException("Seleccione una subreserva.");
+                else irp.getModel().removeRow(row);
+                
+                } catch(DatosInvalidosException e1) {
+                    irp.crearPopUpAdvertencia(e1.getMessage());
+                }
         }
     }
     

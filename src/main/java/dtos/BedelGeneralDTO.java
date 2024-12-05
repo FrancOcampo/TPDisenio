@@ -1,12 +1,12 @@
 
 package dtos;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class BedelGeneralDTO {
     
     private String apellido;
-    private ArrayList<String> turnos;
+    private List<String> turnos;
 
     public String getApellido() {
         return apellido;
@@ -16,11 +16,11 @@ public class BedelGeneralDTO {
         this.apellido = apellido;
     }
 
-    public ArrayList<String> getTurnos() {
+    public List<String> getTurnos() {
         return turnos;
     }
 
-    public void setTurnos(ArrayList<String> turno) {
+    public void setTurnos(List<String> turno) {
         this.turnos = turno;
     }
     

@@ -12,12 +12,12 @@ import jakarta.persistence.Table;
 import java.sql.Time;
 import java.time.LocalDate;
 
-@Entity  // Marca la clase como una entidad persistente
-@Table(name = "reserva_parcial")  // Nombre de la tabla en la base de datos
+@Entity  
+@Table(name = "reserva_parcial")  
 public class ReservaParcial {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Asumiendo que el ID se genera automáticamente
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  
     private int id_reserva_parcial;
     
     private int duracion;
@@ -25,13 +25,14 @@ public class ReservaParcial {
     private Time hora_fin;
     private LocalDate fecha;
     
-    @Column(name = "id_reserva")
-    private int id_reserva;
-    
     // Relación ManyToOne con la entidad Aula
     @ManyToOne
     @JoinColumn(name = "id_aula")
     private Aula aula;  // El objeto de la clase Aula que representará la relación
+    
+    @ManyToOne
+    @JoinColumn(name = "id_reserva")  
+    private Reserva reserva;  
   
     public int getId_reserva_parcial() {
         return id_reserva_parcial;
@@ -81,12 +82,12 @@ public class ReservaParcial {
         this.aula = aula;
     }
 
-    public int getId_reserva() {
-        return id_reserva;
+    public Reserva getReserva() {
+        return reserva;
     }
 
-    public void setId_reserva(int id_reserva) {
-        this.id_reserva = id_reserva;
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
     }
     
     

@@ -40,7 +40,7 @@ public class BedelPostgreSQLDAO implements BedelDAO {
             if (transaccion.isActive()) {
                 transaccion.rollback(); 
             }
-            throw new OperacionException(); 
+            throw new OperacionException("Error al registrar el bedel. Por favor, vuelva a intentarlo."); 
             
         } finally {
             Conexion.closeEntityManager(); 
@@ -61,7 +61,7 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         } catch(NoResultException e) {
             return null; // Retorna null si no se encuentra el bedel
         }
- }
+    }
     
     public void modificarBedel(Bedel bedel) throws OperacionException {
         
@@ -79,7 +79,7 @@ public class BedelPostgreSQLDAO implements BedelDAO {
             if (transaccion != null) {
                 transaccion.rollback(); 
             }
-            throw new OperacionException();
+            throw new OperacionException("Error al guardar los cambios. Por favor, vuelva a intentarlo.");
             
         } finally {
             Conexion.closeEntityManager();
@@ -94,9 +94,9 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         
         try {
             String jpql = "SELECT b FROM Bedel b WHERE b.activo = true " +
-                          "AND (LOWER(b.apellido) LIKE LOWER(:apellidoPrefix || '%') " +
+                          "AND (:apellidoPrefix IS NULL OR LOWER(b.apellido) LIKE LOWER(:apellidoPrefix || '%') " +
                           "OR LOWER(b.apellido) LIKE LOWER('% ' || :apellidoPrefix || '%')) " +
-                          "AND b.turno IN :turnos";
+                          "AND (:turnos IS NULL OR b.turno IN :turnos)";
 
             TypedQuery<Bedel> query = em.createQuery(jpql, Bedel.class);
 
@@ -106,58 +106,8 @@ public class BedelPostgreSQLDAO implements BedelDAO {
             bedeles = query.getResultList();
         
         } catch(PersistenceException e) {
+            e.printStackTrace();
             throw new ErrorException();
-            
-        } finally {
-            Conexion.closeEntityManager();
-        }
-
-        return bedeles; 
-    }
-    
-    public List<Bedel> buscarBedelesApellido(String apellido) throws ErrorException {
-        
-        EntityManager em = Conexion.getEntityManager();
-        List<Bedel> bedeles = new ArrayList<>();
-        
-        try {
-            String jpql = "SELECT b FROM Bedel b WHERE b.activo = true " +
-                          "AND (LOWER(b.apellido) LIKE LOWER(:apellidoPrefix || '%') " +
-                          "OR LOWER(b.apellido) LIKE LOWER('% ' || :apellidoPrefix || '%')) ";
-
-            TypedQuery<Bedel> query = em.createQuery(jpql, Bedel.class);
-
-            query.setParameter("apellidoPrefix", apellido + "%"); // Agregar % para buscar por prefijo
-            
-            bedeles = query.getResultList();
-        
-        } catch(PersistenceException e) {
-            throw new ErrorException(); 
-            
-        } finally {
-            Conexion.closeEntityManager();
-        }
-
-        return bedeles; 
-    }
-    
-    public List<Bedel> buscarBedelesTurno(ArrayList<String> turnos) throws ErrorException {
-        
-        EntityManager em = Conexion.getEntityManager();
-        List<Bedel> bedeles = new ArrayList<>();
-        
-        try {
-            String jpql = "SELECT b FROM Bedel b WHERE b.activo = true " +
-                          "AND b.turno IN :turnos";
-
-            TypedQuery<Bedel> query = em.createQuery(jpql, Bedel.class);
-
-            query.setParameter("turnos", turnos); 
-
-            bedeles = query.getResultList();
-        
-        } catch(PersistenceException e) {
-            throw new ErrorException(); 
             
         } finally {
             Conexion.closeEntityManager();

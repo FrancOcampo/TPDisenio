@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import sistemasexternos.Catedra;
 import sistemasexternos.Docente;
 
@@ -65,6 +66,8 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
                 // Hacer invisible la lista de períodos si se selecciona el radio button de reserva esporádica
                 if (botonEsporadica.isSelected()) {
                     listaPeriodos.setVisible(false);
+                    Border defaultBorder = new JTextField().getBorder();
+                    setCampoPeriodo(defaultBorder, false);
                 }
             }
         });

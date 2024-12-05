@@ -13,8 +13,8 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity // Marca la clase como una entidad persistente
-@Table(name = "reserva") // Nombre de la tabla en la base de datos
+@Entity 
+@Table(name = "reserva") 
 public class Reserva {
     
     @Id
@@ -27,7 +27,7 @@ public class Reserva {
     private LocalDate fecha_reserva;
     private String tipo_reserva;
     
-    @OneToMany(mappedBy = "id_reserva", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
     private List<ReservaParcial> reservasParciales;
     
     @ManyToOne

@@ -65,7 +65,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
             try {
                 iidd.desmarcarCampos();
                 
-                if(!validarCampos()) throw new DatosInvalidosException();
+                if(!validarCampos()) throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
                 
                 ReservaDTO reservaDTO = new ReservaDTO();
                 reservaDTO.setNombre_docente(iidd.getDocente());
@@ -95,11 +95,11 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 }
                 
             } catch(DatosInvalidosException e1) {
-                iidd.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
+                iidd.crearPopUpAdvertencia(e1.getMessage());
                 marcarCampos();
                 
             } catch(FechaException e2) {
-                iidd.crearPopUpAdvertencia("El período seleccionado ya finalizó. Por favor, seleccione otro período.");
+                iidd.crearPopUpAdvertencia(e2.getMessage());
                 Border redBorder = new LineBorder(Color.RED, 2);
                 iidd.setCampoPeriodo(redBorder, true);
             }

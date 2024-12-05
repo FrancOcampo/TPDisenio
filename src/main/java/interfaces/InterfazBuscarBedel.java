@@ -130,9 +130,9 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, panel, "ADVERTENCIA", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public void crearPopUpBusqueda() {
+    public void crearPopUpBusqueda(String mensaje) {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("No existen bedeles que cumplan con los criterios especificados.");
+        JLabel label = new JLabel(mensaje);
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);
@@ -140,19 +140,9 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, panel, "NO SE ENCONTRÓ NINGÚN BEDEL", JOptionPane.ERROR_MESSAGE);
     }
     
-    public void crearPopUpFila() {
+    public void crearPopUpError(String mensaje) {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Por favor, seleccione un bedel.");
-        label.setForeground(Color.BLACK); 
-        label.setFont(new Font("Arial", Font.BOLD, 13)); 
-        panel.add(label);
-        
-        JOptionPane.showMessageDialog(null, panel, "ERROR", JOptionPane.ERROR_MESSAGE);
-    }
-    
-     public void crearPopUpError() {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Ocurrió un error. Por favor, vuelva a intentarlo.");
+        JLabel label = new JLabel(mensaje);
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);

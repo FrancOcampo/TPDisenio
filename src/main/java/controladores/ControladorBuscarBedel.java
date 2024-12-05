@@ -58,7 +58,7 @@ public class ControladorBuscarBedel implements ActionListener {
             int row = ibb.getjTable1().getSelectedRow();
             
             try {
-                if(row == -1) throw new DatosInvalidosException();
+                if(row == -1) throw new DatosInvalidosException("Por favor, seleccione un bedel.");
                 else {
                     BedelBusquedaDTO bedelBusquedaDTO = new BedelBusquedaDTO();
                     bedelBusquedaDTO.setNombreUsuario((String) ibb.getjTable1().getValueAt(row,0));
@@ -69,14 +69,14 @@ public class ControladorBuscarBedel implements ActionListener {
                     
                 }
             } catch(DatosInvalidosException e1) {
-                ibb.crearPopUpFila();
+                ibb.crearPopUpAdvertencia(e1.getMessage());
             }
         }
         else if(comando.equals("Eliminar bedel")) {
             int row = ibb.getjTable1().getSelectedRow();
             
             try {
-                if(row == -1) throw new DatosInvalidosException();
+                if(row == -1) throw new DatosInvalidosException("Por favor, seleccione un bedel.");
                 else {
                     BedelBusquedaDTO bedelBusquedaDTO = new BedelBusquedaDTO();
                     bedelBusquedaDTO.setNombreUsuario((String) ibb.getjTable1().getValueAt(row,0));
@@ -87,7 +87,7 @@ public class ControladorBuscarBedel implements ActionListener {
                     
                 }
             } catch(DatosInvalidosException e1) {
-                ibb.crearPopUpFila();
+                ibb.crearPopUpAdvertencia(e1.getMessage());
             }
             
         }
@@ -140,7 +140,7 @@ public class ControladorBuscarBedel implements ActionListener {
             }
             else bedelGeneralDTO.setApellido(null);
             
-            ArrayList<String> turnos = new ArrayList<>();
+            List<String> turnos = new ArrayList<>();
             
             if(ibb.getjCheckBox1().isSelected()) turnos.add("Mañana");
             if(ibb.getjCheckBox2().isSelected()) turnos.add("Tarde");
@@ -167,17 +167,17 @@ public class ControladorBuscarBedel implements ActionListener {
                 }
                 
             } catch(ErrorException e2) {
-                    ibb.crearPopUpError();
+                    ibb.crearPopUpError(e2.getMessage());
                 
             } catch(NoExisteBedelException e3) {
-                ibb.crearPopUpBusqueda();
+                ibb.crearPopUpBusqueda(e3.getMessage());
             }
     }
     
     private void cargarTabla() { // Cargar tabla con todos los bedeles que existen en la base de datos
         
         ibb.getModel().setRowCount(0);
-        ArrayList<String> turnos = new ArrayList<>();
+        List<String> turnos = new ArrayList<>();
         
         turnos.add("Mañana");
         turnos.add("Tarde");
@@ -193,7 +193,7 @@ public class ControladorBuscarBedel implements ActionListener {
             cargarDatosEnTabla(bedelesBusquedaDTO);
             
         } catch(ErrorException e) {
-            ibb.crearPopUpError();
+            ibb.crearPopUpError(e.getMessage());
         }
         
     }

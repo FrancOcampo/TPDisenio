@@ -73,7 +73,7 @@ public class ControladorModificarBedel implements ActionListener {
             
             try {
                 if(hayCambios()) {
-                    if(!validarCampos()) throw new DatosInvalidosException();
+                    if(!validarCampos()) throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
               
                     int confirmacion = imb.confirmarGuardar();
                     if(confirmacion == JOptionPane.OK_OPTION) {
@@ -98,13 +98,15 @@ public class ControladorModificarBedel implements ActionListener {
                 }
             }
             catch(DatosInvalidosException e1) {
+                imb.crearPopUpAdvertencia(e1.getMessage());
                 marcarCampos();
             }
             catch(PoliticasContraseniaException e2) {
+                imb.crearPopUpAdvertencia("La contraseña no es válida.");
                 marcarCampos(e2.getMensajes());
             }
             catch(OperacionException e3) {
-                imb.crearPopUpFracaso();
+                imb.crearPopUpError(e3.getMessage());
             }
             
         }
@@ -154,36 +156,33 @@ public class ControladorModificarBedel implements ActionListener {
     private void marcarCampos() {
         Border redBorder = new LineBorder(Color.RED, 2);
         boolean visibilidad = true;
-        boolean advertencia = false;
         
         if(imb.getCampoNombre().getText().trim().isEmpty() || !(imb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
            imb.setCampoNombre(redBorder, visibilidad);
-           advertencia = true;
         }
+        
         if(imb.getCampoApellido().getText().trim().isEmpty() || !(imb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"))){
            imb.setCampoApellido(redBorder, visibilidad);
-           advertencia = true;
         }
+        
         if(imb.getCampoContrasenia().getText().trim().isEmpty()){
           imb.setCampoContrasenia(redBorder, visibilidad);
-          advertencia = true;
         }
+        
         if(imb.getCampoConfirmarContrasenia().getText().trim().isEmpty()){
-              imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-              advertencia = true;
+            imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
         }
+        
         if(!imb.getCampoContrasenia().getText().equals(imb.getCampoConfirmarContrasenia().getText())){
-              advertencia = true;
-              imb.setCampoContrasenia(redBorder, visibilidad);
-              imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
-              imb.getjLabelError9().setVisible(visibilidad);
+            imb.setCampoContrasenia(redBorder, visibilidad);
+            imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
+            imb.getjLabelError9().setVisible(visibilidad);
         }
+        
         if(imb.getTurno().equals("")){
-              advertencia = true;
-              imb.setCampoTurno(redBorder, visibilidad);
+            imb.setCampoTurno(redBorder, visibilidad);
         }
 
-        if(advertencia) imb.crearPopUpAdvertencia();
       }
 
     private void marcarCampos(List<String> mensajes) {
@@ -195,8 +194,6 @@ public class ControladorModificarBedel implements ActionListener {
         imb.setCampoConfirmarContrasenia(redBorder, visibilidad);
         imb.setjLabelError8Mensaje(mensajes);
         imb.getjLabelError8().setVisible(visibilidad);
-        imb.crearPopUpAdvertencia();
-        
     }
     
     // Poner nombre/s o apellidos/s en formato primera letra mayúscula y el resto minúsculas

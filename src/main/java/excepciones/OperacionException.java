@@ -3,7 +3,7 @@ package excepciones;
 
 public class OperacionException extends Exception {
     
-    public OperacionException() {
-        super("Se produjo un error.");
+    public OperacionException(String mensaje) {
+        super(mensaje);
     }
 }

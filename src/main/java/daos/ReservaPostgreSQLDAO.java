@@ -34,7 +34,7 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
 
             String queryStr =   "SELECT rp FROM ReservaParcial rp " +
                                 "JOIN rp.aula a " +  
-                                "JOIN Reserva r ON rp.id_reserva = r.id_reserva " +  
+                                "JOIN rp.reserva r " +  
                                 "WHERE TYPE(a) = :tipoAula " +  
                                 "AND a.capacidad >= :alumnos " +
                                 "AND rp.fecha IN :fechas " + 
@@ -127,18 +127,18 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
             transaccion.begin();
             
             List<ReservaParcial> reservasParciales = reserva.getReservasParciales();
-            reserva.setReservasParciales(null);
+            reserva.setReservasParciales(null); 
     
             em.persist(reserva);
 
             for (ReservaParcial reservaParcial : reservasParciales) {
-                reservaParcial.setId_reserva(reserva.getId_reserva()); 
+                reservaParcial.setReserva(reserva); 
                 em.persist(reservaParcial); 
             }
             
             reserva.setReservasParciales(reservasParciales);
             
-            em.merge(reserva);
+            em.merge(reserva); 
 
             transaccion.commit();
            
@@ -146,7 +146,7 @@ public class ReservaPostgreSQLDAO implements ReservaDAO {
            if (transaccion.isActive()) {
                transaccion.rollback();
            }
-           throw new OperacionException();
+           throw new OperacionException("Error al registrar la reserva. Por favor, vuelva a intentarlo.");
            
        } finally {
             Conexion.closeEntityManager();

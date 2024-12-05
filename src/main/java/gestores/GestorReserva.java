@@ -73,7 +73,7 @@ public class GestorReserva {
             if(validarFecha(busquedaAulaDTO.getFecha(), periodo)) {
                 listaFechas.add(busquedaAulaDTO.getFecha());
             }
-            else throw new FechaException();
+            else throw new FechaException("La fecha no es válida.");
         }
         
         DatosBusquedaDTO datosBusquedaDTO = new DatosBusquedaDTO();
@@ -138,7 +138,7 @@ public class GestorReserva {
 
                 AulaSolapadaDTO aulaSolapadaDTO = new AulaSolapadaDTO();
                 aulaSolapadaDTO.setNombre_aula(rpSolapada.getAula().getNombre());
-                Reserva reserva = reservaPostgreSQLDAO.obtenerReserva(rpSolapada.getId_reserva());
+                Reserva reserva = reservaPostgreSQLDAO.obtenerReserva(rpSolapada.getReserva().getId_reserva());
                 aulaSolapadaDTO.setDocente(reserva.getNombre_docente());
                 aulaSolapadaDTO.setContacto(reserva.getEmail_docente());
                 aulaSolapadaDTO.setCurso(reserva.getNombre_catedra());
@@ -166,7 +166,7 @@ public class GestorReserva {
         Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
         
         if(fechaActual.isAfter(periodo.getFecha_fin())) {
-            throw new FechaException();
+            throw new FechaException("El período seleccionado ya finalizó. Por favor, seleccione otro período.");
         }
     }
    
@@ -198,8 +198,10 @@ public class GestorReserva {
             default:
                 throw new IllegalArgumentException("Día no válido: " + dia);
         }
-
-        LocalDate currentDate = LocalDate.now(); // Calcular fechas a partir de la actual
+        
+        LocalDate currentDate;
+        if(periodo.getFecha_inicio().isAfter(LocalDate.now())) currentDate = periodo.getFecha_inicio();
+        else currentDate = LocalDate.now(); // Calcular fechas a partir de la actual
         
         // Ajustamos la fecha de inicio al primer día correcto dentro del rango
         while (currentDate.getDayOfWeek() != diaSemana) {
@@ -422,8 +424,10 @@ public class GestorReserva {
                     diaSemana = DayOfWeek.SATURDAY;
                     break;
             }
-
-            LocalDate currentDate = LocalDate.now(); // Calcular reservas parciales a partir de la fecha actual
+            
+            LocalDate currentDate;
+            if(periodo.getFecha_inicio().isAfter(LocalDate.now())) currentDate = periodo.getFecha_inicio();
+            else currentDate = LocalDate.now(); // Calcular fechas a partir de la actual
 
             // Ajustamos la fecha de inicio al primer día correcto dentro del rango
             while (currentDate.getDayOfWeek() != diaSemana) {

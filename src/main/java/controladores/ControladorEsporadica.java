@@ -75,7 +75,7 @@ public class ControladorEsporadica implements ActionListener {
             
             try {
                 ire.desmarcarCampos();
-                if(!validarCampos()) throw new DatosInvalidosException();
+                if(!validarCampos()) throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
                 if(verificarHora(ire.getHoraInicio(), ire.getHoraFin())) {
                     
                 busquedaAulaDTO = new BusquedaAulaDTO();
@@ -137,14 +137,14 @@ public class ControladorEsporadica implements ActionListener {
             }
                 
             } catch(DatosInvalidosException e1) {
-                ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
+                ire.crearPopUpAdvertencia(e1.getMessage());
                 marcarCampos();
                 
             } catch(ErrorException e2) {
-                ire.crearPopUpError();
+                ire.crearPopUpError(e2.getMessage());
     
             } catch(FechaException e3) {
-                ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
+                ire.crearPopUpAdvertencia(e3.getMessage());
                 ire.getjLabel2().setText("<html>La fecha es anterior a la actual y/o<br>no corresponde con las fechas de cursado.<html>");
                 ire.getjLabel2().setVisible(true);
                 Border redBorder = new LineBorder(Color.RED, 2);
@@ -158,7 +158,7 @@ public class ControladorEsporadica implements ActionListener {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             
             try {
-                if(row == -1) throw new DatosInvalidosException();
+                if(row == -1) throw new DatosInvalidosException("Por favor, seleccione un aula.");
                 else {
                     int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea agregar la subreserva?");
                     if(confirmacion == JOptionPane.OK_OPTION) {
@@ -174,7 +174,7 @@ public class ControladorEsporadica implements ActionListener {
                 }
                 
             } catch(DatosInvalidosException e1) {
-                iad.crearPopUpFila();
+                iad.crearPopUpAdvertencia(e1.getMessage());
                 
             } catch(ReservaInconsistenteException e2) {
                 ire.crearPopUpAdvertencia(e2.getMessage());
@@ -237,16 +237,16 @@ public class ControladorEsporadica implements ActionListener {
                     
                      
                     } catch(ParseException e1) {
-                        ire.crearPopUpFracaso();
+                        ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
                           
                     } catch(ErrorException e2) {
-                        ire.crearPopUpError();
+                        ire.crearPopUpError(e2.getMessage());
     
                     } catch(ReservaInconsistenteException e3) {
                         ire.crearPopUpAdvertencia(e3.getMessage());
                         
                     } catch(OperacionException e4) {
-                        ire.crearPopUpFracaso();
+                        ire.crearPopUpError(e4.getMessage());
                     } 
             } 
         } else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
@@ -265,7 +265,17 @@ public class ControladorEsporadica implements ActionListener {
         else if(comando.equals("Continuar")) {
             ias.dispose();
         }
-    
+        else if(comando.equals("Eliminar subreserva")) {
+            try {
+                int row = ire.getjTable().getSelectedRow(); 
+                
+                if(row == -1) throw new DatosInvalidosException("Seleccione una subreserva.");
+                else ire.getModel().removeRow(row);
+                
+                } catch(DatosInvalidosException e1) {
+                    ire.crearPopUpAdvertencia(e1.getMessage());
+                }
+        }
     }
     
     private boolean validarCampos() {
@@ -360,7 +370,7 @@ public class ControladorEsporadica implements ActionListener {
             return localDate; 
             
         } catch(Exception e) {
-            ire.crearPopUpError();
+            ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
             return null;
         }
     }
@@ -374,7 +384,7 @@ public class ControladorEsporadica implements ActionListener {
             return Time.valueOf(localTime.atDate(java.time.LocalDate.now()).toLocalTime()); 
         
         } catch(Exception e) {
-            ire.crearPopUpError();
+            ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
             return null;
         }
     }
@@ -421,7 +431,7 @@ public class ControladorEsporadica implements ActionListener {
             } else throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
             
         } catch(ParseException e) {
-          ire.crearPopUpError();
+          ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
           
         } catch(DatosInvalidosException e1) {
           ire.crearPopUpAdvertencia(e1.getMessage());  
