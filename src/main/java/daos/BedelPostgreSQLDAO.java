@@ -11,7 +11,7 @@ import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
-import model.Bedel;
+import modelo.Bedel;
 
 public class BedelPostgreSQLDAO implements BedelDAO {
 

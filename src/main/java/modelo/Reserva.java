@@ -1,5 +1,5 @@
 
-package model;
+package modelo;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

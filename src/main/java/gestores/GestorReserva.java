@@ -25,19 +25,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import model.Aula;
-import model.Informatica;
-import model.Multimedios;
-import model.Periodo;
-import model.ReservaParcial;
+import modelo.Aula;
+import modelo.Informatica;
+import modelo.Multimedios;
+import modelo.Periodo;
+import modelo.ReservaParcial;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import model.Bedel;
-import model.Reserva;
-import model.SinRecursosAdicionales;
+import modelo.Bedel;
+import modelo.Reserva;
+import modelo.SinRecursosAdicionales;
 
 public class GestorReserva {
     

@@ -1,7 +1,7 @@
 
 package gestores;
 import dtos.BedelDTO;
-import model.Bedel;
+import modelo.Bedel;
 import daos.BedelPostgreSQLDAO;
 import dtos.BedelBusquedaDTO;
 import dtos.BedelGeneralDTO;

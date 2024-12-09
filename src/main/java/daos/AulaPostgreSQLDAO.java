@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
-import model.Aula;
+import modelo.Aula;
 
 public class AulaPostgreSQLDAO implements AulaDAO {
     

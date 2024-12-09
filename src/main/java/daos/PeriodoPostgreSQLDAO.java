@@ -4,7 +4,7 @@ package daos;
 import dtos.PeriodoDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import model.Periodo;
+import modelo.Periodo;
 
 public class PeriodoPostgreSQLDAO implements PeriodoDAO {
     

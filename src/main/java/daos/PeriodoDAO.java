@@ -2,7 +2,7 @@
 package daos;
 
 import dtos.PeriodoDTO;
-import model.Periodo;
+import modelo.Periodo;
 
 public interface PeriodoDAO {
     

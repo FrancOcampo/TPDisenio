@@ -1,6 +1,6 @@
 
 package daos;
-import model.Bedel;
+import modelo.Bedel;
 import dtos.BedelDTO;
 import dtos.BedelGeneralDTO;
 import excepciones.ErrorException;

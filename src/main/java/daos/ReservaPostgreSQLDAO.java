@@ -9,8 +9,8 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
-import model.Reserva;
-import model.ReservaParcial;
+import modelo.Reserva;
+import modelo.ReservaParcial;
 
 public class ReservaPostgreSQLDAO implements ReservaDAO {
     

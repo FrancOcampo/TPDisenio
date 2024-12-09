@@ -4,7 +4,7 @@ package daos;
 import dtos.DatosBusquedaDTO;
 import excepciones.ErrorException;
 import java.util.List;
-import model.Aula;
+import modelo.Aula;
 
 public interface AulaDAO {
     

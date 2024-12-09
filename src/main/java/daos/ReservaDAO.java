@@ -5,8 +5,8 @@ import dtos.DatosBusquedaDTO;
 import excepciones.ErrorException;
 import excepciones.OperacionException;
 import java.util.List;
-import model.Reserva;
-import model.ReservaParcial;
+import modelo.Reserva;
+import modelo.ReservaParcial;
 
 public interface ReservaDAO {
     
