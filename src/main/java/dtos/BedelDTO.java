@@ -8,17 +8,7 @@ public class BedelDTO {
     private String apellido;
     private String contrasenia;
     private String turno;
-
-    public BedelDTO(String nombreUsuario, String nombre, String apellido, String contrasenia, String turno) {
-        this.nombreUsuario = nombreUsuario;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.contrasenia = contrasenia;
-        this.turno = turno;
-    }
     
-    public BedelDTO(){}
-
     public String getNombreUsuario() {
         return nombreUsuario;
     }

@@ -23,9 +23,6 @@ import javax.swing.table.TableCellRenderer;
 
 public class InterfazAulasDisponibles extends javax.swing.JFrame {
 
-    ControladorPeriodica controladorPeriodica;
-    ControladorEsporadica controladorEsporadica;
-    
     public InterfazAulasDisponibles() {
         initComponents();
         setLocationRelativeTo(null);
@@ -76,15 +73,13 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
     }
     
     public void setControlador(ControladorPeriodica controlador) {
-        controladorPeriodica = controlador;
-        botonConfirmar.addActionListener(controladorPeriodica);
-        botonCancelar.addActionListener(controladorPeriodica);
+        botonConfirmar.addActionListener(controlador);
+        botonCancelar.addActionListener(controlador);
     }
     
     public void setControlador(ControladorEsporadica controlador) {
-        controladorEsporadica = controlador;
-        botonConfirmar.addActionListener(controladorEsporadica);
-        botonCancelar.addActionListener(controladorEsporadica);
+        botonConfirmar.addActionListener(controlador);
+        botonCancelar.addActionListener(controlador);
     }
 
     // Renderizador de celdas que permite múltiples líneas usando JTextArea

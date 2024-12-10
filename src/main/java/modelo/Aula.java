@@ -12,7 +12,6 @@ public abstract class Aula {
     
     @Id
     protected int id_aula;
-    
     protected int nro_aula;
     protected String nombre;
     protected int capacidad;

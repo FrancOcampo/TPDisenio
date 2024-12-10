@@ -1,7 +1,6 @@
 
 package modelo;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +18,6 @@ public class ReservaParcial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  
     private int id_reserva_parcial;
-    
     private int duracion;
     private Time hora_inicio;
     private Time hora_fin;

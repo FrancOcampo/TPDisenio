@@ -21,13 +21,11 @@ interfaces\InterfazReservaEsporadica$6.class
 interfaces\InterfazMainPrincipal$4.class
 controladores\ControladorMainAdministrador.class
 interfaces\InterfazAulasDisponibles$2.class
-model\ReservaParcial.class
 controladores\ControladorEliminarBedel.class
 interfaces\InterfazIngresoDatosDocente$8.class
 interfaces\InterfazBuscarBedel$1.class
 sistemasexternos\PoliticasContrasenia.class
 controladores\ControladorPeriodica.class
-model\Bedel.class
 controladores\ControladorPeriodica$1.class
 interfaces\InterfazMainAdministrador$3.class
 interfaces\InterfazAulasDisponibles.class
@@ -44,16 +42,12 @@ interfaces\InterfazIngresoDatosDocente$7.class
 dtos\BedelDTO.class
 interfaces\InterfazRegistrarBedel$6.class
 interfaces\InterfazAulasDisponibles$3.class
-model\Informatica.class
-model\Usuario.class
 interfaces\InterfazMainPrincipal$3.class
-model\Reserva.class
 interfaces\InterfazReservaEsporadica$8.class
 gestores\GestorServiciosExternos$1.class
 controladores\ControladorBuscarBedel$1.class
 gestores\GestorServiciosExternos.class
 interfaces\InterfazModificarBedel$5.class
-model\Periodo.class
 controladores\ControladorModificarBedel$1.class
 daos\AulaPostgreSQLDAO.class
 excepciones\DatosInvalidosException.class
@@ -84,7 +78,6 @@ daos\PeriodoDAO.class
 interfaces\InterfazReservaPeriodica$3.class
 dtos\BusquedaAulaDTO.class
 interfaces\InterfazBuscarBedel$5.class
-model\SinRecursosAdicionales.class
 controladores\ControladorIngresoDatosDocente.class
 controladores\ControladorMainBedel$1.class
 gestores\GestorReserva.class
@@ -107,7 +100,6 @@ dtos\PeriodoDTO.class
 controladores\ControladorRegistrarBedel.class
 interfaces\InterfazMainAdministrador.class
 excepciones\ReservaInconsistenteException.class
-model\Aula.class
 interfaces\InterfazAulasSolapadas$3.class
 interfaces\InterfazRegistrarBedel$5.class
 interfaces\InterfazMainBedel$6.class
@@ -137,7 +129,6 @@ interfaces\InterfazMainBedel$2.class
 interfaces\InterfazReservaPeriodica$8.class
 interfaces\InterfazRegistrarBedel$9.class
 interfaces\InterfazBuscarBedel$4.class
-model\Multimedios.class
 interfaces\InterfazReservaPeriodica$2.class
 excepciones\FechaException.class
 excepciones\OperacionException.class

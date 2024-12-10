@@ -19,9 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
-    private ControladorPeriodica controladorPeriodica;
-    private ControladorEsporadica controladorEsporadica;
-            
     public InterfazAulasSolapadas() {
         initComponents();
         setLocationRelativeTo(null);
@@ -70,13 +67,11 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
     }
 
     public void setControlador(ControladorPeriodica controlador) {
-        controladorPeriodica = controlador;
-        botonContinuar.addActionListener(controladorPeriodica);
+        botonContinuar.addActionListener(controlador);
     }
     
     public void setControlador(ControladorEsporadica controlador) {
-        controladorEsporadica = controlador;
-        botonContinuar.addActionListener(controladorEsporadica);
+        botonContinuar.addActionListener(controlador);
     }
    
     // Crear un renderizador personalizado para las celdas

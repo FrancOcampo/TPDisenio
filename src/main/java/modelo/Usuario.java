@@ -11,8 +11,7 @@ public abstract class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_usuario;
-    
+    private int id_usuario;
     private String nombreUsuario;
     private String nombre;
     private String apellido;
@@ -22,7 +21,7 @@ public abstract class Usuario {
         return id_usuario;
     }
 
-    public void setId_usuario(Integer id_usuario) {
+    public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
 

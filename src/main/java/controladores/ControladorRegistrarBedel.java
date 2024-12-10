@@ -93,7 +93,7 @@ public class ControladorRegistrarBedel implements ActionListener {
         }
         else if(comando.equals("Cancelar")) {
             // Verificar que el usuario haya completado algún campo para preguntarle si desea cancelar
-            if(camposNoVacios()) {
+            if(hayCambios()) {
                 int confirmacion = irb.confirmarContinuacion();
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     new InterfazMainAdministrador();
@@ -123,7 +123,7 @@ public class ControladorRegistrarBedel implements ActionListener {
         return datosValidos;        
     }
     
-    private boolean camposNoVacios() {
+    private boolean hayCambios() {
         
         boolean noVacio =
         !irb.getCampoNombre().getText().trim().isEmpty() || 
@@ -171,8 +171,7 @@ public class ControladorRegistrarBedel implements ActionListener {
         if(irb.getTurno().equals("")){
            irb.setCampoTurno(redBorder, visibilidad);
         }
-
-      }
+    }
     
     private void marcarCampos(List<String> mensajes) {
         

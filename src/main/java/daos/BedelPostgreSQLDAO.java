@@ -94,19 +94,18 @@ public class BedelPostgreSQLDAO implements BedelDAO {
         
         try {
             String jpql = "SELECT b FROM Bedel b WHERE b.activo = true " +
-                          "AND (:apellidoPrefix IS NULL OR LOWER(b.apellido) LIKE LOWER(:apellidoPrefix || '%') " +
-                          "OR LOWER(b.apellido) LIKE LOWER('% ' || :apellidoPrefix || '%')) " +
-                          "AND (:turnos IS NULL OR b.turno IN :turnos)";
+                          "AND (LOWER(b.apellido) LIKE LOWER(CONCAT(COALESCE(:apellidoPrefix, ''), '%')) " +
+                          "OR LOWER(b.apellido) LIKE LOWER(CONCAT('% ', COALESCE(:apellidoPrefix, ''), '%')))" +
+                          "AND b.turno IN :turnos";
 
             TypedQuery<Bedel> query = em.createQuery(jpql, Bedel.class);
 
-            query.setParameter("apellidoPrefix", bedelGeneralDTO.getApellido() + "%"); // Agregar % para buscar por prefijo
+            query.setParameter("apellidoPrefix", bedelGeneralDTO.getApellido()); 
             query.setParameter("turnos", bedelGeneralDTO.getTurnos()); 
 
             bedeles = query.getResultList();
         
         } catch(PersistenceException e) {
-            e.printStackTrace();
             throw new ErrorException();
             
         } finally {

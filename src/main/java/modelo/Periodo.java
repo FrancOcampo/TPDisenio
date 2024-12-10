@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.Date;
 import org.hibernate.annotations.Immutable;
 
 @Entity
@@ -15,7 +14,6 @@ public class Periodo {
     
     @Id
     private int id_periodo;
-    
     private LocalDate fecha_inicio;
     private LocalDate fecha_fin;
     private String tipo;

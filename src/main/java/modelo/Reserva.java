@@ -20,7 +20,6 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_reserva;
-    
     private String nombre_docente;
     private String email_docente;
     private String nombre_catedra;

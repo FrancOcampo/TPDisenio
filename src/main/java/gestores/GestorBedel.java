@@ -100,8 +100,12 @@ public class GestorBedel {
         
         BedelPostgreSQLDAO bedelPostgreSQLDAO = BedelPostgreSQLDAO.obtenerInstancia();
     
-        if(bedelGeneralDTO.getTurnos().isEmpty()) {
-            bedelGeneralDTO.setTurnos(null);
+        if(bedelGeneralDTO.getTurnos().isEmpty()) { // Si no se seleccionó ningún turno, buscamos todos
+            ArrayList<String> turnos = new ArrayList<>();
+            turnos.add("Mañana");
+            turnos.add("Tarde");
+            turnos.add("Noche");
+            bedelGeneralDTO.setTurnos(turnos);
         }
         
         List<Bedel> bedeles = bedelPostgreSQLDAO.buscarBedeles(bedelGeneralDTO);
