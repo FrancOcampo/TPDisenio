@@ -71,7 +71,7 @@ public class ControladorIngresoDatosDocente implements ActionListener {
                 reservaDTO.setNombre_docente(iidd.getDocente());
                 reservaDTO.setNombre_catedra(iidd.getCatedra());
                 reservaDTO.setEmail_docente(iidd.getCampoEmail().getText());
-                LocalDate fecha = LocalDate.now();
+                LocalDate fecha = LocalDate.of(2025, 4, 15); // LocalDate.now()
                 reservaDTO.setFecha_reserva(fecha);
                 reservaDTO.setId_bedel(1); 
                 

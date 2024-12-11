@@ -57,8 +57,8 @@ public class GestorReserva {
         AulaCompuestaDTO aulaCompuestaDTO = new AulaCompuestaDTO();
         PeriodoDTO periodoDTO = new PeriodoDTO();
         periodoDTO.setTipo_periodo(busquedaAulaDTO.getPeriodo());
-        LocalDate fechaActual = LocalDate.now();
-        int anio = fechaActual.getYear();
+        LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now();
+        int anio = fechaActual.getYear(); 
         periodoDTO.setAnio_lectivo(anio);
         
         Periodo periodo = PeriodoPostgreSQLDAO.obtenerInstancia().obtenerPeriodo(periodoDTO);
@@ -159,7 +159,7 @@ public class GestorReserva {
         
         PeriodoDTO periodoDTO = new PeriodoDTO();
         periodoDTO.setTipo_periodo(reservaDTO.getPeriodo());
-        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now();
         int anio = fechaActual.getYear();
         periodoDTO.setAnio_lectivo(anio);
         
@@ -200,8 +200,10 @@ public class GestorReserva {
         }
         
         LocalDate currentDate;
-        if(periodo.getFecha_inicio().isAfter(LocalDate.now())) currentDate = periodo.getFecha_inicio();
-        else currentDate = LocalDate.now(); // Calcular fechas a partir de la actual
+        LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now();
+        
+        if(periodo.getFecha_inicio().isAfter(fechaActual)) currentDate = periodo.getFecha_inicio();
+        else currentDate = fechaActual; // Calcular fechas a partir de la actual
         
         // Ajustamos la fecha de inicio al primer día correcto dentro del rango
         while (currentDate.getDayOfWeek() != diaSemana) {
@@ -222,7 +224,7 @@ public class GestorReserva {
     
     private boolean validarFecha(LocalDate fecha, Periodo periodo) {
         
-        LocalDate fechaActual = LocalDate.now(); // Fecha actual
+        LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now()
 
         // Compara la fecha con el inicio y fin del período
         return (fecha.isAfter(periodo.getFecha_inicio()) && 
@@ -323,7 +325,7 @@ public class GestorReserva {
             
             PeriodoDTO periodoDTO = new PeriodoDTO();
             periodoDTO.setTipo_periodo(reservaDTO.getPeriodo());
-            LocalDate fechaActual = LocalDate.now();
+            LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now()
             int anio = fechaActual.getYear();
             periodoDTO.setAnio_lectivo(anio);
 
@@ -380,7 +382,7 @@ public class GestorReserva {
         
         PeriodoDTO periodoDTO = new PeriodoDTO();
         periodoDTO.setTipo_periodo(reservaDTO.getPeriodo());
-        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now()
         int anio = fechaActual.getYear();
         periodoDTO.setAnio_lectivo(anio);
 
@@ -425,8 +427,10 @@ public class GestorReserva {
             }
             
             LocalDate currentDate;
-            if(periodo.getFecha_inicio().isAfter(LocalDate.now())) currentDate = periodo.getFecha_inicio();
-            else currentDate = LocalDate.now(); // Calcular fechas a partir de la actual
+            LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now()
+            
+            if(periodo.getFecha_inicio().isAfter(fechaActual)) currentDate = periodo.getFecha_inicio();
+            else currentDate = fechaActual; // Calcular fechas a partir de la actual
 
             // Ajustamos la fecha de inicio al primer día correcto dentro del rango
             while (currentDate.getDayOfWeek() != diaSemana) {

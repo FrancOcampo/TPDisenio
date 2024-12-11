@@ -23,10 +23,9 @@ public class ReservaParcial {
     private Time hora_fin;
     private LocalDate fecha;
     
-    // Relación ManyToOne con la entidad Aula
     @ManyToOne
     @JoinColumn(name = "id_aula")
-    private Aula aula;  // El objeto de la clase Aula que representará la relación
+    private Aula aula; 
     
     @ManyToOne
     @JoinColumn(name = "id_reserva")  

@@ -4,8 +4,8 @@ package modelo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-@Entity // Marca la clase como una entidad persistente
-@Table(name = "bedel") // Nombre de la tabla en la base de datos
+@Entity 
+@Table(name = "bedel") 
 public class Bedel extends Usuario {
     
     private String turno;
