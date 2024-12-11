@@ -26,6 +26,7 @@ interfaces\InterfazIngresoDatosDocente$8.class
 interfaces\InterfazBuscarBedel$1.class
 sistemasexternos\PoliticasContrasenia.class
 controladores\ControladorPeriodica.class
+modelo\Administrador.class
 controladores\ControladorPeriodica$1.class
 interfaces\InterfazMainAdministrador$3.class
 interfaces\InterfazAulasDisponibles.class

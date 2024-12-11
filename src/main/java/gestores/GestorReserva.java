@@ -73,7 +73,7 @@ public class GestorReserva {
             if(validarFecha(busquedaAulaDTO.getFecha(), periodo)) {
                 listaFechas.add(busquedaAulaDTO.getFecha());
             }
-            else throw new FechaException("La fecha no es válida.");
+            else throw new FechaException("La fecha no está dentro de las fechas de cursado.");
         }
         
         DatosBusquedaDTO datosBusquedaDTO = new DatosBusquedaDTO();
@@ -224,11 +224,10 @@ public class GestorReserva {
         
         LocalDate fechaActual = LocalDate.now(); // Fecha actual
 
-        // Compara la fecha con el inicio y fin del período, además de verificar que sea posterior a la fecha actual
+        // Compara la fecha con el inicio y fin del período
         return (fecha.isAfter(periodo.getFecha_inicio()) && 
-                fecha.isBefore(periodo.getFecha_fin()) &&
-                fecha.isAfter(fechaActual));
-}
+                fecha.isBefore(periodo.getFecha_fin()));
+    }
     
     private AulaDisponibleDTO map_Aula_a_AulaDisponibleDTO(Aula aula) {
         

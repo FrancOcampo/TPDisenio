@@ -83,7 +83,8 @@ public class ControladorEsporadica implements ActionListener {
                 busquedaAulaDTO.setTipo_aula(ire.getTipoAula());
                 busquedaAulaDTO.setTipo_reserva(reservaDTO.getTipo_reserva());
                 busquedaAulaDTO.setPeriodo(reservaDTO.getPeriodo());
-                busquedaAulaDTO.setFecha(convertirFecha(ire.getCalendario().getDate()));
+                LocalDate fecha = ire.getCalendario().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                busquedaAulaDTO.setFecha(fecha);
                 busquedaAulaDTO.setHora_inicio(getHoraAsTime(ire.getHoraInicio()));
                 busquedaAulaDTO.setHora_fin(getHoraAsTime(ire.getHoraFin()));    
              
@@ -100,7 +101,7 @@ public class ControladorEsporadica implements ActionListener {
                        
                         Object[] row = { aula.getNombre_aula(), aula.getUbicacion(), aula.getCapacidad(), aula.getCaracteristicas() };
                         iad.getModel().addRow(row);
-                    
+                        
                     }    
                 }
                 else {
@@ -144,8 +145,8 @@ public class ControladorEsporadica implements ActionListener {
                 ire.crearPopUpError(e2.getMessage());
     
             } catch(FechaException e3) {
-                ire.crearPopUpAdvertencia(e3.getMessage());
-                ire.getjLabel2().setText("<html>La fecha es anterior a la actual y/o<br>no corresponde con las fechas de cursado.<html>");
+                ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
+                ire.getjLabel2().setText("<html>La fecha no está dentro de las<br>fechas de cursado.<html>");
                 ire.getjLabel2().setVisible(true);
                 Border redBorder = new LineBorder(Color.RED, 2);
                 ire.setCampoFecha(redBorder, true);
@@ -281,18 +282,22 @@ public class ControladorEsporadica implements ActionListener {
     private boolean validarCampos() {
         
         boolean valido = true;
+        LocalDate fecha = ire.getCalendario().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         
         if(ire.getCampoCantidadAlumnos().getText().equals("") ||
            !ire.getCampoCantidadAlumnos().getText().matches("\\d+") ||
            Integer.parseInt(ire.getCampoCantidadAlumnos().getText()) <= 0 ||
            ire.getTipoAula().equals("") ||
            ire.getFecha().equals("") ||
+           fecha.isBefore(LocalDate.now()) || 
+           fecha.equals(LocalDate.now()) ||
            !verificarDiaFecha(ire.getCalendario().getDate())) valido = false;
         
         return valido;
     }
     
     private boolean subreservasRepetidas(JTable tabla, Object[] fila) {
+        
         int columnas = tabla.getColumnCount();
         int filas = tabla.getRowCount();
 
@@ -329,6 +334,7 @@ public class ControladorEsporadica implements ActionListener {
     }
     
     private boolean sonHorasSuperpuestas(Object horaInicio1, Object horaFin1, Object horaInicio2, Object horaFin2) {
+        
         if (horaInicio1 instanceof String && horaFin1 instanceof String && horaInicio2 instanceof String && horaFin2 instanceof String) {
             LocalTime inicio1 = LocalTime.parse((String) horaInicio1);
             LocalTime fin1 = LocalTime.parse((String) horaFin1);
@@ -354,24 +360,18 @@ public class ControladorEsporadica implements ActionListener {
         if(ire.getFecha().equals("")) {
             ire.setCampoFecha(redBorder, visibilidad);
         }
-        if(!verificarDiaFecha(ire.getCalendario().getDate())) {
+        
+        LocalDate fecha = ire.getCalendario().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        if(fecha.isBefore(LocalDate.now()) || fecha.equals(LocalDate.now())) {
+            ire.setCampoFecha(redBorder, visibilidad);
+            ire.getjLabel2().setText("<html>La fecha ingresada debe ser posterior<br>a la fecha actual.<html>");
+            ire.getjLabel2().setVisible(true);
+        }
+        else if(!verificarDiaFecha(ire.getCalendario().getDate())) {
             ire.setCampoFecha(redBorder, visibilidad);
             ire.getjLabel2().setText("<html>La fecha no puede corresponder<br>al día domingo.<html>");
             ire.getjLabel2().setVisible(true);
-        }
-    }
-
-    private LocalDate convertirFecha(Date date) {
-    
-        try {
-            
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();                     // Convierte a LocalDate, sin la parte de la hora
-
-            return localDate; 
-            
-        } catch(Exception e) {
-            ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
-            return null;
         }
     }
     

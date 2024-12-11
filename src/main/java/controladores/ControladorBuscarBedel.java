@@ -179,10 +179,6 @@ public class ControladorBuscarBedel implements ActionListener {
         ibb.getModel().setRowCount(0);
         List<String> turnos = new ArrayList<>();
         
-        turnos.add("Mañana");
-        turnos.add("Tarde");
-        turnos.add("Noche");
-        
         BedelGeneralDTO bedelGeneralDTO = new BedelGeneralDTO();
         bedelGeneralDTO.setTurnos(turnos);
         
