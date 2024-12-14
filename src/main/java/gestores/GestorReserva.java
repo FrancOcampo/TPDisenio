@@ -33,8 +33,10 @@ import modelo.ReservaParcial;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 import modelo.Bedel;
 import modelo.Reserva;
 import modelo.SinRecursosAdicionales;
@@ -306,11 +308,14 @@ public class GestorReserva {
         List<Map.Entry<ReservaParcial, Integer>> listaOrdenada = new ArrayList<>(reservasConSolapamiento.entrySet());
         listaOrdenada.sort(Comparator.comparingInt(Map.Entry::getValue));
 
-        // Lista para devolver las 3 reservas con menos solapamiento
-        List<ReservaParcial> reservasMenosSolapadas = new ArrayList<>();
-        for (int i = 0; i < Math.min(3, listaOrdenada.size()); i++) {
-            reservasMenosSolapadas.add(listaOrdenada.get(i).getKey());
-        }
+        int menorSolapamiento = listaOrdenada.get(0).getValue();
+
+        // Filtrar todas las reservas que tengan el menor solapamiento
+        List<ReservaParcial> reservasMenosSolapadas = listaOrdenada.stream()
+                .filter(entry -> entry.getValue() == menorSolapamiento)
+                .map(Map.Entry::getKey)
+                .distinct() // Evitar duplicados
+                .collect(Collectors.toList());
 
         return reservasMenosSolapadas;
     }

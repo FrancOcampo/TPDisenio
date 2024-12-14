@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity  
 @Table(name = "reserva_parcial")  
@@ -87,5 +88,18 @@ public class ReservaParcial {
         this.reserva = reserva;
     }
     
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ReservaParcial rp = (ReservaParcial) obj;
+        return Objects.equals(reserva, rp.reserva) &&
+               Objects.equals(hora_inicio, rp.hora_inicio) &&
+               Objects.equals(hora_fin, rp.hora_fin) &&
+               Objects.equals(aula, rp.aula);
+    }
+    
+    public int hashCode() {
+        return Objects.hash(reserva, hora_inicio, hora_fin, aula);
+    }
     
 }
