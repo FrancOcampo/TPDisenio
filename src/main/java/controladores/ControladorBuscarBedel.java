@@ -130,7 +130,7 @@ public class ControladorBuscarBedel implements ActionListener {
             ibb.desmarcarCampo();
             
             if(!criteriosDeBusqueda()) throw new DatosInvalidosException("Ingrese al menos un criterio de búsqueda.");
-            if(!ibb.getCampoApellido().getText().trim().isEmpty() && !ibb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) throw new DatosInvalidosException("El apellido sólo puede contener letras.");
+            if(!ibb.getCampoApellido().getText().trim().isEmpty() && !ibb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) throw new DatosInvalidosException("El apellido no es válido.");
 
             BedelGeneralDTO bedelGeneralDTO = new BedelGeneralDTO();
             
