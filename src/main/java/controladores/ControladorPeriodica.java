@@ -139,7 +139,7 @@ public class ControladorPeriodica implements ActionListener {
                 marcarCampos();
                 
             } catch(ErrorException e2) {
-                irp.crearPopUpError();
+                irp.crearPopUpError(e2.getMessage());
                 
             } catch(FechaException e3) {}
         }
@@ -225,16 +225,16 @@ public class ControladorPeriodica implements ActionListener {
                 irp.crearPopUpAdvertencia(e1.getMessage());
                 
             } catch(ParseException e2) {
-                irp.crearPopUpFracaso();
+                irp.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
 
             } catch(ErrorException e3) {
-                irp.crearPopUpError();
+                irp.crearPopUpError(e3.getMessage());
 
             } catch(ReservaInconsistenteException e4) {
                 irp.crearPopUpAdvertencia(e4.getMessage());
 
             } catch(OperacionException e5) {
-                irp.crearPopUpFracaso();
+                irp.crearPopUpError(e5.getMessage());
             } 
         
         }
@@ -351,7 +351,7 @@ public class ControladorPeriodica implements ActionListener {
             return Time.valueOf(localTime.atDate(java.time.LocalDate.now()).toLocalTime()); 
         
         } catch(Exception e) {
-            irp.crearPopUpError();
+            irp.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
             return null;
         }
     }
@@ -388,7 +388,7 @@ public class ControladorPeriodica implements ActionListener {
            
             
         } catch(ParseException e) {
-          irp.crearPopUpError();
+          irp.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
           
         } catch(DatosInvalidosException e1) {
           irp.crearPopUpAdvertencia(e1.getMessage());  
