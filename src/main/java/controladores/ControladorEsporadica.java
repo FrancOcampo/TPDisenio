@@ -181,76 +181,78 @@ public class ControladorEsporadica implements ActionListener {
         }
         else if(comando.equals("Finalizar reserva")) {
             
-            if(ire.getModel().getRowCount() > 0) {
+            try {
+                if(!(ire.getModel().getRowCount() > 0)) throw new DatosInvalidosException("La reserva está vacía. Por favor, realice al menos una subreserva.");
                 int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     
-                    try {
-                        ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
-                        TableModel modelo = ire.getModel();
+                    ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
+                    TableModel modelo = ire.getModel();
 
-                        for(int i = 0; i < modelo.getRowCount(); i++) {
+                    for(int i = 0; i < modelo.getRowCount(); i++) {
 
-                            ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
+                        ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
 
-                            reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
-                            reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
-                            reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
+                        reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
+                        reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
+                        reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
 
-                            Object valorFecha = modelo.getValueAt(i, 3);
+                        Object valorFecha = modelo.getValueAt(i, 3);
 
-                            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
-                            LocalDate fecha = LocalDate.parse((String) valorFecha, formato);
+                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
+                        LocalDate fecha = LocalDate.parse((String) valorFecha, formato);
 
-                            reservaParcialDTO.setFecha(fecha);
+                        reservaParcialDTO.setFecha(fecha);
 
-                            Object valorHoraInicio = modelo.getValueAt(i, 4);
-                            Object valorHoraFin = modelo.getValueAt(i, 5);
+                        Object valorHoraInicio = modelo.getValueAt(i, 4);
+                        Object valorHoraFin = modelo.getValueAt(i, 5);
 
-                            String horaInicioString = (String) valorHoraInicio;  // "HH:mm"
-                            String horaFinString = (String) valorHoraFin;        // "HH:mm"
+                        String horaInicioString = (String) valorHoraInicio;  // "HH:mm"
+                        String horaFinString = (String) valorHoraFin;        // "HH:mm"
 
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-                            Date horaInicioDate = sdf.parse(horaInicioString);
-                            Date horaFinDate = sdf.parse(horaFinString);
+                        Date horaInicioDate = sdf.parse(horaInicioString);
+                        Date horaFinDate = sdf.parse(horaFinString);
 
-                            Time horaInicio = new Time(horaInicioDate.getTime());
-                            Time horaFin = new Time(horaFinDate.getTime());
+                        Time horaInicio = new Time(horaInicioDate.getTime());
+                        Time horaFin = new Time(horaFinDate.getTime());
 
-                            reservaParcialDTO.setHora_inicio(horaInicio);
-                            reservaParcialDTO.setHora_fin(horaFin);
+                        reservaParcialDTO.setHora_inicio(horaInicio);
+                        reservaParcialDTO.setHora_fin(horaFin);
 
-                            long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
-                            reservaParcialDTO.setDuracion((int)duracion);
+                        long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
+                        reservaParcialDTO.setDuracion((int)duracion);
 
-                            reservasParcialesDTO.add(reservaParcialDTO);
-                        }
+                        reservasParcialesDTO.add(reservaParcialDTO);
+                    }
 
-                        reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
-                        GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
+                    reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
+                    GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
 
-                        ire.crearPopUpExito();
-                        new InterfazIngresoDatosDocente().getControlador().completarDatos();
-                        ire.dispose();
-
-                    } catch(ParseException e1) {
-                        ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
-
-                    } catch(ErrorException e2) {
-                        ire.crearPopUpError(e2.getMessage());
-
-                    } catch(ReservaInconsistenteException e3) {
-                        ire.crearPopUpAdvertencia(e3.getMessage());
-
-                    } catch(OperacionException e4) {
-                        ire.crearPopUpError(e4.getMessage());
-                    } 
+                    ire.crearPopUpExito();
+                    new InterfazIngresoDatosDocente().getControlador().completarDatos();
+                    ire.dispose();
                     
-                } 
-                
-            } else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
-        }
+                }
+
+            } catch(DatosInvalidosException e1) {
+                ire.crearPopUpAdvertencia(e1.getMessage());
+
+            } catch(ParseException e2) {
+                ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
+
+            } catch(ErrorException e3) {
+                ire.crearPopUpError(e3.getMessage());
+
+            } catch(ReservaInconsistenteException e4) {
+                ire.crearPopUpAdvertencia(e4.getMessage());
+
+            } catch(OperacionException e5) {
+                ire.crearPopUpError(e5.getMessage());
+            } 
+                    
+        } 
         else if(comando.equals("Cancelar")) {
             
             int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea cancelar la reserva?");

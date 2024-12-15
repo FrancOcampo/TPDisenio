@@ -173,31 +173,31 @@ public class ControladorPeriodica implements ActionListener {
         }
         else if(comando.equals("Finalizar reserva")) {
             
-            if(irp.getModel().getRowCount() > 0) {
+            try {
+                if(!(irp.getModel().getRowCount() > 0)) throw new DatosInvalidosException("La reserva está vacía. Por favor, realice al menos una subreserva.");
                 int confirmacion = irp.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
-                    
-                try {
+
                     ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
                     TableModel modelo = irp.getModel();
-                    
+
                     for(int i = 0; i < modelo.getRowCount(); i++) {
-                        
+
                         ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
 
                         reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
                         reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
                         reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
                         reservaParcialDTO.setDia((String) modelo.getValueAt(i, 3)); 
-                        
+
                         Object valorHoraInicio = modelo.getValueAt(i, 4);
                         Object valorHoraFin = modelo.getValueAt(i, 5);
-                        
+
                         String horaInicioString = (String) valorHoraInicio;  // "HH:mm"
                         String horaFinString = (String) valorHoraFin;        // "HH:mm"
 
                         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        
+
                         Date horaInicioDate = sdf.parse(horaInicioString);
                         Date horaFinDate = sdf.parse(horaFinString);
 
@@ -206,34 +206,37 @@ public class ControladorPeriodica implements ActionListener {
 
                         reservaParcialDTO.setHora_inicio(horaInicio);
                         reservaParcialDTO.setHora_fin(horaFin);
-                        
+
                         long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
                         reservaParcialDTO.setDuracion((int)duracion);
-                        
+
                         reservasParcialesDTO.add(reservaParcialDTO);
                     }
-                    
+
                     reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
                     GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
-                    
+
                     irp.crearPopUpExito();
                     new InterfazIngresoDatosDocente().getControlador().completarDatos();
                     irp.dispose();
-                    
-                    } catch(ParseException e1) {
-                        irp.crearPopUpFracaso();
-                        
-                    } catch(ErrorException e2) {
-                        irp.crearPopUpError();
-                        
-                    } catch(ReservaInconsistenteException e3) {
-                        irp.crearPopUpAdvertencia(e3.getMessage());
-                        
-                    } catch(OperacionException e4) {
-                        irp.crearPopUpFracaso();
-                    } 
-            }
-        } else irp.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
+                }
+
+            } catch(DatosInvalidosException e1) {
+                irp.crearPopUpAdvertencia(e1.getMessage());
+                
+            } catch(ParseException e2) {
+                irp.crearPopUpFracaso();
+
+            } catch(ErrorException e3) {
+                irp.crearPopUpError();
+
+            } catch(ReservaInconsistenteException e4) {
+                irp.crearPopUpAdvertencia(e4.getMessage());
+
+            } catch(OperacionException e5) {
+                irp.crearPopUpFracaso();
+            } 
+        
         }
         else if(comando.equals("Cancelar")) {
             
