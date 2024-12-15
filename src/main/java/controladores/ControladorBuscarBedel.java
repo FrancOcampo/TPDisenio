@@ -110,7 +110,7 @@ public class ControladorBuscarBedel implements ActionListener {
     }
     
     private void cargarDatosEnTabla(List<BedelBusquedaDTO> bedelesBusquedaDTO) {
-        
+    
         for(BedelBusquedaDTO bedelBusquedaDTO : bedelesBusquedaDTO) {
             Object [] filaDatos = {
                 bedelBusquedaDTO.getNombreUsuario(),

@@ -116,6 +116,14 @@ public class GestorBedel {
             listaBedeles.add(mapBedel_a_BedelBusquedaDTO(bedel));
         }
     
+        // Ordenar la lista alfabéticamente por apellido
+        listaBedeles.sort((b1, b2) -> {
+            if (b1.getApellido() == null && b2.getApellido() == null) return 0; 
+            if (b1.getApellido() == null) return 1; 
+            if (b2.getApellido() == null) return -1; 
+            return b1.getApellido().compareToIgnoreCase(b2.getApellido()); 
+        });
+        
         return listaBedeles;
     }
     

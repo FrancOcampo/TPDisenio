@@ -148,6 +148,14 @@ public class GestorReserva {
 
                 aulasSolapadasDTO.add(aulaSolapadaDTO);
             }
+            
+            // Ordenar la lista por nombre de aula
+            aulasSolapadasDTO.sort((a1, a2) -> {
+                if (a1.getNombre_aula() == null && a2.getNombre_aula() == null) return 0; 
+                if (a1.getNombre_aula() == null) return 1; 
+                if (a2.getNombre_aula() == null) return -1; 
+                return a1.getNombre_aula().compareToIgnoreCase(a2.getNombre_aula()); 
+            });
 
             aulaCompuestaDTO.setAulasSolapadasDTO(aulasSolapadasDTO);
         }
@@ -225,8 +233,6 @@ public class GestorReserva {
     
     private boolean validarFecha(LocalDate fecha, Periodo periodo) {
         
-        LocalDate fechaActual = LocalDate.of(2025, 4, 15); // LocalDate.now()
-
         // Compara la fecha con el inicio y fin del período
         return (fecha.isAfter(periodo.getFecha_inicio()) && 
                 fecha.isBefore(periodo.getFecha_fin()));

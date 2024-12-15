@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -52,7 +54,10 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         listaHoraInicio.setSelectedItem("8:00");
         llenarHoras(listaHoraFin, 8, 30);
         listaHoraFin.setSelectedItem("8:00");
-        calendario.setDate(new Date());
+        LocalDate localDate = LocalDate.of(2025, 4, 15); 
+        Date fecha = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        calendario.setDate(fecha);
+        // calendario.setDate(new Date());
         jLabel2.setVisible(false);
         
         for (int i = 0; i < jTable1.getColumnCount(); i++) {

@@ -75,7 +75,7 @@ public class ControladorEsporadica implements ActionListener {
             
             try {
                 ire.desmarcarCampos();
-                if(!validarCampos()) throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
+                validarCampos();
                 if(verificarHora(ire.getHoraInicio(), ire.getHoraFin())) {
                     
                 busquedaAulaDTO = new BusquedaAulaDTO();
@@ -140,17 +140,15 @@ public class ControladorEsporadica implements ActionListener {
             } catch(DatosInvalidosException e1) {
                 ire.crearPopUpAdvertencia(e1.getMessage());
                 marcarCampos();
-                
-            } catch(ErrorException e2) {
-                ire.crearPopUpError(e2.getMessage());
-    
-            } catch(FechaException e3) {
-                ire.crearPopUpAdvertencia("Hay campos inválidos o sin rellenar.");
-                ire.getjLabel2().setText("<html>La fecha no está dentro de las<br>fechas de cursado.<html>");
-                ire.getjLabel2().setVisible(true);
+            
+            } catch(FechaException e2) {
+                ire.crearPopUpAdvertencia(e2.getMessage());
                 Border redBorder = new LineBorder(Color.RED, 2);
                 ire.setCampoFecha(redBorder, true);
-            }
+                
+            } catch(ErrorException e3) {
+                ire.crearPopUpError(e3.getMessage());
+            } 
         }
         else if (comando.equals("Confirmar")) {
             
@@ -187,70 +185,71 @@ public class ControladorEsporadica implements ActionListener {
                 int confirmacion = ire.confirmarContinuacion("¿Está seguro de que desea registrar la reserva?");
                 if(confirmacion == JOptionPane.OK_OPTION) {
                     
-                try {
-                    ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
-                    TableModel modelo = ire.getModel();
-                    
-                    for(int i = 0; i < modelo.getRowCount(); i++) {
-                        
-                        ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
+                    try {
+                        ArrayList<ReservaParcialDTO> reservasParcialesDTO = new ArrayList<>();
+                        TableModel modelo = ire.getModel();
 
-                        reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
-                        reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
-                        reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
-                        
-                        Object valorFecha = modelo.getValueAt(i, 3);
-                        
-                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
-                        LocalDate fecha = LocalDate.parse((String) valorFecha, formato);
+                        for(int i = 0; i < modelo.getRowCount(); i++) {
 
-                        reservaParcialDTO.setFecha(fecha);
-                        
-                        Object valorHoraInicio = modelo.getValueAt(i, 4);
-                        Object valorHoraFin = modelo.getValueAt(i, 5);
-                        
-                        String horaInicioString = (String) valorHoraInicio;  // "HH:mm"
-                        String horaFinString = (String) valorHoraFin;        // "HH:mm"
+                            ReservaParcialDTO reservaParcialDTO = new ReservaParcialDTO();
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        
-                        Date horaInicioDate = sdf.parse(horaInicioString);
-                        Date horaFinDate = sdf.parse(horaFinString);
+                            reservaParcialDTO.setNombre_aula((String) modelo.getValueAt(i, 0)); 
+                            reservaParcialDTO.setTipo_aula((String) modelo.getValueAt(i, 1));
+                            reservaParcialDTO.setCurso((String) modelo.getValueAt(i, 2));
 
-                        Time horaInicio = new Time(horaInicioDate.getTime());
-                        Time horaFin = new Time(horaFinDate.getTime());
+                            Object valorFecha = modelo.getValueAt(i, 3);
 
-                        reservaParcialDTO.setHora_inicio(horaInicio);
-                        reservaParcialDTO.setHora_fin(horaFin);
-                        
-                        long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
-                        reservaParcialDTO.setDuracion((int)duracion);
-                        
-                        reservasParcialesDTO.add(reservaParcialDTO);
-                    }
-                    
-                    reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
-                    GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
-                    
-                    ire.crearPopUpExito();
-                    new InterfazIngresoDatosDocente().getControlador().completarDatos();
-                    ire.dispose();
-                    
-                     
+                            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
+                            LocalDate fecha = LocalDate.parse((String) valorFecha, formato);
+
+                            reservaParcialDTO.setFecha(fecha);
+
+                            Object valorHoraInicio = modelo.getValueAt(i, 4);
+                            Object valorHoraFin = modelo.getValueAt(i, 5);
+
+                            String horaInicioString = (String) valorHoraInicio;  // "HH:mm"
+                            String horaFinString = (String) valorHoraFin;        // "HH:mm"
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+                            Date horaInicioDate = sdf.parse(horaInicioString);
+                            Date horaFinDate = sdf.parse(horaFinString);
+
+                            Time horaInicio = new Time(horaInicioDate.getTime());
+                            Time horaFin = new Time(horaFinDate.getTime());
+
+                            reservaParcialDTO.setHora_inicio(horaInicio);
+                            reservaParcialDTO.setHora_fin(horaFin);
+
+                            long duracion = calcularDuracion(reservaParcialDTO.getHora_inicio(), reservaParcialDTO.getHora_fin());
+                            reservaParcialDTO.setDuracion((int)duracion);
+
+                            reservasParcialesDTO.add(reservaParcialDTO);
+                        }
+
+                        reservaDTO.setReservasParcialesDTO(reservasParcialesDTO);
+                        GestorReserva.obtenerInstancia().registrarReserva(reservaDTO);
+
+                        ire.crearPopUpExito();
+                        new InterfazIngresoDatosDocente().getControlador().completarDatos();
+                        ire.dispose();
+
                     } catch(ParseException e1) {
                         ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
-                          
+
                     } catch(ErrorException e2) {
                         ire.crearPopUpError(e2.getMessage());
-    
+
                     } catch(ReservaInconsistenteException e3) {
                         ire.crearPopUpAdvertencia(e3.getMessage());
-                        
+
                     } catch(OperacionException e4) {
                         ire.crearPopUpError(e4.getMessage());
                     } 
-            } 
-        } else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
+                    
+                } 
+                
+            } else ire.crearPopUpAdvertencia("La reserva está vacía. Por favor, realice al menos una subreserva.");
         }
         else if(comando.equals("Cancelar")) {
             
@@ -279,19 +278,21 @@ public class ControladorEsporadica implements ActionListener {
         }
     }
     
-    private boolean validarCampos() {
+    private boolean validarCampos() throws DatosInvalidosException, FechaException {
         
         boolean valido = true;
         LocalDate fecha = ire.getCalendario().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fechaActual = LocalDate.of(2025, 4, 15);
         
         if(ire.getCampoCantidadAlumnos().getText().equals("") ||
            !ire.getCampoCantidadAlumnos().getText().matches("\\d+") ||
            Integer.parseInt(ire.getCampoCantidadAlumnos().getText()) <= 0 ||
            ire.getTipoAula().equals("") ||
-           ire.getFecha().equals("") ||
-           fecha.isBefore(LocalDate.now()) || 
-           fecha.equals(LocalDate.now()) ||
-           !verificarDiaFecha(ire.getCalendario().getDate())) valido = false;
+           ire.getFecha().equals("")) throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
+        
+        if(fecha.isBefore(fechaActual) || fecha.equals(fechaActual)) throw new FechaException("La fecha ingresada debe ser posterior a la fecha actual.");
+        
+        if(!verificarDiaFecha(ire.getCalendario().getDate())) throw new FechaException("La fecha no puede corresponder al día domingo.");
         
         return valido;
     }
@@ -360,19 +361,6 @@ public class ControladorEsporadica implements ActionListener {
         if(ire.getFecha().equals("")) {
             ire.setCampoFecha(redBorder, visibilidad);
         }
-        
-        LocalDate fecha = ire.getCalendario().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
-        if(fecha.isBefore(LocalDate.now()) || fecha.equals(LocalDate.now())) {
-            ire.setCampoFecha(redBorder, visibilidad);
-            ire.getjLabel2().setText("<html>La fecha ingresada debe ser posterior<br>a la fecha actual.<html>");
-            ire.getjLabel2().setVisible(true);
-        }
-        else if(!verificarDiaFecha(ire.getCalendario().getDate())) {
-            ire.setCampoFecha(redBorder, visibilidad);
-            ire.getjLabel2().setText("<html>La fecha no puede corresponder<br>al día domingo.<html>");
-            ire.getjLabel2().setVisible(true);
-        }
     }
     
     private Time getHoraAsTime(String hora) {
@@ -428,7 +416,7 @@ public class ControladorEsporadica implements ActionListener {
                 if (minutos % 30 == 0) valido = true;
                 else throw new DatosInvalidosException("La duración de la reserva debe ser múltiplo de 30 minutos.");
                 
-            } else throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
+            } else throw new DatosInvalidosException("La hora de fin debe ser posterior a la hora de inicio.");
             
         } catch(ParseException e) {
           ire.crearPopUpError("Ocurrió un error. Vuelva a intentarlo.");
