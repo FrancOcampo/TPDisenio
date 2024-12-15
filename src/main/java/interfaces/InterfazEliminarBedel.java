@@ -4,7 +4,7 @@ package interfaces;
 import controladores.ControladorEliminarBedel;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,6 +16,7 @@ public class InterfazEliminarBedel extends javax.swing.JFrame {
     
     public InterfazEliminarBedel() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         campoNombre.setEditable(false);
         campoApellido.setEditable(false);
         campoTurno.setEditable(false);
@@ -28,12 +29,7 @@ public class InterfazEliminarBedel extends javax.swing.JFrame {
         controlador = new ControladorEliminarBedel(this);
         botonCancelar.addActionListener(controlador);
         botonEliminar.addActionListener(controlador);
-        
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         setVisible(true);
-
     }
     
     public ControladorEliminarBedel getControlador() {

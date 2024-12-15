@@ -4,8 +4,8 @@ package interfaces;
 import controladores.ControladorModificarBedel;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,6 +19,7 @@ public class InterfazModificarBedel extends javax.swing.JFrame {
     
     public InterfazModificarBedel() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         jPanel1.setLayout(null);
         setLocationRelativeTo(null);
         setTitle("Modificar Bedel");
@@ -39,10 +40,6 @@ public class InterfazModificarBedel extends javax.swing.JFrame {
         botonGuardar.addActionListener(controlador);
         botonCancelar.addActionListener(controlador);
         setVisible(true);
-        
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
     }
 
     public ControladorModificarBedel getControlador() {

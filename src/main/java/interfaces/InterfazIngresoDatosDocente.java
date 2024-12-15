@@ -6,9 +6,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +25,7 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
     
     public InterfazIngresoDatosDocente() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         controlador = new ControladorIngresoDatosDocente(this);
         botonSiguiente.addActionListener(controlador);
         botonCancelar.addActionListener(controlador);
@@ -46,10 +47,6 @@ public class InterfazIngresoDatosDocente extends javax.swing.JFrame {
         ButtonGroup group = new ButtonGroup();
         group.add(botonPeriodica);
         group.add(botonEsporadica);
-        
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         
         botonPeriodica.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

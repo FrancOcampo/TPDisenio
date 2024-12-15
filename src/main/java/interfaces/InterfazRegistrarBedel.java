@@ -4,8 +4,8 @@ package interfaces;
 import controladores.ControladorRegistrarBedel;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -17,6 +17,7 @@ public class InterfazRegistrarBedel extends javax.swing.JFrame {
     public InterfazRegistrarBedel() {
         ControladorRegistrarBedel controlador = new ControladorRegistrarBedel(this);
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         jPanel1.setLayout(null);
         setLocationRelativeTo(null);
         botonGuardar.addActionListener(controlador);
@@ -39,10 +40,6 @@ public class InterfazRegistrarBedel extends javax.swing.JFrame {
         listaTurnos.addItem("Noche");
         listaTurnos.setSelectedIndex(2);
         setVisible(true);
-        
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
     }
 
     public JTextField getCampoApellido() {

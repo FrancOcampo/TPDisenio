@@ -4,7 +4,7 @@ package interfaces;
 import controladores.ControladorMainBedel;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,6 +14,7 @@ public class InterfazMainBedel extends javax.swing.JFrame {
 
     public InterfazMainBedel() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         ControladorMainBedel controlador = new ControladorMainBedel(this);
         botonListarReservasDia.setActionCommand("Reservas dia");
         botonListarReservasCurso.setActionCommand("Reservas curso");
@@ -29,9 +30,6 @@ public class InterfazMainBedel extends javax.swing.JFrame {
         setTitle("Main Bedel");
         setResizable(false);
         setVisible(true);
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
     }
     
     public void generarPopUpNoDisponible() {

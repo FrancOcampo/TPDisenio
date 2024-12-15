@@ -5,7 +5,7 @@ import controladores.ControladorBuscarBedel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,6 +26,7 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
     public InterfazBuscarBedel() {
         controlador = new ControladorBuscarBedel(this);
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         setLocationRelativeTo(null);
         jButton1.addActionListener(controlador);
         jButton2.addActionListener(controlador);
@@ -35,9 +36,6 @@ public class InterfazBuscarBedel extends javax.swing.JFrame {
         setResizable(false);
         jLabelError1.setVisible(false);
         setTitle("Buscar Bedel");
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(customRenderer);

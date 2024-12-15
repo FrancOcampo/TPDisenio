@@ -4,7 +4,6 @@ package interfaces;
 import controladores.ControladorEsporadica;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -14,6 +13,7 @@ import javax.swing.table.JTableHeader;
 import controladores.ControladorPeriodica;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,14 +21,12 @@ public class InterfazAulasSolapadas extends javax.swing.JFrame {
 
     public InterfazAulasSolapadas() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
+        setTitle("Nueva reserva");
         setLocationRelativeTo(null);
         setResizable(false);
-        setTitle("Nueva reserva");
         botonContinuar.requestFocusInWindow();
         jTable1.setRowSelectionAllowed(false);
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(customRenderer);

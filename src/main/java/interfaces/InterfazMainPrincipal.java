@@ -4,21 +4,19 @@ package interfaces;
 import daos.Conexion;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class InterfazMainPrincipal extends javax.swing.JFrame {
 
     public InterfazMainPrincipal() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         jPanel1.setLayout(null);
         setLocationRelativeTo(null);
         setTitle("Principal");
         setResizable(false);
         setVisible(true);
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         

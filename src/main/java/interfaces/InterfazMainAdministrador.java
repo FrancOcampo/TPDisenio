@@ -4,7 +4,7 @@ package interfaces;
 import controladores.ControladorMainAdministrador;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,6 +13,7 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
     
     public InterfazMainAdministrador() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
         ControladorMainAdministrador controlador = new ControladorMainAdministrador(this);
         botonBuscarBedel.addActionListener(controlador);
         botonRegistrarBedel.addActionListener(controlador);
@@ -22,9 +23,6 @@ public class InterfazMainAdministrador extends javax.swing.JFrame {
         setTitle("Main Administrador");
         setResizable(false);
         setVisible(true);
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
     }
 
     @SuppressWarnings("unchecked")

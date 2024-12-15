@@ -5,10 +5,10 @@ import controladores.ControladorPeriodica;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,6 +28,8 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
     
     public InterfazReservaPeriodica() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
+        setTitle("Nueva reserva");
         controlador = new ControladorPeriodica(this);
         botonConfirmarDia.addActionListener(controlador);
         botonRegistrarReserva.addActionListener(controlador);
@@ -56,11 +58,6 @@ public class InterfazReservaPeriodica extends javax.swing.JFrame {
         listaHoraInicio.setSelectedItem("8:00");
         llenarHoras(listaHoraFin, 8, 30);
         listaHoraFin.setSelectedItem("8:30");
-       
-        setTitle("Nueva reserva");
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(customRenderer);

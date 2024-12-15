@@ -6,10 +6,10 @@ import controladores.ControladorEsporadica;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +29,8 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
     
     public InterfazReservaEsporadica() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
+        setTitle("Nueva reserva");
         controlador = new ControladorEsporadica(this);
         botonConfirmarDia.addActionListener(controlador);
         botonRegistrarReserva.addActionListener(controlador);
@@ -52,11 +54,6 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
         listaHoraFin.setSelectedItem("8:00");
         calendario.setDate(new Date());
         jLabel2.setVisible(false);
-       
-        setTitle("Nueva reserva");
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(customRenderer);

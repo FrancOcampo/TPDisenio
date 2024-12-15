@@ -8,7 +8,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,13 +25,11 @@ public class InterfazAulasDisponibles extends javax.swing.JFrame {
 
     public InterfazAulasDisponibles() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/imagen.png")).getImage());
+        setTitle("Nueva reserva");
         setLocationRelativeTo(null);
         setResizable(false);
-        setTitle("Nueva reserva");
         botonConfirmar.requestFocusInWindow();
-        // Establece un ícono transparente para evitar que se muestre el ícono de Java
-        BufferedImage transparentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        setIconImage(transparentImage);
         
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(new MultiLineCellRenderer());
