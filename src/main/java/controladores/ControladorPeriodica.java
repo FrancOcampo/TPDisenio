@@ -388,7 +388,7 @@ public class ControladorPeriodica implements ActionListener {
                 if (minutos % 30 == 0) valido = true;
                 else throw new DatosInvalidosException("La duración de la reserva debe ser múltiplo de 30 minutos.");
                 
-            } else throw new DatosInvalidosException("Hay campos inválidos o sin rellenar.");
+            } else throw new DatosInvalidosException("La hora de fin debe ser posterior a la hora de inicio.");
            
             
         } catch(ParseException e) {
