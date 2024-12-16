@@ -117,6 +117,7 @@ public class ControladorRegistrarBedel implements ActionListener {
         !irb.getCampoConfirmarContrasenia().getText().trim().isEmpty() && 
         irb.getCampoNombre().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") && 
         irb.getCampoApellido().getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") &&
+        irb.getCampoID().getText().matches("^[a-zA-Z0-9]+$") &&
         irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText());
                 
         return datosValidos;        
@@ -159,6 +160,12 @@ public class ControladorRegistrarBedel implements ActionListener {
         
         if(irb.getCampoID().getText().trim().isEmpty()){
           irb.setCampoID(redBorder, visibilidad);
+        }
+        
+        if(!irb.getCampoID().getText().matches("^[a-zA-Z0-9]+$")){
+            irb.setCampoID(redBorder, visibilidad);
+            irb.getjLabelError10().setText("<html>Sólo se permiten letras y números.</html>");
+            irb.getjLabelError10().setVisible(true);
         }
         
         if(!irb.getCampoContrasenia().getText().equals(irb.getCampoConfirmarContrasenia().getText())){
