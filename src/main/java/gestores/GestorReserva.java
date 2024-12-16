@@ -128,6 +128,9 @@ public class GestorReserva {
             
             // Ordenar por capacidad de aula ascendente
             aulasDisponiblesDTO.sort(Comparator.comparingInt(AulaDisponibleDTO::getCapacidad));
+            
+            // Tomamos las tres primeras aulas de la lista
+            aulasDisponiblesDTO = aulasDisponiblesDTO.stream().limit(3).collect(Collectors.toList());
 
             aulaCompuestaDTO.setAulasDisponiblesDTO(aulasDisponiblesDTO);
 
