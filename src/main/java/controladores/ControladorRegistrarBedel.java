@@ -162,7 +162,7 @@ public class ControladorRegistrarBedel implements ActionListener {
           irb.setCampoID(redBorder, visibilidad);
         }
         
-        if(!irb.getCampoID().getText().matches("^[a-zA-Z0-9]+$")){
+        if(!irb.getCampoID().getText().trim().isEmpty() && !irb.getCampoID().getText().matches("^[a-zA-Z0-9]+$")){
             irb.setCampoID(redBorder, visibilidad);
             irb.getjLabelError10().setText("<html>Sólo se permiten letras y números.</html>");
             irb.getjLabelError10().setVisible(true);
