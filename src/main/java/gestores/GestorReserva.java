@@ -15,6 +15,7 @@ import dtos.ReservaDTO;
 import dtos.ReservaParcialDTO;
 import excepciones.ErrorException;
 import excepciones.FechaException;
+import excepciones.NoExisteAulaException;
 import excepciones.OperacionException;
 import excepciones.ReservaInconsistenteException;
 import java.sql.Time;
@@ -53,7 +54,7 @@ public class GestorReserva {
         return instancia;
     }
     
-    public AulaCompuestaDTO disponerAulas(BusquedaAulaDTO busquedaAulaDTO) throws FechaException, ErrorException {
+    public AulaCompuestaDTO disponerAulas(BusquedaAulaDTO busquedaAulaDTO) throws FechaException, NoExisteAulaException, ErrorException {
         
         AulaCompuestaDTO aulaCompuestaDTO = new AulaCompuestaDTO();
         PeriodoDTO periodoDTO = new PeriodoDTO();
@@ -132,6 +133,7 @@ public class GestorReserva {
 
         }
         else {
+            if(reservasParcialesSolapadas == null || reservasParcialesSolapadas.isEmpty()) throw new NoExisteAulaException();
             List<AulaSolapadaDTO> aulasSolapadasDTO = new ArrayList<>();
             List<ReservaParcial> rpMenosSolapadas = listaRpMenosSolapadas(reservasParcialesSolapadas, busquedaAulaDTO.getHora_inicio(), busquedaAulaDTO.getHora_fin());
 

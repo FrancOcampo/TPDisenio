@@ -41,6 +41,7 @@ daos\Conexion.class
 interfaces\InterfazBuscarBedel$7.class
 interfaces\InterfazIngresoDatosDocente$7.class
 dtos\BedelDTO.class
+excepciones\NoExisteAulaException.class
 interfaces\InterfazRegistrarBedel$6.class
 interfaces\InterfazAulasDisponibles$3.class
 interfaces\InterfazMainPrincipal$3.class

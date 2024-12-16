@@ -11,6 +11,7 @@ import dtos.ReservaParcialDTO;
 import excepciones.DatosInvalidosException;
 import excepciones.ErrorException;
 import excepciones.FechaException;
+import excepciones.NoExisteAulaException;
 import excepciones.OperacionException;
 import excepciones.ReservaInconsistenteException;
 import gestores.GestorReserva;
@@ -137,11 +138,14 @@ public class ControladorPeriodica implements ActionListener {
             } catch(DatosInvalidosException e1) {
                 irp.crearPopUpAdvertencia(e1.getMessage());
                 marcarCampos();
-                
-            } catch(ErrorException e2) {
+            
+            } catch(NoExisteAulaException e2) {
                 irp.crearPopUpError(e2.getMessage());
                 
-            } catch(FechaException e3) {}
+            } catch(ErrorException e3) {
+                irp.crearPopUpError(e3.getMessage());
+                
+            } catch(FechaException e4) {}
         }
         else if (comando.equals("Confirmar")) {
             

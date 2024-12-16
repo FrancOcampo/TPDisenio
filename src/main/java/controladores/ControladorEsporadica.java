@@ -10,6 +10,7 @@ import dtos.ReservaParcialDTO;
 import excepciones.DatosInvalidosException;
 import excepciones.ErrorException;
 import excepciones.FechaException;
+import excepciones.NoExisteAulaException;
 import excepciones.OperacionException;
 import excepciones.ReservaInconsistenteException;
 import gestores.GestorReserva;
@@ -146,8 +147,11 @@ public class ControladorEsporadica implements ActionListener {
                 Border redBorder = new LineBorder(Color.RED, 2);
                 ire.setCampoFecha(redBorder, true);
                 
-            } catch(ErrorException e3) {
+            } catch(NoExisteAulaException e3) {
                 ire.crearPopUpError(e3.getMessage());
+                
+            } catch(ErrorException e4) {
+                ire.crearPopUpError(e4.getMessage());
             } 
         }
         else if (comando.equals("Confirmar")) {

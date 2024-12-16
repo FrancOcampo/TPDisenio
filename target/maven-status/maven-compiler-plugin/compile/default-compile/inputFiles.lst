@@ -44,6 +44,7 @@ C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\cont
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\interfaces\InterfazModificarBedel.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\interfaces\InterfazIngresoDatosDocente.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\daos\AulaDAO.java
+C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\excepciones\NoExisteAulaException.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\controladores\ControladorEsporadica.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\sistemasexternos\SistemaCatedras.java
 C:\Users\aldi_\OneDrive\Documentos\NetBeansProjects\TPDisenio\src\main\java\modelo\Bedel.java

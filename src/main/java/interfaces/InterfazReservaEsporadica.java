@@ -320,7 +320,7 @@ public class InterfazReservaEsporadica extends javax.swing.JFrame {
     
     public void crearPopUpError(String mensaje) {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Ocurrió un error. Por favor, vuelva a intentarlo.");
+        JLabel label = new JLabel(mensaje);
         label.setForeground(Color.BLACK); 
         label.setFont(new Font("Arial", Font.BOLD, 13)); 
         panel.add(label);
